@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalCoreTraining | Personal Trainer Online</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Configuración de Tailwind para los colores oscuros y flúor -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#0f172a', // Fondo principal
+                            800: '#1e293b', // Tarjetas
+                            700: '#334155'  // Bordes
+                        },
+                        neon: {
+                            primary: '#a3e635', // Verde flúor
+                            hover: '#84cc16'    // Verde flúor oscuro
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        /* Efecto de brillo para botones */
+        .btn-neon {
+            box-shadow: 0 0 15px rgba(163, 230, 53, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-neon:hover {
+            box-shadow: 0 0 25px rgba(163, 230, 53, 0.6);
+            transform: translateY(-2px);
+        }
+        /* Ocultar barra de scroll para el modal */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-neon-primary selection:text-dark-900">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-dark-900/90 backdrop-blur-md border-b border-dark-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0">
+                    <a href="#" class="font-display text-2xl font-bold tracking-wider text-white">
+                        VITAL<span class="text-neon-primary">CORE</span> <span class="text-lg">TRAINING</span>
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#inicio" class="hover:text-neon-primary px-3 py-2 rounded-md text-sm font-semibold transition-colors">Inicio</a>
+                        <a href="#sobre-mi" class="hover:text-neon-primary px-3 py-2 rounded-md text-sm font-semibold transition-colors">Sobre Mí</a>
+                        <a href="#programas" class="hover:text-neon-primary px-3 py-2 rounded-md text-sm font-semibold transition-colors">Programas</a>
+                        <a href="#contacto" class="bg-neon-primary text-dark-900 px-5 py-2 rounded-full text-sm font-bold hover:bg-neon-hover transition-colors">Empezar Hoy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-20">
+            <!-- Imagen de fondo de gimnasio -->
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Gym background" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/80 to-transparent"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl md:text-7xl font-display font-bold uppercase tracking-tight mb-6">
+                Llevá tu físico al <br class="hidden md:block"> 
+                <span class="text-neon-primary">Siguiente Nivel</span>
+            </h1>
+            <p class="mt-4 max-w-2xl text-lg md:text-xl text-gray-300 mx-auto mb-10">
+                Planificaciones estructuradas, ciencia aplicada y resultados reales. Descargá tu programa de entrenamiento y empezá a mutar hoy.
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#programas" class="btn-neon bg-neon-primary text-dark-900 font-bold px-8 py-4 rounded-full text-lg uppercase tracking-wide">
+                    Ver Rutinas
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre Mí / Metodología -->
+    <section id="sobre-mi" class="py-20 bg-dark-800 border-y border-dark-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-6 text-white border-l-4 border-neon-primary pl-4">Entrenamiento Inteligente</h2>
+                    <p class="text-gray-300 mb-4 leading-relaxed">
+                        Soy Darío, Personal Trainer especializado en musculación y preparación física. No creo en rutinas mágicas ni en entrenar al azar. Mi filosofía se basa en la ciencia, la biomecánica y la progresión real.
+                    </p>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        A lo largo de mi carrera, he diseñado planificaciones personalizadas para todo tipo de objetivos: desde <strong class="text-white">hipertrofia, fuerza máxima, resistencia y pérdida de grasa</strong>, hasta la preparación física específica para atletas de <strong class="text-neon-primary">fútbol, judo y golf</strong>.
+                    </p>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Ya sea que busques mejorar tu estética, romper tus récords en el gimnasio o potenciar tu rendimiento deportivo, cada programa está estructurado estratégicamente para que sepas exactamente qué hacer, cómo hacerlo y por qué lo estás haciendo.
+                    </p>
+                    <ul class="space-y-3 text-gray-400 font-semibold">
+                        <li><i class="fa-solid fa-check text-neon-primary mr-2"></i> Selección estratégica de ejercicios (Primarios, Secundarios, Auxiliares)</li>
+                        <li><i class="fa-solid fa-check text-neon-primary mr-2"></i> Planificación adaptada a la biomecánica de tu objetivo o deporte</li>
+                        <li><i class="fa-solid fa-check text-neon-primary mr-2"></i> Control de volumen, intensidad y sobrecarga progresiva</li>
+                    </ul>
+                </div>
+                <div class="relative rounded-2xl overflow-hidden border-2 border-dark-700">
+                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=1470&auto=format&fit=crop" alt="Entrenador" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-900/80 to-transparent flex items-end p-6">
+                        <span class="bg-neon-primary text-dark-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Preparador Físico Especializado</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN DE DIPLOMAS Y CERTIFICACIONES -->
+            <div class="pt-12 border-t border-dark-700">
+                <h3 class="text-2xl font-display font-bold text-center text-white mb-8">MIS <span class="text-neon-primary">CERTIFICACIONES</span></h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    
+                    <!-- Diploma 1 -->
+                    <div class="bg-dark-900 p-4 rounded-xl border border-dark-700 hover:border-neon-primary transition-colors group">
+                        <div class="bg-dark-800 rounded-lg overflow-hidden mb-4 h-48 relative border border-dark-700/50 flex items-center justify-center">
+                            <img src="diploma1.jpg" alt="Diploma 1" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/600x450/1e293b/a3e635?text=Falta+diploma1.jpg'">
+                        </div>
+                        <h4 class="text-white font-bold text-center uppercase tracking-wide text-sm">Personal Trainer</h4>
+                    </div>
+
+                    <!-- Diploma 2 -->
+                    <div class="bg-dark-900 p-4 rounded-xl border border-dark-700 hover:border-neon-primary transition-colors group">
+                        <div class="bg-dark-800 rounded-lg overflow-hidden mb-4 h-48 relative border border-dark-700/50 flex items-center justify-center">
+                            <img src="diploma2.jpg" alt="Diploma 2" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/600x450/1e293b/a3e635?text=Falta+diploma2.jpg'">
+                        </div>
+                        <h4 class="text-white font-bold text-center uppercase tracking-wide text-sm">Preparación Física</h4>
+                    </div>
+
+                    <!-- Diploma 3 -->
+                    <div class="bg-dark-900 p-4 rounded-xl border border-dark-700 hover:border-neon-primary transition-colors group">
+                        <div class="bg-dark-800 rounded-lg overflow-hidden mb-4 h-48 relative border border-dark-700/50 flex items-center justify-center">
+                            <img src="diploma3.jpg" alt="Diploma 3" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/600x450/1e293b/a3e635?text=Falta+diploma3.jpg'">
+                        </div>
+                        <h4 class="text-white font-bold text-center uppercase tracking-wide text-sm">Nutrición Deportiva</h4>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programas / Catálogo -->
+    <section id="programas" class="py-24 bg-dark-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-display font-bold text-white mb-4">ELIGE TU <span class="text-neon-primary">PROGRAMA</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Planes descargables en PDF listos para llevar al gimnasio.</p>
+            </div>
+
+            <!-- Ajustamos la grilla para que entren 4 tarjetas perfectamente -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- PRODUCTO 1: HIPERTROFIA 4 DÍAS -->
+                <div class="bg-dark-800 rounded-2xl border border-dark-700 overflow-hidden group hover:border-neon-primary transition-colors flex flex-col h-full">
+                    <div class="h-48 bg-gray-700 relative flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1470&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity">
+                        <div class="absolute top-4 right-4 bg-neon-primary text-dark-900 text-xs font-bold px-3 py-1 rounded-full">MÁS VENDIDO</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="text-neon-primary text-sm font-bold uppercase mb-1">Intermedio / Avanzado</div>
+                        <h3 class="text-2xl font-display font-bold text-white mb-2">Hipertrofia Total (4 Días)</h3>
+                        <p class="text-gray-400 text-sm mb-6 flex-grow">División Torso/Pierna enfocada en máxima tensión mecánica y estrés metabólico para aumentar tu tamaño muscular.</p>
+                        
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-3xl font-display font-bold text-white">$30.000<span class="text-sm text-gray-500">/pago único</span></span>
+                        </div>
+                        
+                        <button onclick="openModal('modal-hipertrofia')" class="w-full bg-dark-700 hover:bg-dark-900 text-white border border-dark-700 font-bold py-3 rounded-lg transition-colors mb-3">
+                            Ver Estructura
+                        </button>
+                        <button onclick="buyRoutine('Hipertrofia 4 Días')" class="w-full bg-neon-primary hover:bg-neon-hover text-dark-900 font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar Ahora
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PRODUCTO 2: FUERZA MÁXIMA -->
+                <div class="bg-dark-800 rounded-2xl border border-dark-700 overflow-hidden group hover:border-neon-primary transition-colors flex flex-col h-full">
+                    <div class="h-48 bg-gray-700 relative flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1470&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity">
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="text-neon-primary text-sm font-bold uppercase mb-1">Avanzado</div>
+                        <h3 class="text-2xl font-display font-bold text-white mb-2">Fuerza Máxima (3 Días)</h3>
+                        <p class="text-gray-400 text-sm mb-6 flex-grow">Enfocado en romper tus récords y desarrollar fuerza bruta en Sentadilla, Press Banca y Peso Muerto.</p>
+                        
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-3xl font-display font-bold text-white">$25.000<span class="text-sm text-gray-500">/pago único</span></span>
+                        </div>
+                        
+                        <button onclick="openModal('modal-fuerza')" class="w-full bg-dark-700 hover:bg-dark-900 text-white border border-dark-700 font-bold py-3 rounded-lg transition-colors mb-3">
+                            Ver Estructura
+                        </button>
+                        <button onclick="buyRoutine('Fuerza Máxima 3 Días')" class="w-full bg-neon-primary hover:bg-neon-hover text-dark-900 font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar Ahora
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PRODUCTO 3: DESCENSO DE GRASA -->
+                <div class="bg-dark-800 rounded-2xl border border-dark-700 overflow-hidden group hover:border-neon-primary transition-colors flex flex-col h-full">
+                    <div class="h-48 bg-gray-700 relative flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1469&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity">
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="text-neon-primary text-sm font-bold uppercase mb-1">Todos los niveles</div>
+                        <h3 class="text-2xl font-display font-bold text-white mb-2">Recomposición Corporal</h3>
+                        <p class="text-gray-400 text-sm mb-6 flex-grow">Circuitos metabólicos para maximizar la pérdida de grasa manteniendo masa muscular. 3 días Full Body.</p>
+                        
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-3xl font-display font-bold text-white">$20.000<span class="text-sm text-gray-500">/pago único</span></span>
+                        </div>
+                        
+                        <button onclick="openModal('modal-grasa')" class="w-full bg-dark-700 hover:bg-dark-900 text-white border border-dark-700 font-bold py-3 rounded-lg transition-colors mb-3">
+                            Ver Estructura
+                        </button>
+                        <button onclick="buyRoutine('Recomposición Corporal 3 Días')" class="w-full bg-neon-primary hover:bg-neon-hover text-dark-900 font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar Ahora
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PRODUCTO 4: PREPARACIÓN FÍSICA FÚTBOL (NUEVO) -->
+                <div class="bg-dark-800 rounded-2xl border border-dark-700 overflow-hidden group hover:border-neon-primary transition-colors flex flex-col h-full">
+                    <div class="h-48 bg-gray-700 relative flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1518605368461-1ee7b1b20677?q=80&w=1470&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" alt="Jugador de fútbol">
+                        <div class="absolute top-4 right-4 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full">DEPORTES</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="text-neon-primary text-sm font-bold uppercase mb-1">Amateur / Semi-Pro</div>
+                        <h3 class="text-2xl font-display font-bold text-white mb-2">Preparación Física: Fútbol</h3>
+                        <p class="text-gray-400 text-sm mb-6 flex-grow">Aumentá tu velocidad, potencia de salto y prevení desgarros. Rutina de 3 días complementaria a tus entrenamientos en cancha.</p>
+                        
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-3xl font-display font-bold text-white">$25.000<span class="text-sm text-gray-500">/pago único</span></span>
+                        </div>
+                        
+                        <button onclick="openModal('modal-futbol')" class="w-full bg-dark-700 hover:bg-dark-900 text-white border border-dark-700 font-bold py-3 rounded-lg transition-colors mb-3">
+                            Ver Estructura
+                        </button>
+                        <button onclick="buyRoutine('Prep. Física Fútbol')" class="w-full bg-neon-primary hover:bg-neon-hover text-dark-900 font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar Ahora
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL 1: Hipertrofia -->
+    <div id="modal-hipertrofia" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal('modal-hipertrofia')"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl bg-dark-800 rounded-2xl border border-dark-700 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-6 border-b border-dark-700 flex justify-between items-center bg-dark-900">
+                <div>
+                    <h3 class="text-2xl font-display font-bold text-white">Hipertrofia Total (Torso/Pierna)</h3>
+                    <p class="text-neon-primary text-sm font-semibold">Previsualización del Día 1 (Torso A)</p>
+                </div>
+                <button onclick="closeModal('modal-hipertrofia')" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto no-scrollbar">
+                <p class="text-gray-300 mb-6">Al comprar este programa recibirás un PDF con los 4 días de entrenamiento detallados. Aquí tienes un vistazo:</p>
+                <div class="bg-dark-900 rounded-xl overflow-hidden border border-dark-700">
+                    <table class="w-full text-left text-sm text-gray-300">
+                        <thead class="bg-dark-700 text-white uppercase text-xs">
+                            <tr>
+                                <th class="px-4 py-3">Tipo</th>
+                                <th class="px-4 py-3">Ejercicio</th>
+                                <th class="px-4 py-3 text-center">Series x Reps</th>
+                                <th class="px-4 py-3 text-center">Pausa</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-dark-700">
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-neon-primary uppercase tracking-wider">Primario</span></td>
+                                <td class="px-4 py-3 font-semibold text-white">Press de Banca</td>
+                                <td class="px-4 py-3 text-center">4 x 8-10</td>
+                                <td class="px-4 py-3 text-center text-gray-400">90s</td>
+                            </tr>
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-neon-primary uppercase tracking-wider">Primario</span></td>
+                                <td class="px-4 py-3 font-semibold text-white">Dominadas / Jalón</td>
+                                <td class="px-4 py-3 text-center">4 x 8-10</td>
+                                <td class="px-4 py-3 text-center text-gray-400">90s</td>
+                            </tr>
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-yellow-500 uppercase tracking-wider">Secundario</span></td>
+                                <td class="px-4 py-3">Press Hombro Mancuernas</td>
+                                <td class="px-4 py-3 text-center">3 x 10-12</td>
+                                <td class="px-4 py-3 text-center text-gray-400">60s</td>
+                            </tr>
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-yellow-500 uppercase tracking-wider">Secundario</span></td>
+                                <td class="px-4 py-3">Remo a 1 mano</td>
+                                <td class="px-4 py-3 text-center">3 x 10-12</td>
+                                <td class="px-4 py-3 text-center text-gray-400">60s</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="p-6 border-t border-dark-700 bg-dark-900 flex justify-end gap-4">
+                <button onclick="closeModal('modal-hipertrofia')" class="px-6 py-2 text-gray-400 hover:text-white font-semibold transition-colors">Cerrar</button>
+                <button onclick="buyRoutine('Hipertrofia 4 Días')" class="bg-neon-primary hover:bg-neon-hover text-dark-900 font-bold px-8 py-2 rounded-lg transition-colors shadow-lg shadow-neon-primary/20">
+                    Comprar $15.000
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Fuerza Máxima -->
+    <div id="modal-fuerza" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal('modal-fuerza')"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl bg-dark-800 rounded-2xl border border-dark-700 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-6 border-b border-dark-700 flex justify-between items-center bg-dark-900">
+                <div>
+                    <h3 class="text-2xl font-display font-bold text-white">Fuerza Máxima (3 Días)</h3>
+                    <p class="text-neon-primary text-sm font-semibold">Previsualización del Día 1 (Enfoque Sentadilla)</p>
+                </div>
+                <button onclick="closeModal('modal-fuerza')" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto no-scrollbar">
+                <p class="text-gray-300 mb-6">Al comprar este programa recibirás un PDF con los 3 días de entrenamiento detallados, basados en el desarrollo neuromuscular.</p>
+                <div class="bg-dark-900 rounded-xl overflow-hidden border border-dark-700">
+                    <table class="w-full text-left text-sm text-gray-300">
+                        <thead class="bg-dark-700 text-white uppercase text-xs">
+                            <tr>
+                                <th class="px-4 py-3">Tipo</th>
+                                <th class="px-4 py-3">Ejercicio</th>
+                                <th class="px-4 py-3 text-center">Series x Reps</th>
+                                <th class="px-4 py-3 text-center">Pausa</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-dark-700">
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-neon-primary uppercase tracking-wider">Primario</span></td>
+                                <td class="px-4 py-3 font-semibold text-white">Sentadilla Libre con Barra</td>
+                                <td class="px-4 py-3 text-center">5 x 3-5</td>
+                                <td class="px-4 py-3 text-center text-gray-400">3-5 min</td>
+                            </tr>
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-yellow-500 uppercase tracking-wider">Secundario</span></td>
+                                <td class="px-4 py-3">Prensa de piernas</td>
+                                <td class="px-4 py-3 text-center">3 x 6-8</td>
+                                <td class="px-4 py-3 text-center text-gray-400">2 min</td>
+                            </tr>
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-yellow-500 uppercase tracking-wider">Secundario</span></td>
+                                <td class="px-4 py-3">Peso Muerto Rumano</td>
+                                <td class="px-4 py-3 text-center">3 x 8-10</td>
+                                <td class="px-4 py-3 text-center text-gray-400">2 min</td>
+                            </tr>
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-blue-400 uppercase tracking-wider">Auxiliar</span></td>
+                                <td class="px-4 py-3 text-gray-400">Plancha (Plank) con lastre</td>
+                                <td class="px-4 py-3 text-center">3 x 45s</td>
+                                <td class="px-4 py-3 text-center text-gray-400">60s</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4 p-4 bg-dark-900/50 rounded-lg border border-dark-700/50">
+                    <p class="text-xs text-gray-400 italic">Nota del entrenador: Respetá los descansos largos. El SNC los necesita para mover los kilos propuestos sin fallar.</p>
+                </div>
+            </div>
+            <div class="p-6 border-t border-dark-700 bg-dark-900 flex justify-end gap-4">
+                <button onclick="closeModal('modal-fuerza')" class="px-6 py-2 text-gray-400 hover:text-white font-semibold transition-colors">Cerrar</button>
+                <button onclick="buyRoutine('Fuerza Máxima 3 Días')" class="bg-neon-primary hover:bg-neon-hover text-dark-900 font-bold px-8 py-2 rounded-lg transition-colors shadow-lg shadow-neon-primary/20">
+                    Comprar $15.000
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Recomposición Corporal / Grasa -->
+    <div id="modal-grasa" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal('modal-grasa')"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl bg-dark-800 rounded-2xl border border-dark-700 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-6 border-b border-dark-700 flex justify-between items-center bg-dark-900">
+                <div>
+                    <h3 class="text-2xl font-display font-bold text-white">Recomposición Corporal (Pérdida de Grasa)</h3>
+                    <p class="text-neon-primary text-sm font-semibold">Previsualización del Día 1 (Full Body + Finisher)</p>
+                </div>
+                <button onclick="closeModal('modal-grasa')" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto no-scrollbar">
+                <p class="text-gray-300 mb-6">Al comprar este programa recibirás rutinas enfocadas en mantener la masa muscular mientras elevamos el gasto calórico con descansos cortos.</p>
+                <div class="bg-dark-900 rounded-xl overflow-hidden border border-dark-700">
+                    <table class="w-full text-left text-sm text-gray-300">
+                        <thead class="bg-dark-700 text-white uppercase text-xs">
+                            <tr>
+                                <th class="px-4 py-3">Tipo</th>
+                                <th class="px-4 py-3">Ejercicio</th>
+                                <th class="px-4 py-3 text-center">Series x Reps</th>
+                                <th class="px-4 py-3 text-center">Pausa</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-dark-700">
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-neon-primary uppercase tracking-wider">Fuerza A1</span></td>
+                                <td class="px-4 py-3 font-semibold text-white">Sentadilla Copa (Goblet Squat)</td>
+                                <td class="px-4 py-3 text-center">4 x 12-15</td>
+                                <td class="px-4 py-3 text-center text-gray-400">45s</td>
+                            </tr>
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-neon-primary uppercase tracking-wider">Fuerza A2</span></td>
+                                <td class="px-4 py-3 font-semibold text-white">Flexiones de brazo (Push ups)</td>
+                                <td class="px-4 py-3 text-center">4 x 10-12</td>
+                                <td class="px-4 py-3 text-center text-gray-400">45s</td>
+                            </tr>
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-red-500 uppercase tracking-wider">Finisher</span></td>
+                                <td class="px-4 py-3 text-red-400 font-bold">CIRCUITO: Kettlebell Swings + Burpees + Plancha</td>
+                                <td class="px-4 py-3 text-center">4 Vueltas</td>
+                                <td class="px-4 py-3 text-center text-gray-400">Al final</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4 p-4 bg-dark-900/50 rounded-lg border border-dark-700/50">
+                    <p class="text-xs text-gray-400 italic">Nota del entrenador: El finisher es sin descanso entre ejercicios. Recién descansás 1 minuto al terminar la vuelta completa de los 3 ejercicios.</p>
+                </div>
+            </div>
+            <div class="p-6 border-t border-dark-700 bg-dark-900 flex justify-end gap-4">
+                <button onclick="closeModal('modal-grasa')" class="px-6 py-2 text-gray-400 hover:text-white font-semibold transition-colors">Cerrar</button>
+                <button onclick="buyRoutine('Recomposición Corporal 3 Días')" class="bg-neon-primary hover:bg-neon-hover text-dark-900 font-bold px-8 py-2 rounded-lg transition-colors shadow-lg shadow-neon-primary/20">
+                    Comprar $15.000
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4: FÚTBOL (NUEVO) -->
+    <div id="modal-futbol" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal('modal-futbol')"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl bg-dark-800 rounded-2xl border border-dark-700 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-6 border-b border-dark-700 flex justify-between items-center bg-dark-900">
+                <div>
+                    <h3 class="text-2xl font-display font-bold text-white">Preparación Física: Fútbol</h3>
+                    <p class="text-neon-primary text-sm font-semibold">Previsualización del Día 1 (Rutina de Transferencia - Tren Inferior)</p>
+                </div>
+                <button onclick="closeModal('modal-futbol')" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto no-scrollbar">
+                <p class="text-gray-300 mb-6">Diseñado para mejorar el arranque explosivo y la capacidad de frenado/cambio de dirección mediante la conversión de la fuerza bruta en potencia aplicable al juego.</p>
+                <div class="bg-dark-900 rounded-xl overflow-hidden border border-dark-700">
+                    <table class="w-full text-left text-sm text-gray-300">
+                        <thead class="bg-dark-700 text-white uppercase text-xs">
+                            <tr>
+                                <th class="px-4 py-3">Etapa</th>
+                                <th class="px-4 py-3">Ejercicio</th>
+                                <th class="px-4 py-3 text-center">Series x Reps</th>
+                                <th class="px-4 py-3 text-center">Pausa</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-dark-700">
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-red-500 uppercase tracking-wider">1. Fuerza Máx.</span></td>
+                                <td class="px-4 py-3 font-semibold text-white">Sentadilla por delante (Front Squat)</td>
+                                <td class="px-4 py-3 text-center">4 x 3-4 <span class="block text-xs text-gray-500">85-90% RM</span></td>
+                                <td class="px-4 py-3 text-center text-gray-400">3 min</td>
+                            </tr>
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-neon-primary uppercase tracking-wider">2. Transf. Dinámica</span></td>
+                                <td class="px-4 py-3 font-semibold text-white">Segundo tiempo de potencia o Saltos al cajón</td>
+                                <td class="px-4 py-3 text-center">3 x 5 <span class="block text-xs text-gray-500">Máx. Velocidad</span></td>
+                                <td class="px-4 py-3 text-center text-gray-400">2 min</td>
+                            </tr>
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-blue-500 uppercase tracking-wider">3. Pliometría</span></td>
+                                <td class="px-4 py-3">Drop Jumps (desde cajón de 40cm)</td>
+                                <td class="px-4 py-3 text-center">3 x 6 <span class="block text-xs text-gray-500">Contacto mínimo</span></td>
+                                <td class="px-4 py-3 text-center text-gray-400">2-3 min</td>
+                            </tr>
+                            <tr class="hover:bg-dark-800 transition-colors">
+                                <td class="px-4 py-3"><span class="text-xs font-bold text-yellow-500 uppercase tracking-wider">4. Gesto Específico</span></td>
+                                <td class="px-4 py-3 text-white">Sprints de 5 a 10 metros con cambios de dirección</td>
+                                <td class="px-4 py-3 text-center">5 Reps</td>
+                                <td class="px-4 py-3 text-center text-gray-400">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4 p-4 bg-dark-900/50 rounded-lg border border-dark-700/50 space-y-2">
+                    <p class="text-xs text-gray-300 italic"><strong class="text-neon-primary">💡 El Frenado es Clave:</strong> Tu velocidad de desplazamiento depende directamente de tu capacidad de freno. Si podés frenar en menos distancia, podés acelerar durante más tiempo.</p>
+                    <p class="text-xs text-gray-300 italic"><strong class="text-neon-primary">⚠️ Atención:</strong> Evitá las máquinas de gimnasio lentas. Si usás trineos de arrastre, el peso no debe empeorar tu tiempo en 10 metros más de un 10%, de lo contrario arruinás la técnica y te volvés lento.</p>
+                </div>
+            </div>
+            <div class="p-6 border-t border-dark-700 bg-dark-900 flex justify-end gap-4">
+                <button onclick="closeModal('modal-futbol')" class="px-6 py-2 text-gray-400 hover:text-white font-semibold transition-colors">Cerrar</button>
+                <button onclick="buyRoutine('Prep. Física Fútbol')" class="bg-neon-primary hover:bg-neon-hover text-dark-900 font-bold px-8 py-2 rounded-lg transition-colors shadow-lg shadow-neon-primary/20">
+                    Comprar $25.000
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contacto" class="bg-black py-12 border-t border-dark-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="font-display text-2xl font-bold tracking-wider text-white mb-6">
+                VITAL<span class="text-neon-primary">CORE</span> <span class="text-lg">TRAINING</span>
+            </h3>
+            <p class="text-gray-500 mb-8 max-w-md mx-auto">Transformando físicos a través de la ciencia, la disciplina y el entrenamiento estructurado.</p>
+            <div class="flex justify-center space-x-6 mb-8">
+                <!-- Link al Instagram de tu tienda -->
+                <a href="https://www.instagram.com/_vitalcore" target="_blank" class="text-gray-400 hover:text-neon-primary text-2xl transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <!-- Link directo a tu WhatsApp -->
+                <a href="https://wa.me/5491165846235" target="_blank" class="text-gray-400 hover:text-neon-primary text-2xl transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+            <p class="text-gray-600 text-sm">
+                &copy; 2026 Vital Core Training. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Funciones para manejar el Modal
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Evita scrollear el fondo
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Restaura el scroll
+        }
+
+        // Función de compra directo a WhatsApp
+        function buyRoutine(routineName) {
+            const phone = "5491165846235"; // Tu número de Vital Core
+            const message = `Hola Darío! Me interesa empezar a entrenar y quiero comprar el programa *${routineName}*. ¿Me pasás los datos para realizar el pago?`;
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
