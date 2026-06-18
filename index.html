@@ -2,7 +2,7 @@
 <html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>VitalCore Trainer | Elite Personal Training & Coaching</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -30,6 +30,9 @@
                             950: '#052e16',
                         },
                         accent: '#39FF14' // Neon Green
+                    },
+                    screens: {
+                        'xs': '375px',
                     }
                 }
             }
@@ -57,15 +60,19 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #22c55e;
         }
+        /* Touch scroll momentum for custom dynamic blocks on mobile */
+        .scroll-touch {
+            -webkit-overflow-scrolling: touch;
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased overflow-x-hidden">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased overflow-x-hidden w-full">
 
     <!-- Scroll Progress Indicator -->
     <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-emerald-500 to-emerald-300 z-[60] transition-all duration-100" style="width: 0%"></div>
 
     <!-- HEADER / NAVIGATION -->
-    <header class="fixed top-0 left-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-900 transition-all duration-300">
+    <header class="fixed top-0 left-0 w-full z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-900 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <a href="#" class="flex items-center space-x-2">
                 <div class="w-10 h-10 bg-brand-500 rounded-lg flex items-center justify-center neon-glow">
@@ -77,147 +84,147 @@
             </a>
 
             <!-- Desktop Nav -->
-            <nav class="hidden md:flex items-center space-x-8">
-                <a href="#" class="text-slate-300 hover:text-emerald-400 font-medium transition-colors">Inicio</a>
-                <a href="#about" class="text-slate-300 hover:text-emerald-400 font-medium transition-colors">Trayectoria</a>
-                <a href="#programs" class="text-slate-300 hover:text-emerald-400 font-medium transition-colors">Programas</a>
-                <a href="#routine-explorer" class="text-slate-300 hover:text-emerald-400 font-medium transition-colors">Ver Rutinas</a>
-                <a href="#calculator" class="text-slate-300 hover:text-emerald-400 font-medium transition-colors">Herramientas</a>
-                <a href="https://wa.me/5491165846235?text=Hola!%20Vi%20tu%20p%C3%A1gina%20web%20VitalCore%20y%20me%20gustar%C3%ADa%20solicitar%20mi%20asesor%C3%ADa%20gratuita." target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-5 py-2.5 rounded-full font-bold transition-all duration-300 hover:scale-105 shadow-lg shadow-emerald-500/20">
+            <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                <a href="#" class="text-slate-300 hover:text-emerald-400 font-medium transition-colors text-sm lg:text-base">Inicio</a>
+                <a href="#about" class="text-slate-300 hover:text-emerald-400 font-medium transition-colors text-sm lg:text-base">Trayectoria</a>
+                <a href="#programs" class="text-slate-300 hover:text-emerald-400 font-medium transition-colors text-sm lg:text-base">Programas</a>
+                <a href="#routine-explorer" class="text-slate-300 hover:text-emerald-400 font-medium transition-colors text-sm lg:text-base font-semibold">Ver Rutinas</a>
+                <a href="#calculator" class="text-slate-300 hover:text-emerald-400 font-medium transition-colors text-sm lg:text-base">Herramientas</a>
+                <a href="https://wa.me/5491165846235?text=Hola!%20Vi%20tu%20p%C3%A1gina%20web%20VitalCore%20y%20me%20gustar%C3%ADa%20solicitar%20mi%20asesor%C3%ADa%20gratuita." target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 py-2.5 rounded-full font-bold transition-all duration-300 hover:scale-105 shadow-lg shadow-emerald-500/20 text-sm lg:text-base">
                     Asesoría Gratis
                 </a>
             </nav>
 
             <!-- Mobile Menu Button -->
-            <button id="menu-btn" class="md:hidden text-slate-300 hover:text-emerald-400 focus:outline-none">
+            <button id="menu-btn" class="md:hidden text-slate-300 hover:text-emerald-400 focus:outline-none p-2 rounded-lg" aria-label="Abrir menú">
                 <i data-lucide="menu" class="w-7 h-7"></i>
             </button>
         </div>
 
         <!-- Mobile Drawer -->
-        <div id="mobile-menu" class="hidden md:hidden fixed top-20 left-0 w-full bg-slate-950 border-b border-slate-900 px-6 py-6 space-y-4 shadow-xl">
-            <a href="#" class="block text-lg font-medium text-slate-300 hover:text-emerald-400" onclick="toggleMenu()">Inicio</a>
-            <a href="#about" class="block text-lg font-medium text-slate-300 hover:text-emerald-400" onclick="toggleMenu()">Trayectoria</a>
-            <a href="#programs" class="block text-lg font-medium text-slate-300 hover:text-emerald-400" onclick="toggleMenu()">Programas</a>
-            <a href="#routine-explorer" class="block text-lg font-medium text-slate-300 hover:text-emerald-400" onclick="toggleMenu()">Ver Rutinas</a>
-            <a href="#calculator" class="block text-lg font-medium text-slate-300 hover:text-emerald-400" onclick="toggleMenu()">Herramientas</a>
-            <a href="https://wa.me/5491165846235?text=Hola!%20Vi%20tu%20p%C3%A1gina%20web%20VitalCore%20y%20me%20gustar%C3%ADa%20solicitar%20mi%20asesor%C3%ADa%20gratuita." target="_blank" class="block text-center bg-emerald-500 text-slate-950 py-3 rounded-full font-bold" onclick="toggleMenu()">Asesoría Gratis</a>
+        <div id="mobile-menu" class="hidden md:hidden fixed top-20 left-0 w-full bg-slate-950 border-b border-slate-900 px-6 py-6 space-y-4 shadow-xl transition-all duration-300 max-h-[calc(100vh-5rem)] overflow-y-auto scroll-touch">
+            <a href="#" class="block text-lg font-medium text-slate-300 hover:text-emerald-400 py-1" onclick="toggleMenu()">Inicio</a>
+            <a href="#about" class="block text-lg font-medium text-slate-300 hover:text-emerald-400 py-1" onclick="toggleMenu()">Trayectoria</a>
+            <a href="#programs" class="block text-lg font-medium text-slate-300 hover:text-emerald-400 py-1" onclick="toggleMenu()">Programas</a>
+            <a href="#routine-explorer" class="block text-lg font-medium text-slate-300 hover:text-emerald-400 py-1 font-semibold text-emerald-400" onclick="toggleMenu()">Ver Rutinas</a>
+            <a href="#calculator" class="block text-lg font-medium text-slate-300 hover:text-emerald-400 py-1" onclick="toggleMenu()">Herramientas</a>
+            <a href="https://wa.me/5491165846235?text=Hola!%20Vi%20tu%20p%C3%A1gina%20web%20VitalCore%20y%20me%20gustar%C3%ADa%20solicitar%20mi%20asesor%C3%ADa%20gratuita." target="_blank" class="block text-center bg-emerald-500 text-slate-950 py-3 rounded-full font-bold mt-4" onclick="toggleMenu()">Asesoría Gratis</a>
         </div>
     </header>
 
     <!-- HERO SECTION -->
-    <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 flex items-center min-h-screen overflow-hidden">
+    <section class="relative pt-24 pb-12 sm:pt-36 sm:pb-20 md:pt-44 md:pb-32 flex items-center min-h-screen overflow-hidden">
         <!-- Background glows -->
-        <div class="absolute top-1/4 left-1/10 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="absolute bottom-1/4 right-1/10 w-[450px] h-[450px] bg-emerald-600/5 rounded-full blur-[150px] pointer-events-none"></div>
+        <div class="absolute top-1/4 left-1/10 w-48 h-48 sm:w-96 sm:h-96 bg-emerald-500/10 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-1/4 right-1/10 w-64 h-64 sm:w-[450px] sm:h-[450px] bg-emerald-600/5 rounded-full blur-[100px] sm:blur-[150px] pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 
                 <!-- Left Content -->
-                <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
-                    <div class="inline-flex items-center space-x-2 bg-slate-900 border border-slate-800 px-4 py-2 rounded-full">
+                <div class="lg:col-span-7 space-y-6 sm:space-y-8 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 bg-slate-900 border border-slate-800 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full">
                         <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse"></span>
-                        <span class="text-xs uppercase font-semibold text-emerald-400 tracking-wider">Entrenamientos de Alto Rendimiento</span>
+                        <span class="text-[10px] sm:text-xs uppercase font-semibold text-emerald-400 tracking-wider">Entrenamientos de Alto Rendimiento</span>
                     </div>
 
-                    <h1 class="font-syne text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-none tracking-tight text-white">
-                        Fortalece tu <br class="hidden sm:inline">
+                    <h1 class="font-syne text-3xl xs:text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight text-white">
+                        Fortalece tu <br class="hidden xs:inline">
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-emerald-300 to-green-500">
                             Núcleo Vital
                         </span>
                     </h1>
 
-                    <p class="text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto lg:mx-0">
+                    <p class="text-slate-400 text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed">
                         Optimiza tu postura, incrementa tu fuerza y redefine tu composición corporal con un sistema basado en biomecánica y nutrición certificada.
                     </p>
 
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                        <a href="#programs" class="w-full sm:w-auto text-center bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-8 py-4 rounded-xl shadow-lg shadow-emerald-500/10 transition-all duration-300 hover:scale-[1.03]">
+                        <a href="#programs" class="w-full sm:w-auto text-center bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3.5 sm:px-8 sm:py-4 rounded-xl shadow-lg shadow-emerald-500/10 transition-all duration-300 hover:scale-[1.03] text-sm sm:text-base">
                             Ver Programas
                         </a>
-                        <a href="#calculator" class="w-full sm:w-auto text-center bg-slate-900 hover:bg-slate-800 text-white border border-slate-800 hover:border-slate-700 px-8 py-4 rounded-xl font-semibold transition-all duration-300">
+                        <a href="#calculator" class="w-full sm:w-auto text-center bg-slate-900 hover:bg-slate-800 text-white border border-slate-800 hover:border-slate-700 px-6 py-3.5 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-300 text-sm sm:text-base">
                             Calculadora Macro
                         </a>
                     </div>
 
                     <!-- Statistics Bar -->
-                    <div class="grid grid-cols-3 gap-6 pt-8 border-t border-slate-900 max-w-md mx-auto lg:mx-0">
+                    <div class="grid grid-cols-3 gap-3 sm:gap-6 pt-6 sm:pt-8 border-t border-slate-900 max-w-md mx-auto lg:mx-0">
                         <div>
-                            <div class="font-syne text-2xl sm:text-3xl font-extrabold text-emerald-400">+10</div>
-                            <div class="text-xs text-slate-500 uppercase tracking-wider mt-1">Años Exp</div>
+                            <div class="font-syne text-xl sm:text-3xl font-extrabold text-emerald-400">+10</div>
+                            <div class="text-[9px] sm:text-xs text-slate-500 uppercase tracking-wider mt-1">Años Exp</div>
                         </div>
                         <div>
-                            <div class="font-syne text-2xl sm:text-3xl font-extrabold text-emerald-400">+500</div>
-                            <div class="text-xs text-slate-500 uppercase tracking-wider mt-1">Vidas Cambiadas</div>
+                            <div class="font-syne text-xl sm:text-3xl font-extrabold text-emerald-400">+500</div>
+                            <div class="text-[9px] sm:text-xs text-slate-500 uppercase tracking-wider mt-1">Vidas Cambiadas</div>
                         </div>
                         <div>
-                            <div class="font-syne text-2xl sm:text-3xl font-extrabold text-emerald-400">3x</div>
-                            <div class="text-xs text-slate-500 uppercase tracking-wider mt-1">Certificaciones</div>
+                            <div class="font-syne text-xl sm:text-3xl font-extrabold text-emerald-400">3x</div>
+                            <div class="text-[9px] sm:text-xs text-slate-500 uppercase tracking-wider mt-1">Certificaciones</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Right Graphic (Visual Feature Card) -->
-                <div class="lg:col-span-5 relative mt-8 lg:mt-0">
-                    <div class="relative bg-gradient-to-tr from-slate-900 to-slate-900/40 p-1 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden">
+                <div class="lg:col-span-5 relative mt-6 lg:mt-0 w-full max-w-md mx-auto lg:max-w-none">
+                    <div class="relative bg-gradient-to-tr from-slate-900 to-slate-900/40 p-0.5 sm:p-1 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent pointer-events-none"></div>
                         
                         <!-- Premium Inner Box -->
-                        <div class="relative bg-slate-950/90 rounded-[22px] p-6 sm:p-8 space-y-6">
+                        <div class="relative bg-slate-950/95 rounded-[22px] p-4 sm:p-8 space-y-4 sm:space-y-6">
                             <div class="flex items-center justify-between">
-                                <span class="text-sm font-semibold text-slate-400">Objetivo del Día</span>
-                                <span class="bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-1 rounded-full font-medium">Activo</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-400">Objetivo del Día</span>
+                                <span class="bg-emerald-500/10 text-emerald-400 text-[10px] sm:text-xs px-2.5 py-1 rounded-full font-medium">Activo</span>
                             </div>
 
-                            <div class="space-y-4">
-                                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex items-center justify-between">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400">
-                                            <i data-lucide="zap" class="w-5 h-5"></i>
+                            <div class="space-y-3 sm:space-y-4">
+                                <div class="bg-slate-900 p-3 sm:p-4 rounded-xl border border-slate-800 flex items-center justify-between gap-3">
+                                    <div class="flex items-center space-x-3 min-w-0">
+                                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400 shrink-0">
+                                            <i data-lucide="zap" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                                         </div>
-                                        <div>
-                                            <h3 class="font-semibold text-sm">Vital Core Blast</h3>
-                                            <p class="text-xs text-slate-500">Intensidad Media • 45m</p>
+                                        <div class="min-w-0">
+                                            <h3 class="font-semibold text-xs sm:text-sm truncate">Vital Core Blast</h3>
+                                            <p class="text-[10px] sm:text-xs text-slate-500 truncate">Intensidad Media • 45m</p>
                                         </div>
                                     </div>
-                                    <span class="text-xs text-emerald-400 font-bold">Asignado</span>
+                                    <span class="text-[10px] sm:text-xs text-emerald-400 font-bold shrink-0">Asignado</span>
                                 </div>
 
-                                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex items-center justify-between">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400">
-                                            <i data-lucide="droplet" class="w-5 h-5"></i>
+                                <div class="bg-slate-900 p-3 sm:p-4 rounded-xl border border-slate-800 flex items-center justify-between gap-3">
+                                    <div class="flex items-center space-x-3 min-w-0">
+                                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 shrink-0">
+                                            <i data-lucide="droplet" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                                         </div>
-                                        <div>
-                                            <h3 class="font-semibold text-sm">Hidratación y Electrolitos</h3>
-                                            <p class="text-xs text-slate-500">Consumo diario sugerido</p>
+                                        <div class="min-w-0">
+                                            <h3 class="font-semibold text-xs sm:text-sm truncate">Hidratación y Electrolitos</h3>
+                                            <p class="text-[10px] sm:text-xs text-slate-500 truncate">Consumo sugerido</p>
                                         </div>
                                     </div>
-                                    <span class="text-xs text-blue-400 font-bold">2.8 Litros</span>
+                                    <span class="text-[10px] sm:text-xs text-blue-400 font-bold shrink-0">2.8 Litros</span>
                                 </div>
                             </div>
 
                             <!-- Decorative Progress Ring -->
-                            <div class="pt-4 border-t border-slate-900 flex items-center justify-between">
+                            <div class="pt-3 sm:pt-4 border-t border-slate-900 flex items-center justify-between">
                                 <div>
-                                    <div class="text-xs text-slate-500">Tu Constancia</div>
-                                    <div class="font-syne text-lg font-bold">Consigue el 100%</div>
+                                    <div class="text-[10px] sm:text-xs text-slate-500">Tu Constancia</div>
+                                    <div class="font-syne text-sm sm:text-lg font-bold">Consigue el 100%</div>
                                 </div>
                                 <div class="relative flex items-center justify-center">
-                                    <svg class="w-16 h-16 transform -rotate-90">
-                                        <circle cx="32" cy="32" r="28" stroke="currentColor" class="text-slate-800" stroke-width="4" fill="transparent" />
-                                        <circle cx="32" cy="32" r="28" stroke="currentColor" class="text-emerald-400" stroke-width="4" stroke-dasharray="175" stroke-dashoffset="35" fill="transparent" stroke-linecap="round" />
+                                    <svg class="w-12 h-12 sm:w-16 sm:h-16 transform -rotate-90">
+                                        <circle cx="24" cy="24" r="18" stroke="currentColor" class="text-slate-800" stroke-width="3" fill="transparent" class="sm:cx-32 sm:cy-32 sm:r-28 sm:stroke-width-4" />
+                                        <circle cx="24" cy="24" r="18" stroke="currentColor" class="text-emerald-400" stroke-width="3" stroke-dasharray="113" stroke-dashoffset="22" fill="transparent" stroke-linecap="round" class="sm:cx-32 sm:cy-32 sm:r-28 sm:stroke-width-4 sm:stroke-dasharray-175 sm:stroke-dashoffset-35" />
                                     </svg>
-                                    <span class="absolute text-xs font-bold text-white">80%</span>
+                                    <span class="absolute text-[10px] sm:text-xs font-bold text-white">80%</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Decorative Floating Element -->
-                    <div class="absolute -bottom-6 -left-6 bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-xl flex items-center space-x-3 animate-bounce" style="animation-duration: 4s;">
-                        <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center">
+                    <!-- Decorative Floating Element (Hidden on narrow viewports to avoid structural breaks) -->
+                    <div class="hidden sm:flex absolute -bottom-6 -left-6 bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-xl items-center space-x-3 animate-bounce" style="animation-duration: 4s;">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
                             <i data-lucide="check" class="text-slate-950 w-5 h-5 stroke-[3]"></i>
                         </div>
                         <div>
@@ -232,110 +239,110 @@
     </section>
 
     <!-- INTERACTIVE ADVISORY WIZARD (QUIZ) -->
-    <section class="py-16 bg-slate-950 border-t border-slate-900 relative">
+    <section class="py-12 sm:py-16 bg-slate-950 border-t border-slate-900 relative">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-slate-900/40 border border-slate-800 rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+            <div class="bg-slate-900/40 border border-slate-800 rounded-3xl p-5 sm:p-10 relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
                 
-                <div class="text-center space-y-2 mb-8">
-                    <span class="text-xs font-bold uppercase text-emerald-400 tracking-wider">Asistente Virtual</span>
-                    <h3 class="font-syne text-2xl sm:text-3xl font-extrabold">Encuentra Tu Plan Ideal</h3>
-                    <p class="text-slate-400 text-sm">Responde 3 preguntas rápidas y nuestro algoritmo basado en objetivos te sugerirá el mejor camino.</p>
+                <div class="text-center space-y-2 mb-6 sm:mb-8">
+                    <span class="text-[10px] sm:text-xs font-bold uppercase text-emerald-400 tracking-wider">Asistente Virtual</span>
+                    <h3 class="font-syne text-xl sm:text-3xl font-extrabold">Encuentra Tu Plan Ideal</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm">Responde 3 preguntas rápidas y nuestro algoritmo basado en objetivos te sugerirá el mejor camino.</p>
                 </div>
 
                 <!-- Quiz Progress Bar -->
-                <div class="w-full bg-slate-950 h-1.5 rounded-full mb-8 overflow-hidden">
+                <div class="w-full bg-slate-950 h-1.5 rounded-full mb-6 sm:mb-8 overflow-hidden">
                     <div id="quiz-progress-fill" class="bg-emerald-400 h-full w-1/3 transition-all duration-300"></div>
                 </div>
 
                 <!-- Step 1: Goal -->
-                <div id="quiz-step-1" class="space-y-6">
-                    <h4 class="text-center text-lg font-bold text-white">1. ¿Cuál es tu objetivo principal?</h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <button onclick="nextQuizStep(1, 'definicion')" class="p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-3">
-                            <i data-lucide="flame" class="w-8 h-8 text-emerald-400 mx-auto"></i>
-                            <div class="font-bold text-sm">Quema de Grasa</div>
-                            <div class="text-xs text-slate-500">Definir y recomposición corporal</div>
+                <div id="quiz-step-1" class="space-y-4 sm:space-y-6">
+                    <h4 class="text-center text-sm sm:text-lg font-bold text-white">1. ¿Cuál es tu objetivo principal?</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                        <button onclick="nextQuizStep(1, 'definicion')" class="p-4 sm:p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-2 sm:space-y-3 focus:ring-2 focus:ring-emerald-400/50">
+                            <i data-lucide="flame" class="w-6 h-6 sm:w-8 sm:h-8 text-emerald-400 mx-auto"></i>
+                            <div class="font-bold text-xs sm:text-sm text-white">Quema de Grasa</div>
+                            <div class="text-[10px] sm:text-xs text-slate-500">Definir y recomposición corporal</div>
                         </button>
-                        <button onclick="nextQuizStep(1, 'fuerza')" class="p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-3">
-                            <i data-lucide="zap" class="w-8 h-8 text-emerald-400 mx-auto"></i>
-                            <div class="font-bold text-sm">Fuerza y Masa Muscular</div>
-                            <div class="text-xs text-slate-500">Desarrollo e hipertrofia segura</div>
+                        <button onclick="nextQuizStep(1, 'fuerza')" class="p-4 sm:p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-2 sm:space-y-3 focus:ring-2 focus:ring-emerald-400/50">
+                            <i data-lucide="zap" class="w-6 h-6 sm:w-8 sm:h-8 text-emerald-400 mx-auto"></i>
+                            <div class="font-bold text-xs sm:text-sm text-white">Fuerza y Masa</div>
+                            <div class="text-[10px] sm:text-xs text-slate-500">Desarrollo e hipertrofia segura</div>
                         </button>
-                        <button onclick="nextQuizStep(1, 'salud')" class="p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-3">
-                            <i data-lucide="heart" class="w-8 h-8 text-emerald-400 mx-auto"></i>
-                            <div class="font-bold text-sm">Postura y Salud del Core</div>
-                            <div class="text-xs text-slate-500">Aliviar dolores y mejorar movilidad</div>
+                        <button onclick="nextQuizStep(1, 'salud')" class="p-4 sm:p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-2 sm:space-y-3 focus:ring-2 focus:ring-emerald-400/50">
+                            <i data-lucide="heart" class="w-6 h-6 sm:w-8 sm:h-8 text-emerald-400 mx-auto"></i>
+                            <div class="font-bold text-xs sm:text-sm text-white">Postura y Core</div>
+                            <div class="text-[10px] sm:text-xs text-slate-500">Aliviar dolores y movilidad</div>
                         </button>
                     </div>
                 </div>
 
                 <!-- Step 2: Experience -->
-                <div id="quiz-step-2" class="hidden space-y-6">
-                    <h4 class="text-center text-lg font-bold text-white">2. ¿Qué nivel de experiencia tienes entrenando?</h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <button onclick="nextQuizStep(2, 'principiante')" class="p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-3">
-                            <div class="font-bold text-sm">Principiante</div>
-                            <div class="text-xs text-slate-500">Poca o ninguna experiencia guiada</div>
+                <div id="quiz-step-2" class="hidden space-y-4 sm:space-y-6">
+                    <h4 class="text-center text-sm sm:text-lg font-bold text-white">2. ¿Qué nivel de experiencia tienes entrenando?</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                        <button onclick="nextQuizStep(2, 'principiante')" class="p-4 sm:p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-1 sm:space-y-2 focus:ring-2 focus:ring-emerald-400/50">
+                            <div class="font-bold text-xs sm:text-sm text-white">Principiante</div>
+                            <div class="text-[10px] sm:text-xs text-slate-500">Poca o ninguna experiencia guiada</div>
                         </button>
-                        <button onclick="nextQuizStep(2, 'intermedio')" class="p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-3">
-                            <div class="font-bold text-sm">Intermedio</div>
-                            <div class="text-xs text-slate-500">Sé ejecutar movimientos básicos</div>
+                        <button onclick="nextQuizStep(2, 'intermedio')" class="p-4 sm:p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-1 sm:space-y-2 focus:ring-2 focus:ring-emerald-400/50">
+                            <div class="font-bold text-xs sm:text-sm text-white">Intermedio</div>
+                            <div class="text-[10px] sm:text-xs text-slate-500">Sé ejecutar movimientos básicos</div>
                         </button>
-                        <button onclick="nextQuizStep(2, 'avanzado')" class="p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-3">
-                            <div class="font-bold text-sm">Avanzado</div>
-                            <div class="text-xs text-slate-500">Entreno de manera constante y con cargas</div>
+                        <button onclick="nextQuizStep(2, 'avanzado')" class="p-4 sm:p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-1 sm:space-y-2 focus:ring-2 focus:ring-emerald-400/50">
+                            <div class="font-bold text-xs sm:text-sm text-white">Avanzado</div>
+                            <div class="text-[10px] sm:text-xs text-slate-500">Entreno constante y con cargas</div>
                         </button>
                     </div>
                     <div class="text-center">
-                        <button onclick="prevQuizStep(2)" class="text-xs text-slate-500 hover:text-emerald-400 underline">Volver al paso anterior</button>
+                        <button onclick="prevQuizStep(2)" class="text-xs text-slate-500 hover:text-emerald-400 underline py-2">Volver al paso anterior</button>
                     </div>
                 </div>
 
                 <!-- Step 3: Availability -->
-                <div id="quiz-step-3" class="hidden space-y-6">
-                    <h4 class="text-center text-lg font-bold text-white">3. ¿Qué modalidad prefieres?</h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <button onclick="nextQuizStep(3, 'online')" class="p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-3">
-                            <i data-lucide="smartphone" class="w-8 h-8 text-emerald-400 mx-auto"></i>
-                            <div class="font-bold text-sm">100% Online</div>
-                            <div class="text-xs text-slate-500">Rutinas digitales y flexibilidad</div>
+                <div id="quiz-step-3" class="hidden space-y-4 sm:space-y-6">
+                    <h4 class="text-center text-sm sm:text-lg font-bold text-white">3. ¿Qué modalidad prefieres?</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                        <button onclick="nextQuizStep(3, 'online')" class="p-4 sm:p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-2 sm:space-y-3 focus:ring-2 focus:ring-emerald-400/50">
+                            <i data-lucide="smartphone" class="w-6 h-6 sm:w-8 sm:h-8 text-emerald-400 mx-auto"></i>
+                            <div class="font-bold text-xs sm:text-sm text-white">100% Online</div>
+                            <div class="text-[10px] sm:text-xs text-slate-500">Rutinas digitales y flexibilidad</div>
                         </button>
-                        <button onclick="nextQuizStep(3, 'presencial')" class="p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-3">
-                            <i data-lucide="map-pin" class="w-8 h-8 text-emerald-400 mx-auto"></i>
-                            <div class="font-bold text-sm">Presencial Individual</div>
-                            <div class="text-xs text-slate-500">Acompañamiento 1-a-1 de alta precisión</div>
+                        <button onclick="nextQuizStep(3, 'presencial')" class="p-4 sm:p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-2 sm:space-y-3 focus:ring-2 focus:ring-emerald-400/50">
+                            <i data-lucide="map-pin" class="w-6 h-6 sm:w-8 sm:h-8 text-emerald-400 mx-auto"></i>
+                            <div class="font-bold text-xs sm:text-sm text-white">Presencial Individual</div>
+                            <div class="text-[10px] sm:text-xs text-slate-500">Acompañamiento 1-a-1 de alta precisión</div>
                         </button>
-                        <button onclick="nextQuizStep(3, 'grupal')" class="p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-3">
-                            <i data-lucide="users" class="w-8 h-8 text-emerald-400 mx-auto"></i>
-                            <div class="font-bold text-sm">Grupal Semipersonalizado</div>
-                            <div class="text-xs text-slate-500">Motivación grupal y comunidad</div>
+                        <button onclick="nextQuizStep(3, 'grupal')" class="p-4 sm:p-6 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-center space-y-2 sm:space-y-3 focus:ring-2 focus:ring-emerald-400/50">
+                            <i data-lucide="users" class="w-6 h-6 sm:w-8 sm:h-8 text-emerald-400 mx-auto"></i>
+                            <div class="font-bold text-xs sm:text-sm text-white">Grupal Semipersonalizado</div>
+                            <div class="text-[10px] sm:text-xs text-slate-500">Motivación grupal y comunidad</div>
                         </button>
                     </div>
                     <div class="text-center">
-                        <button onclick="prevQuizStep(3)" class="text-xs text-slate-500 hover:text-emerald-400 underline">Volver al paso anterior</button>
+                        <button onclick="prevQuizStep(3)" class="text-xs text-slate-500 hover:text-emerald-400 underline py-2">Volver al paso anterior</button>
                     </div>
                 </div>
 
                 <!-- Step 4: Results -->
-                <div id="quiz-result-box" class="hidden text-center space-y-6">
-                    <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto">
-                        <i data-lucide="check-circle" class="w-10 h-10"></i>
+                <div id="quiz-result-box" class="hidden text-center space-y-4 sm:space-y-6 py-4">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto">
+                        <i data-lucide="check-circle" class="w-8 h-8 sm:w-10 sm:h-10"></i>
                     </div>
-                    <h4 class="font-syne text-2xl font-bold text-white">¡Recomendación Lista!</h4>
-                    <p class="text-slate-400 text-sm max-w-md mx-auto" id="quiz-result-text">
+                    <h4 class="font-syne text-xl sm:text-2xl font-bold text-white">¡Recomendación Lista!</h4>
+                    <p class="text-slate-400 text-xs sm:text-sm max-w-md mx-auto leading-relaxed" id="quiz-result-text">
                         En base a tus respuestas, el plan ideal para ti es...
                     </p>
-                    <div id="quiz-recommended-badge" class="inline-block bg-emerald-500 text-slate-950 font-extrabold tracking-wider uppercase px-6 py-2.5 rounded-full text-sm">
+                    <div id="quiz-recommended-badge" class="inline-block bg-emerald-500 text-slate-950 font-extrabold tracking-wider uppercase px-5 py-2 sm:px-6 sm:py-2.5 rounded-full text-xs sm:text-sm shadow-md">
                         Cargando plan ideal...
                     </div>
                     <div>
-                        <a id="quiz-action-btn" href="#programs" class="inline-block bg-slate-950 hover:bg-slate-900 border border-slate-800 text-emerald-400 hover:border-emerald-500/40 px-6 py-3 rounded-xl text-sm font-bold transition-all">
+                        <a id="quiz-action-btn" href="#programs" class="inline-block bg-slate-950 hover:bg-slate-900 border border-slate-800 text-emerald-400 hover:border-emerald-500/40 px-5 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all w-full sm:w-auto">
                             Ver detalles del plan recomendado
                         </a>
                     </div>
                     <div class="text-center pt-2">
-                        <button onclick="resetQuiz()" class="text-xs text-slate-500 hover:text-emerald-400 underline">Reiniciar asistente</button>
+                        <button onclick="resetQuiz()" class="text-xs text-slate-500 hover:text-emerald-400 underline py-2">Reiniciar asistente</button>
                     </div>
                 </div>
 
@@ -344,25 +351,25 @@
     </section>
 
     <!-- ABOUT / DIPLOMAS SECTION -->
-    <section id="about" class="py-24 bg-slate-900/50 border-y border-slate-900 relative">
+    <section id="about" class="py-16 sm:py-24 bg-slate-900/50 border-y border-slate-900 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <h2 class="text-xs uppercase font-semibold text-emerald-400 tracking-widest">¿Quién te guiará?</h2>
-                <h3 class="font-syne text-3xl sm:text-4xl lg:text-5xl font-extrabold">Entrenamiento Avalado Profesionalmente</h3>
-                <p class="text-slate-400">
+            <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-16 space-y-3 sm:space-y-4">
+                <h2 class="text-[10px] sm:text-xs uppercase font-semibold text-emerald-400 tracking-widest">¿Quién te guiará?</h2>
+                <h3 class="font-syne text-2xl sm:text-4xl lg:text-5xl font-extrabold">Entrenamiento Avalado Profesionalmente</h3>
+                <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
                     No dejes tu salud en manos de tendencias de redes sociales. Mi metodología se basa en ciencia del deporte y certificaciones internacionales comprobables.
                 </p>
             </div>
 
             <!-- Credentials Showcase -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-4 sm:mb-16">
                 <!-- Diploma Card 1 -->
                 <div onclick="openLightbox('diploma1.jpeg', 'Instructor de Musculación y Personal Trainer (2024)', 'Certificación oficial obtenida en el año 2024. Capacitación integral enfocada en la biomecánica de la fuerza, planificación de entrenamientos de hipertrofia y diseño de programas personalizados de alto rendimiento en salas de musculación.')" 
-                     class="group bg-slate-950 p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
-                    <div class="aspect-[4/3] bg-slate-900 rounded-xl mb-6 overflow-hidden relative flex items-center justify-center">
+                     class="group bg-slate-950 p-4 sm:p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
+                    <div class="aspect-[4/3] bg-slate-900 rounded-xl mb-4 sm:mb-6 overflow-hidden relative flex items-center justify-center">
                         <img src="diploma1.jpeg" alt="Certificación 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="hidden absolute inset-0 flex-col items-center justify-center text-slate-600 p-4 text-center">
-                            <i data-lucide="award" class="w-12 h-12 text-emerald-400/40 mb-2"></i>
+                        <div class="hidden absolute inset-0 flex-col items-center justify-center text-slate-600 p-4 text-center bg-slate-950">
+                            <i data-lucide="award" class="w-10 h-10 sm:w-12 sm:h-12 text-emerald-400/40 mb-2"></i>
                             <span class="text-xs font-semibold text-slate-400">Musculación & Personal Trainer</span>
                             <span class="text-[10px] text-slate-500 mt-1">(Ver archivo diploma1.jpeg)</span>
                         </div>
@@ -373,22 +380,22 @@
                             </span>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-2 text-emerald-400 text-xs font-bold tracking-widest uppercase mb-2">
+                    <div class="flex items-center space-x-2 text-emerald-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-1 sm:mb-2">
                         <span>Certificación 2024</span>
                     </div>
-                    <h4 class="text-lg font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Instructor de Musculación y Personal Trainer</h4>
-                    <p class="text-slate-400 text-sm">
+                    <h4 class="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Instructor de Musculación y Personal Trainer</h4>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
                         Planificación avanzada de entrenamientos de fuerza, hipertrofia y acondicionamiento personalizado basado en principios biomecánicos.
                     </p>
                 </div>
 
                 <!-- Diploma Card 2 -->
                 <div onclick="openLightbox('diploma2.jpeg', 'Máster en Personal Trainer (2025)', 'Especialización de nivel superior obtenida en el año 2025. Maestría dedicada a la periodización avanzada de cargas de entrenamiento, optimización metabólica, prevención y readaptación físico-deportiva de atletas.')" 
-                     class="group bg-slate-950 p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
-                    <div class="aspect-[4/3] bg-slate-900 rounded-xl mb-6 overflow-hidden relative flex items-center justify-center">
+                     class="group bg-slate-950 p-4 sm:p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
+                    <div class="aspect-[4/3] bg-slate-900 rounded-xl mb-4 sm:mb-6 overflow-hidden relative flex items-center justify-center">
                         <img src="diploma2.jpeg" alt="Certificación 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="hidden absolute inset-0 flex-col items-center justify-center text-slate-600 p-4 text-center">
-                            <i data-lucide="shield-check" class="w-12 h-12 text-emerald-400/40 mb-2"></i>
+                        <div class="hidden absolute inset-0 flex-col items-center justify-center text-slate-600 p-4 text-center bg-slate-950">
+                            <i data-lucide="shield-check" class="w-10 h-10 sm:w-12 sm:h-12 text-emerald-400/40 mb-2"></i>
                             <span class="text-xs font-semibold text-slate-400">Máster en Personal Trainer</span>
                             <span class="text-[10px] text-slate-500 mt-1">(Ver archivo diploma2.jpeg)</span>
                         </div>
@@ -399,22 +406,22 @@
                             </span>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-2 text-emerald-400 text-xs font-bold tracking-widest uppercase mb-2">
+                    <div class="flex items-center space-x-2 text-emerald-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-1 sm:mb-2">
                         <span>Máster 2025</span>
                     </div>
-                    <h4 class="text-lg font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Máster en Personal Trainer</h4>
-                    <p class="text-slate-400 text-sm">
+                    <h4 class="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Máster en Personal Trainer</h4>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
                         Programación deportiva de alta complejidad, optimización de cargas de trabajo y control técnico para deportistas élite.
                     </p>
                 </div>
 
                 <!-- Diploma Card 3 -->
                 <div onclick="openLightbox('diploma3.jpeg', 'Nutrición Deportiva (2024)', 'Certificación oficial obtenida en el año 2024. Especialidad en el diseño de pautas alimentarias óptimas para recomposición corporal, balance de macronutrientes según entrenamientos y suplementación deportiva.')" 
-                     class="group bg-slate-950 p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
-                    <div class="aspect-[4/3] bg-slate-900 rounded-xl mb-6 overflow-hidden relative flex items-center justify-center">
+                     class="group bg-slate-950 p-4 sm:p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-2">
+                    <div class="aspect-[4/3] bg-slate-900 rounded-xl mb-4 sm:mb-6 overflow-hidden relative flex items-center justify-center">
                         <img src="diploma3.jpeg" alt="Certificación 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="hidden absolute inset-0 flex-col items-center justify-center text-slate-600 p-4 text-center">
-                            <i data-lucide="salad" class="w-12 h-12 text-emerald-400/40 mb-2"></i>
+                        <div class="hidden absolute inset-0 flex-col items-center justify-center text-slate-600 p-4 text-center bg-slate-950">
+                            <i data-lucide="salad" class="w-10 h-10 sm:w-12 sm:h-12 text-emerald-400/40 mb-2"></i>
                             <span class="text-xs font-semibold text-slate-400">Nutrición Deportiva</span>
                             <span class="text-[10px] text-slate-500 mt-1">(Ver archivo diploma3.jpeg)</span>
                         </div>
@@ -425,11 +432,11 @@
                             </span>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-2 text-emerald-400 text-xs font-bold tracking-widest uppercase mb-2">
+                    <div class="flex items-center space-x-2 text-emerald-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-1 sm:mb-2">
                         <span>Certificación 2024</span>
                     </div>
-                    <h4 class="text-lg font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Nutrición Deportiva</h4>
-                    <p class="text-slate-400 text-sm">
+                    <h4 class="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Nutrición Deportiva</h4>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
                         Estrategias de alimentación para maximizar la energía, acelerar la recuperación muscular y redefinir el porcentaje graso.
                     </p>
                 </div>
@@ -438,113 +445,113 @@
     </section>
 
     <!-- TRAINING PROGRAMS SECTION -->
-    <section id="programs" class="py-24 relative overflow-hidden">
+    <section id="programs" class="py-16 sm:py-24 relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900/30 to-slate-950 pointer-events-none"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <h2 class="text-xs uppercase font-semibold text-emerald-400 tracking-widest">Planes de Trabajo</h2>
-                <h3 class="font-syne text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white">Elige tu Sistema de Asesoría</h3>
-                <p class="text-slate-400 text-base">Estructuras de entrenamiento combinadas con un control diario para asegurar tus metas de fuerza y estética.</p>
+            <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-16 space-y-3 sm:space-y-4">
+                <h2 class="text-[10px] sm:text-xs uppercase font-semibold text-emerald-400 tracking-widest">Planes de Trabajo</h2>
+                <h3 class="font-syne text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white">Elige tu Sistema de Asesoría</h3>
+                <p class="text-slate-400 text-sm sm:text-base leading-relaxed">Estructuras de entrenamiento combinadas con un control diario para asegurar tus metas de fuerza y estética.</p>
             </div>
 
             <!-- Main Business Modalities Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-20">
                 <!-- Program 1 -->
-                <div id="plan-online" class="bg-slate-900 rounded-3xl p-8 border border-slate-800 flex flex-col justify-between relative overflow-hidden group transition-all duration-300 hover:border-emerald-500/30">
+                <div id="plan-online" class="bg-slate-900 rounded-3xl p-5 sm:p-8 border border-slate-800 flex flex-col justify-between relative overflow-hidden group transition-all duration-300 hover:border-emerald-500/30 w-full">
                     <div class="absolute -top-16 -right-16 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all duration-300"></div>
-                    <div class="space-y-6">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-                            <i data-lucide="smartphone" class="w-6 h-6"></i>
+                    <div class="space-y-4 sm:space-y-6">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                            <i data-lucide="smartphone" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                         </div>
-                        <h4 class="text-2xl font-bold font-syne text-white">Coaching Online</h4>
-                        <p class="text-slate-400 text-sm leading-relaxed">
+                        <h4 class="text-xl sm:text-2xl font-bold font-syne text-white">Coaching Online</h4>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
                             Accede a tu plan personalizado desde nuestra app. Perfecto para personas que buscan flexibilidad horaria total y seguimiento diario vía chat.
                         </p>
-                        <ul class="space-y-3 text-sm text-slate-300">
-                            <li class="flex items-center space-x-3">
-                                <i data-lucide="check" class="text-emerald-400 w-4 h-4"></i>
+                        <ul class="space-y-2 sm:space-y-3 text-xs sm:text-sm text-slate-300">
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="check" class="text-emerald-400 w-4 h-4 mt-0.5 shrink-0"></i>
                                 <span>Vídeos demostrativos de cada ejercicio</span>
                             </li>
-                            <li class="flex items-center space-x-3">
-                                <i data-lucide="check" class="text-emerald-400 w-4 h-4"></i>
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="check" class="text-emerald-400 w-4 h-4 mt-0.5 shrink-0"></i>
                                 <span>Plan nutricional basado en macros</span>
                             </li>
-                            <li class="flex items-center space-x-3">
-                                <i data-lucide="check" class="text-emerald-400 w-4 h-4"></i>
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="check" class="text-emerald-400 w-4 h-4 mt-0.5 shrink-0"></i>
                                 <span>Contacto directo 1-a-1 semanal</span>
                             </li>
                         </ul>
                     </div>
-                    <div class="pt-8">
-                        <a href="#routine-explorer" onclick="selectExplorerModality('online')" class="block text-center w-full bg-slate-950 text-emerald-400 border border-slate-800 hover:border-emerald-500/50 hover:bg-emerald-500/10 py-3.5 rounded-xl font-bold transition-all">
+                    <div class="pt-6 sm:pt-8 mt-auto">
+                        <a href="#routine-explorer" onclick="selectExplorerModality('online')" class="block text-center w-full bg-slate-950 text-emerald-400 border border-slate-800 hover:border-emerald-500/50 hover:bg-emerald-500/10 py-3 sm:py-3.5 rounded-xl font-bold transition-all text-xs sm:text-sm">
                             Ver Ejemplo de Rutina
                         </a>
                     </div>
                 </div>
 
                 <!-- Program 2 (Most Popular / Premium Accent) -->
-                <div id="plan-personal" class="bg-slate-900 rounded-3xl p-8 border-2 border-emerald-500 flex flex-col justify-between relative overflow-hidden shadow-xl shadow-emerald-500/5 transition-all duration-300">
-                    <div class="absolute top-4 right-4 bg-emerald-500 text-slate-950 text-[10px] font-extrabold uppercase px-3 py-1 rounded-full tracking-wider animate-pulse">
+                <div id="plan-personal" class="bg-slate-900 rounded-3xl p-5 sm:p-8 border-2 border-emerald-500 flex flex-col justify-between relative overflow-hidden shadow-xl shadow-emerald-500/5 transition-all duration-300 w-full">
+                    <div class="absolute top-3 right-3 bg-emerald-500 text-slate-950 text-[9px] sm:text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider animate-pulse">
                         Elite 1-on-1
                     </div>
-                    <div class="space-y-6">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-bold">
-                            <i data-lucide="flame" class="w-6 h-6"></i>
+                    <div class="space-y-4 sm:space-y-6">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-bold shrink-0">
+                            <i data-lucide="flame" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                         </div>
-                        <h4 class="text-2xl font-bold font-syne text-white">VitalCore Personal</h4>
-                        <p class="text-slate-400 text-sm leading-relaxed">
+                        <h4 class="text-xl sm:text-2xl font-bold font-syne text-white">VitalCore Personal</h4>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
                             Sesiones presenciales individuales para maximizar la intensidad y la precisión mecánica. Ideal para maximizar ganancias y evitar lesiones.
                         </p>
-                        <ul class="space-y-3 text-sm text-slate-300">
-                            <li class="flex items-center space-x-3">
-                                <i data-lucide="check" class="text-emerald-400 w-4 h-4"></i>
+                        <ul class="space-y-2 sm:space-y-3 text-xs sm:text-sm text-slate-300">
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="check" class="text-emerald-400 w-4 h-4 mt-0.5 shrink-0"></i>
                                 <span>Corrección biomecánica en tiempo real</span>
                             </li>
-                            <li class="flex items-center space-x-3">
-                                <i data-lucide="check" class="text-emerald-400 w-4 h-4"></i>
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="check" class="text-emerald-400 w-4 h-4 mt-0.5 shrink-0"></i>
                                 <span>Técnicas de alta intensidad supervisadas</span>
                             </li>
-                            <li class="flex items-center space-x-3">
-                                <i data-lucide="check" class="text-emerald-400 w-4 h-4"></i>
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="check" class="text-emerald-400 w-4 h-4 mt-0.5 shrink-0"></i>
                                 <span>Plan de nutrición clínica avanzado</span>
                             </li>
                         </ul>
                     </div>
-                    <div class="pt-8">
-                        <a href="#routine-explorer" onclick="selectExplorerModality('personal')" class="block text-center w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-emerald-500/20">
+                    <div class="pt-6 sm:pt-8 mt-auto">
+                        <a href="#routine-explorer" onclick="selectExplorerModality('personal')" class="block text-center w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 py-3 sm:py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-emerald-500/20 text-xs sm:text-sm">
                             Ver Planificación de Cargas
                         </a>
                     </div>
                 </div>
 
                 <!-- Program 3 -->
-                <div id="plan-grupal" class="bg-slate-900 rounded-3xl p-8 border border-slate-800 flex flex-col justify-between relative overflow-hidden group transition-all duration-300 hover:border-emerald-500/30">
+                <div id="plan-grupal" class="bg-slate-900 rounded-3xl p-5 sm:p-8 border border-slate-800 flex flex-col justify-between relative overflow-hidden group transition-all duration-300 hover:border-emerald-500/30 w-full">
                     <div class="absolute -top-16 -right-16 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all duration-300"></div>
-                    <div class="space-y-6">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-                            <i data-lucide="users" class="w-6 h-6"></i>
+                    <div class="space-y-4 sm:space-y-6">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                            <i data-lucide="users" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                         </div>
-                        <h4 class="text-2xl font-bold font-syne text-white">Grupal de Alto Impacto</h4>
-                        <p class="text-slate-400 text-sm leading-relaxed">
+                        <h4 class="text-xl sm:text-2xl font-bold font-syne text-white">Grupal de Alto Impacto</h4>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
                             Entrena en grupos reducidos con una dinámica de alta energía. Conserva la precisión técnica pero bajo una atmósfera competitiva y motivante.
                         </p>
-                        <ul class="space-y-3 text-sm text-slate-300">
-                            <li class="flex items-center space-x-3">
-                                <i data-lucide="check" class="text-emerald-400 w-4 h-4"></i>
+                        <ul class="space-y-2 sm:space-y-3 text-xs sm:text-sm text-slate-300">
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="check" class="text-emerald-400 w-4 h-4 mt-0.5 shrink-0"></i>
                                 <span>Grupos limitados a un máximo de 5 personas</span>
                             </li>
-                            <li class="flex items-center space-x-3">
-                                <i data-lucide="check" class="text-emerald-400 w-4 h-4"></i>
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="check" class="text-emerald-400 w-4 h-4 mt-0.5 shrink-0"></i>
                                 <span>Análisis y evolución corporal mensual</span>
                             </li>
-                            <li class="flex items-center space-x-3">
-                                <i data-lucide="check" class="text-emerald-400 w-4 h-4"></i>
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="check" class="text-emerald-400 w-4 h-4 mt-0.5 shrink-0"></i>
                                 <span>Retos semanales y comunidad activa</span>
                             </li>
                         </ul>
                     </div>
-                    <div class="pt-8">
-                        <a href="#routine-explorer" onclick="selectExplorerModality('grupal')" class="block text-center w-full bg-slate-950 text-emerald-400 border border-slate-800 hover:border-emerald-500/50 hover:bg-emerald-500/10 py-3.5 rounded-xl font-bold transition-all">
+                    <div class="pt-6 sm:pt-8 mt-auto">
+                        <a href="#routine-explorer" onclick="selectExplorerModality('grupal')" class="block text-center w-full bg-slate-950 text-emerald-400 border border-slate-800 hover:border-emerald-500/50 hover:bg-emerald-500/10 py-3 sm:py-3.5 rounded-xl font-bold transition-all text-xs sm:text-sm">
                             Ver Dinámica de Grupo
                         </a>
                     </div>
@@ -553,122 +560,122 @@
         </div>
     </section>
 
-    <!-- NEW SECTION: INTERACTIVE ROUTINE EXPLORER (Frequencies 3, 4, 5 days & Modalities combined) -->
-    <section id="routine-explorer" class="py-20 bg-slate-900/30 border-t border-slate-900 relative">
+    <!-- INTERACTIVE ROUTINE EXPLORER -->
+    <section id="routine-explorer" class="py-16 sm:py-20 bg-slate-900/30 border-t border-slate-900 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-12 space-y-4">
-                <span class="text-xs uppercase font-bold text-emerald-400 tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full">Simulador de Programas</span>
-                <h3 class="font-syne text-3xl font-extrabold text-white">Explorador de Rutinas y Frecuencias</h3>
-                <p class="text-slate-400 text-sm">Combina tu modalidad favorita con la cantidad de días de musculación semanales que desees realizar. Observa exactamente cómo estructuraríamos tu semana de entrenamiento.</p>
+            <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-12 space-y-3 sm:space-y-4">
+                <span class="text-[10px] sm:text-xs uppercase font-bold text-emerald-400 tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full">Simulador de Programas</span>
+                <h3 class="font-syne text-2xl sm:text-3xl font-extrabold text-white">Explorador de Rutinas y Frecuencias</h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Combina tu modalidad favorita con la cantidad de días de musculación semanales que desees realizar. Observa exactamente cómo estructuraríamos tu semana de entrenamiento.</p>
             </div>
 
             <!-- Control Console Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
                 
                 <!-- Controls Column (Left) -->
-                <div class="lg:col-span-5 bg-slate-950 p-6 rounded-3xl border border-slate-800 space-y-8">
+                <div class="lg:col-span-5 bg-slate-950 p-5 sm:p-6 rounded-3xl border border-slate-800 space-y-6 sm:space-y-8">
                     <!-- Control 1: Modality Selector -->
                     <div class="space-y-3">
-                        <label class="block text-xs uppercase font-bold text-slate-400 tracking-wider">1. Elige la Modalidad de Asesoría</label>
+                        <label class="block text-[10px] sm:text-xs uppercase font-bold text-slate-400 tracking-wider">1. Elige la Modalidad de Asesoría</label>
                         <div class="grid grid-cols-1 gap-2">
-                            <button id="exp-btn-online" onclick="selectExplorerModality('online')" class="flex items-center justify-between p-4 bg-emerald-500 text-slate-950 font-bold rounded-xl transition-all shadow-md">
+                            <button id="exp-btn-online" onclick="selectExplorerModality('online')" class="flex items-center justify-between p-3.5 sm:p-4 bg-emerald-500 text-slate-950 font-bold rounded-xl transition-all shadow-md text-xs sm:text-sm text-left">
                                 <span class="flex items-center gap-3">
-                                    <i data-lucide="smartphone" class="w-5 h-5"></i> Coaching Online (Digital App)
+                                    <i data-lucide="smartphone" class="w-4 h-4 sm:w-5 sm:h-5 shrink-0"></i> Coaching Online (Digital App)
                                 </span>
-                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                <i data-lucide="chevron-right" class="w-4 h-4 shrink-0"></i>
                             </button>
-                            <button id="exp-btn-personal" onclick="selectExplorerModality('personal')" class="flex items-center justify-between p-4 bg-slate-900 text-slate-300 hover:text-white rounded-xl border border-slate-800 hover:border-slate-700 transition-all">
+                            <button id="exp-btn-personal" onclick="selectExplorerModality('personal')" class="flex items-center justify-between p-3.5 sm:p-4 bg-slate-900 text-slate-300 hover:text-white rounded-xl border border-slate-800 hover:border-slate-700 transition-all text-xs sm:text-sm text-left">
                                 <span class="flex items-center gap-3">
-                                    <i data-lucide="flame" class="w-5 h-5"></i> VitalCore Personal (Presencial)
+                                    <i data-lucide="flame" class="w-4 h-4 sm:w-5 sm:h-5 shrink-0"></i> VitalCore Personal (Presencial)
                                 </span>
-                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                <i data-lucide="chevron-right" class="w-4 h-4 shrink-0"></i>
                             </button>
-                            <button id="exp-btn-grupal" onclick="selectExplorerModality('grupal')" class="flex items-center justify-between p-4 bg-slate-900 text-slate-300 hover:text-white rounded-xl border border-slate-800 hover:border-slate-700 transition-all">
+                            <button id="exp-btn-grupal" onclick="selectExplorerModality('grupal')" class="flex items-center justify-between p-3.5 sm:p-4 bg-slate-900 text-slate-300 hover:text-white rounded-xl border border-slate-800 hover:border-slate-700 transition-all text-xs sm:text-sm text-left">
                                 <span class="flex items-center gap-3">
-                                    <i data-lucide="users" class="w-5 h-5"></i> Grupal de Alto Impacto
+                                    <i data-lucide="users" class="w-4 h-4 sm:w-5 sm:h-5 shrink-0"></i> Grupal de Alto Impacto
                                 </span>
-                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                <i data-lucide="chevron-right" class="w-4 h-4 shrink-0"></i>
                             </button>
                         </div>
                     </div>
 
                     <!-- Control 2: Frequency Selector -->
                     <div class="space-y-3">
-                        <label class="block text-xs uppercase font-bold text-slate-400 tracking-wider">2. Elige la Frecuencia Semanal de Musculación</label>
+                        <label class="block text-[10px] sm:text-xs uppercase font-bold text-slate-400 tracking-wider">2. Elige la Frecuencia Semanal</label>
                         <div class="grid grid-cols-3 gap-2">
-                            <button id="freq-btn-3" onclick="selectExplorerFrequency(3)" class="py-3 bg-emerald-500 text-slate-950 font-extrabold rounded-xl transition-all">
+                            <button id="freq-btn-3" onclick="selectExplorerFrequency(3)" class="py-3 bg-emerald-500 text-slate-950 font-extrabold rounded-xl transition-all text-xs sm:text-sm">
                                 3 Días
                             </button>
-                            <button id="freq-btn-4" onclick="selectExplorerFrequency(4)" class="py-3 bg-slate-900 text-slate-300 hover:text-white rounded-xl border border-slate-800 hover:border-slate-700 transition-all">
+                            <button id="freq-btn-4" onclick="selectExplorerFrequency(4)" class="py-3 bg-slate-900 text-slate-300 hover:text-white rounded-xl border border-slate-800 hover:border-slate-700 transition-all text-xs sm:text-sm">
                                 4 Días
                             </button>
-                            <button id="freq-btn-5" onclick="selectExplorerFrequency(5)" class="py-3 bg-slate-900 text-slate-300 hover:text-white rounded-xl border border-slate-800 hover:border-slate-700 transition-all">
+                            <button id="freq-btn-5" onclick="selectExplorerFrequency(5)" class="py-3 bg-slate-900 text-slate-300 hover:text-white rounded-xl border border-slate-800 hover:border-slate-700 transition-all text-xs sm:text-sm">
                                 5 Días
                             </button>
                         </div>
-                        <p class="text-[11px] text-slate-500 italic mt-2" id="freq-description-hint">
+                        <p class="text-[10px] sm:text-[11px] text-slate-500 italic mt-2 leading-relaxed" id="freq-description-hint">
                             *Estructura de Cuerpo Completo (Fullbody): Ideal para optimizar tiempos y recuperación profunda.
                         </p>
                     </div>
 
                     <!-- Modality Summary Feature -->
                     <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
-                        <div class="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase">
-                            <i data-lucide="info" class="w-4 h-4"></i>
+                        <div class="flex items-center gap-2 text-emerald-400 font-bold text-[10px] sm:text-xs uppercase">
+                            <i data-lucide="info" class="w-4 h-4 shrink-0"></i>
                             <span>Foco del Programa Actual</span>
                         </div>
-                        <p id="explorer-program-focus" class="text-xs text-slate-400 leading-relaxed">
+                        <p id="explorer-program-focus" class="text-[11px] sm:text-xs text-slate-400 leading-relaxed">
                             Rutinas cargadas directamente a tu aplicación con vídeos técnicos, control de peso por serie, y chat de soporte integrado directo.
                         </p>
                     </div>
                 </div>
 
                 <!-- Live Simulator Mockup (Right) -->
-                <div class="lg:col-span-7">
-                    <div class="relative bg-gradient-to-tr from-slate-900 to-slate-900/50 p-1 rounded-3xl border border-slate-800 shadow-2xl">
+                <div class="lg:col-span-7 w-full">
+                    <div class="relative bg-gradient-to-tr from-slate-900 to-slate-900/50 p-0.5 sm:p-1 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden">
                         <!-- Simulated Device Layout Header -->
-                        <div class="bg-slate-950 px-6 py-4 rounded-t-[22px] border-b border-slate-900 flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <span class="w-3 h-3 bg-red-500 rounded-full"></span>
-                                <span class="w-3 h-3 bg-amber-500 rounded-full"></span>
-                                <span class="w-3 h-3 bg-emerald-500 rounded-full"></span>
+                        <div class="bg-slate-950 px-4 sm:px-6 py-3.5 sm:py-4 rounded-t-[22px] border-b border-slate-900 flex items-center justify-between gap-3">
+                            <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+                                <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-red-500 rounded-full"></span>
+                                <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-amber-500 rounded-full"></span>
+                                <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-emerald-500 rounded-full"></span>
                             </div>
-                            <span id="simulator-header-tag" class="text-[10px] font-mono tracking-widest uppercase text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full font-bold">
+                            <span id="simulator-header-tag" class="text-[8px] sm:text-[10px] font-mono tracking-wider sm:tracking-widest uppercase text-emerald-400 bg-emerald-500/10 px-2 sm:px-3 py-1 rounded-full font-bold truncate">
                                 VITALCORE APP // ONLINE 3 DÍAS
                             </span>
                         </div>
 
                         <!-- Main Screen Simulator Area -->
-                        <div class="bg-slate-950/80 rounded-b-[22px] p-6 sm:p-8 space-y-6">
+                        <div class="bg-slate-950/85 rounded-b-[22px] p-4 sm:p-6 lg:p-8 space-y-5 sm:space-y-6">
                             
                             <!-- App/Sheet Header Info -->
-                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-900 pb-4">
-                                <div>
-                                    <h4 id="sim-routine-title" class="font-syne text-xl font-bold text-white">Sesión Full Body A</h4>
-                                    <p id="sim-routine-subtitle" class="text-xs text-slate-500 mt-0.5">Enfoque: Fuerza Base y Estabilización Central</p>
+                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 border-b border-slate-900 pb-4">
+                                <div class="min-w-0">
+                                    <h4 id="sim-routine-title" class="font-syne text-lg sm:text-xl font-bold text-white truncate">Sesión Full Body A</h4>
+                                    <p id="sim-routine-subtitle" class="text-[10px] sm:text-xs text-slate-500 mt-0.5 leading-tight">Enfoque: Fuerza Base y Estabilización Central</p>
                                 </div>
-                                <div class="text-right">
-                                    <span id="sim-routine-frequency" class="text-xs font-bold text-emerald-400">Frecuencia: 3x Semana</span>
-                                    <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-0.5">Musculación / Hipertrofia</p>
+                                <div class="text-left sm:text-right shrink-0 mt-1 sm:mt-0">
+                                    <span id="sim-routine-frequency" class="text-[11px] sm:text-xs font-bold text-emerald-400">Frecuencia: 3x Semana</span>
+                                    <p class="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">Musculación / Hipertrofia</p>
                                 </div>
                             </div>
 
                             <!-- Workout Exercises List Inside Simulator -->
-                            <div class="space-y-4" id="sim-exercises-list">
+                            <div class="space-y-3 sm:space-y-4" id="sim-exercises-list">
                                 <!-- Dynamic JS render will generate gorgeous exercise items here -->
                             </div>
 
                             <!-- Interactive Interactive Footer Info depending on Modality -->
-                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3" id="sim-modality-specific-card">
+                            <div class="bg-slate-900 p-3.5 sm:p-4 rounded-xl border border-slate-800 space-y-3" id="sim-modality-specific-card">
                                 <!-- Dynamic JS Modality Specific Advice -->
                             </div>
 
                             <!-- Direct Action Button to Connect -->
                             <div class="pt-4 flex flex-col sm:flex-row gap-4 items-center justify-between border-t border-slate-900">
-                                <div class="text-xs text-slate-500">
+                                <div class="text-[10px] sm:text-xs text-slate-500 text-center sm:text-left">
                                     *Esta es una aproximación técnica de tu diseño de cargas.
                                 </div>
-                                <a href="#contact" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold px-6 py-3 rounded-xl transition-all shadow-md shadow-emerald-500/10">
+                                <a href="https://wa.me/5491165846235?text=Hola!%20Me%20gustar%C3%ADa%20más%20información%20sobre%20los%20planes%20de%20entrenamiento." target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs sm:text-sm font-extrabold px-5 py-3 rounded-xl transition-all shadow-md shadow-emerald-500/10 w-full sm:w-auto text-center">
                                     Quiero este programa personalizado
                                 </a>
                             </div>
@@ -682,71 +689,71 @@
     </section>
 
     <!-- INTERACTIVE TOOLS SECTION (CALCULATOR + WORKOUTS) -->
-    <section id="calculator" class="py-24 bg-slate-900/50 border-y border-slate-900 relative">
+    <section id="calculator" class="py-16 sm:py-24 bg-slate-900/50 border-y border-slate-900 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <h2 class="text-xs uppercase font-semibold text-emerald-400 tracking-widest">Sección Interactiva</h2>
-                <h3 class="font-syne text-3xl sm:text-4xl lg:text-5xl font-extrabold">Herramientas de Diagnóstico</h3>
-                <p class="text-slate-400">Prueba estas calculadoras instantáneas basadas en ciencia nutricional y deportiva para comenzar hoy mismo.</p>
+            <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-16 space-y-3 sm:space-y-4">
+                <h2 class="text-[10px] sm:text-xs uppercase font-semibold text-emerald-400 tracking-widest">Sección Interactiva</h2>
+                <h3 class="font-syne text-2xl sm:text-4xl lg:text-5xl font-extrabold">Herramientas de Diagnóstico</h3>
+                <p class="text-slate-400 text-sm sm:text-base leading-relaxed">Prueba estas calculadoras instantáneas basadas en ciencia nutricional y deportiva para comenzar hoy mismo.</p>
             </div>
 
             <!-- Tab Buttons for Calculator and Routines -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-                <button onclick="switchTab('tab-macro')" id="btn-tab-macro" class="w-full sm:w-auto px-6 py-3 rounded-full font-bold text-sm bg-emerald-500 text-slate-950 shadow-md transition-all">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-12 max-w-lg mx-auto sm:max-w-none">
+                <button onclick="switchTab('tab-macro')" id="btn-tab-macro" class="w-full sm:w-auto px-5 py-3 rounded-full font-bold text-xs sm:text-sm bg-emerald-500 text-slate-950 shadow-md transition-all h-12 flex items-center justify-center">
                     Calculadora de Macronutrientes
                 </button>
-                <button onclick="switchTab('tab-workout')" id="btn-tab-workout" class="w-full sm:w-auto px-6 py-3 rounded-full font-bold text-sm bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 transition-all">
+                <button onclick="switchTab('tab-workout')" id="btn-tab-workout" class="w-full sm:w-auto px-5 py-3 rounded-full font-bold text-xs sm:text-sm bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 transition-all h-12 flex items-center justify-center">
                     Generador de Rutinas Core & Timer
                 </button>
             </div>
 
             <!-- TAB 1: CALORIE & MACRO CALCULATOR -->
             <div id="tab-macro" class="block transition-all duration-300">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-slate-950 rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-xl relative">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 bg-slate-950 rounded-3xl p-5 sm:p-10 border border-slate-800 shadow-xl relative w-full">
                     <!-- Form Side (Left) -->
-                    <div class="lg:col-span-5 space-y-6">
-                        <h4 class="font-syne text-2xl font-bold text-white flex items-center space-x-2">
-                            <i data-lucide="calculator" class="text-emerald-400"></i>
+                    <div class="lg:col-span-5 space-y-5 sm:space-y-6">
+                        <h4 class="font-syne text-xl sm:text-2xl font-bold text-white flex items-center space-x-2">
+                            <i data-lucide="calculator" class="text-emerald-400 shrink-0"></i>
                             <span>Tus Datos Físicos</span>
                         </h4>
 
                         <div class="grid grid-cols-2 gap-4">
                             <!-- Sexo -->
                             <div class="col-span-2">
-                                <label class="block text-xs uppercase font-semibold text-slate-400 mb-2">Género</label>
+                                <label class="block text-[10px] sm:text-xs uppercase font-semibold text-slate-400 mb-2">Género</label>
                                 <div class="grid grid-cols-2 gap-2">
-                                    <label class="flex items-center justify-center p-3 rounded-xl border border-slate-800 bg-slate-900 cursor-pointer text-sm font-medium hover:border-emerald-500/50 transition-colors">
-                                        <input type="radio" name="gender" value="male" checked class="mr-2 accent-emerald-400"> Masculino
+                                    <label class="flex items-center justify-center p-3 rounded-xl border border-slate-800 bg-slate-900 cursor-pointer text-xs sm:text-sm font-medium hover:border-emerald-500/50 transition-colors h-11">
+                                        <input type="radio" name="gender" value="male" checked class="mr-2 accent-emerald-400 w-4 h-4"> Masculino
                                     </label>
-                                    <label class="flex items-center justify-center p-3 rounded-xl border border-slate-800 bg-slate-900 cursor-pointer text-sm font-medium hover:border-emerald-500/50 transition-colors">
-                                        <input type="radio" name="gender" value="female" class="mr-2 accent-emerald-400"> Femenino
+                                    <label class="flex items-center justify-center p-3 rounded-xl border border-slate-800 bg-slate-900 cursor-pointer text-xs sm:text-sm font-medium hover:border-emerald-500/50 transition-colors h-11">
+                                        <input type="radio" name="gender" value="female" class="mr-2 accent-emerald-400 w-4 h-4"> Femenino
                                     </label>
                                 </div>
                             </div>
 
                             <!-- Peso -->
                             <div>
-                                <label class="block text-xs uppercase font-semibold text-slate-400 mb-2">Peso (kg)</label>
-                                <input type="number" id="weight" value="75" min="30" max="250" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40">
+                                <label class="block text-[10px] sm:text-xs uppercase font-semibold text-slate-400 mb-2">Peso (kg)</label>
+                                <input type="number" id="weight" value="75" min="30" max="250" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-base h-12">
                             </div>
 
                             <!-- Altura -->
                             <div>
-                                <label class="block text-xs uppercase font-semibold text-slate-400 mb-2">Altura (cm)</label>
-                                <input type="number" id="height" value="175" min="100" max="230" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40">
+                                <label class="block text-[10px] sm:text-xs uppercase font-semibold text-slate-400 mb-2">Altura (cm)</label>
+                                <input type="number" id="height" value="175" min="100" max="230" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-base h-12">
                             </div>
 
                             <!-- Edad -->
                             <div class="col-span-2">
-                                <label class="block text-xs uppercase font-semibold text-slate-400 mb-2">Edad (años)</label>
-                                <input type="number" id="age" value="28" min="15" max="85" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40">
+                                <label class="block text-[10px] sm:text-xs uppercase font-semibold text-slate-400 mb-2">Edad (años)</label>
+                                <input type="number" id="age" value="28" min="15" max="85" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-base h-12">
                             </div>
 
                             <!-- Nivel de Actividad -->
                             <div class="col-span-2">
-                                <label class="block text-xs uppercase font-semibold text-slate-400 mb-2">Actividad Semanal</label>
-                                <select id="activity" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40">
-                                    <option value="1.2">Sedentario (Trabajo de oficina / Poco ejercicio)</option>
+                                <label class="block text-[10px] sm:text-xs uppercase font-semibold text-slate-400 mb-2">Actividad Semanal</label>
+                                <select id="activity" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-base h-12">
+                                    <option value="1.2">Sedentario (Oficina / Poco ejercicio)</option>
                                     <option value="1.375">Ligero (Ejercicio 1-3 días/semana)</option>
                                     <option value="1.55" selected>Moderado (Ejercicio 3-5 días/semana)</option>
                                     <option value="1.725">Intenso (Entrenamientos 6-7 días/semana)</option>
@@ -755,8 +762,8 @@
 
                             <!-- Objetivo -->
                             <div class="col-span-2">
-                                <label class="block text-xs uppercase font-semibold text-slate-400 mb-2">Objetivo Fitness</label>
-                                <select id="goal" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40">
+                                <label class="block text-[10px] sm:text-xs uppercase font-semibold text-slate-400 mb-2">Objetivo Fitness</label>
+                                <select id="goal" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-base h-12">
                                     <option value="lose">Quema de Grasa / Definición (-15%)</option>
                                     <option value="maintain" selected>Mantenimiento Metabólico (TDEE)</option>
                                     <option value="gain">Aumento de Fuerza / Masa Muscular (+15%)</option>
@@ -764,91 +771,91 @@
                             </div>
                         </div>
 
-                        <button onclick="calculateMacros()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-4 rounded-xl shadow-lg shadow-emerald-500/10 transition-transform duration-300 hover:scale-[1.01]">
+                        <button onclick="calculateMacros()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3.5 sm:py-4 rounded-xl shadow-lg shadow-emerald-500/10 transition-transform duration-300 hover:scale-[1.01] text-sm sm:text-base h-12 flex items-center justify-center">
                             Calcular Requerimientos
                         </button>
                     </div>
 
                     <!-- Output Side (Right) -->
-                    <div class="lg:col-span-7 bg-slate-900 rounded-2xl p-6 sm:p-8 flex flex-col justify-between border border-slate-800/60 relative overflow-hidden">
-                        <div class="space-y-6 z-10">
-                            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                                <h4 class="font-syne text-lg font-bold text-white uppercase tracking-wider">Tu Diagnóstico Metabólico</h4>
-                                <span class="text-xs text-slate-500 italic">Mifflin-St Jeor</span>
+                    <div class="lg:col-span-7 bg-slate-900 rounded-2xl p-4 sm:p-8 flex flex-col justify-between border border-slate-800/60 relative overflow-hidden w-full">
+                        <div class="space-y-5 sm:space-y-6 z-10">
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-3">
+                                <h4 class="font-syne text-sm sm:text-lg font-bold text-white uppercase tracking-wider">Tu Diagnóstico Metabólico</h4>
+                                <span class="text-[10px] text-slate-500 italic shrink-0">Mifflin-St Jeor</span>
                             </div>
 
                             <!-- Diagnostic Cards (IMC & Water) -->
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800 text-center">
-                                    <p class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Índice Masa Corporal (IMC)</p>
-                                    <p class="font-syne text-2xl font-extrabold text-white mt-1" id="result-bmi">24.5</p>
-                                    <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest mt-1 inline-block" id="result-bmi-status">Normal</span>
+                            <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                                <div class="bg-slate-950/80 p-3 sm:p-4 rounded-xl border border-slate-800 text-center">
+                                    <p class="text-[9px] sm:text-[10px] uppercase font-bold text-slate-500 tracking-wider">Masa Corporal (IMC)</p>
+                                    <p class="font-syne text-xl sm:text-2xl font-extrabold text-white mt-1" id="result-bmi">24.5</p>
+                                    <span class="text-[9px] sm:text-[10px] text-emerald-400 font-bold uppercase tracking-widest mt-1 inline-block" id="result-bmi-status">Normal</span>
                                 </div>
-                                <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800 text-center">
-                                    <p class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Agua Mínima Diaria</p>
-                                    <p class="font-syne text-2xl font-extrabold text-white mt-1" id="result-water">2.6 L</p>
-                                    <span class="text-[10px] text-blue-400 font-bold uppercase tracking-widest mt-1 inline-block">Sugerido</span>
+                                <div class="bg-slate-950/80 p-3 sm:p-4 rounded-xl border border-slate-800 text-center">
+                                    <p class="text-[9px] sm:text-[10px] uppercase font-bold text-slate-500 tracking-wider">Agua Mínima Diaria</p>
+                                    <p class="font-syne text-xl sm:text-2xl font-extrabold text-white mt-1" id="result-water">2.6 L</p>
+                                    <span class="text-[9px] sm:text-[10px] text-blue-400 font-bold uppercase tracking-widest mt-1 inline-block">Sugerido</span>
                                 </div>
                             </div>
 
                             <!-- Calories big text -->
-                            <div class="text-center py-4 bg-slate-950/50 rounded-2xl border border-slate-800/40">
-                                <p class="text-xs uppercase font-semibold text-slate-500 tracking-widest mb-1">Tu Consumo Diario Objetivo</p>
-                                <div class="font-syne text-5xl sm:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500" id="result-calories">
+                            <div class="text-center py-4 sm:py-6 bg-slate-950/50 rounded-2xl border border-slate-800/40">
+                                <p class="text-[10px] sm:text-xs uppercase font-semibold text-slate-500 tracking-widest mb-1">Tu Consumo Diario Objetivo</p>
+                                <div class="font-syne text-4xl sm:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500" id="result-calories">
                                     2,450
                                 </div>
-                                <span class="text-xs text-emerald-400 font-bold uppercase tracking-widest mt-2 block">Kilocalorías al día</span>
+                                <span class="text-[10px] sm:text-xs text-emerald-400 font-bold uppercase tracking-widest mt-1 sm:mt-2 block">Kilocalorías al día</span>
                             </div>
 
                             <!-- Progress bars and values -->
-                            <div class="space-y-5">
+                            <div class="space-y-4 sm:space-y-5">
                                 <!-- Proteínas -->
-                                <div class="space-y-2">
-                                    <div class="flex justify-between text-sm">
+                                <div class="space-y-1.5">
+                                    <div class="flex justify-between text-xs sm:text-sm">
                                         <span class="font-bold text-white flex items-center space-x-1.5">
-                                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0"></span>
                                             <span>Proteínas</span>
                                         </span>
-                                        <span class="text-slate-400" id="result-protein">150g <span class="text-xs text-slate-600">• 600 kcal</span></span>
+                                        <span class="text-slate-400" id="result-protein">150g <span class="text-[10px] sm:text-xs text-slate-600">• 600 kcal</span></span>
                                     </div>
-                                    <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden">
+                                    <div class="w-full bg-slate-950 h-2.5 sm:h-3 rounded-full overflow-hidden">
                                         <div class="bg-emerald-400 h-full rounded-full transition-all duration-500" id="bar-protein" style="width: 25%;"></div>
                                     </div>
                                 </div>
 
                                 <!-- Carbohidratos -->
-                                <div class="space-y-2">
-                                    <div class="flex justify-between text-sm">
+                                <div class="space-y-1.5">
+                                    <div class="flex justify-between text-xs sm:text-sm">
                                         <span class="font-bold text-white flex items-center space-x-1.5">
-                                            <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span>
+                                            <span class="w-2.5 h-2.5 rounded-full bg-blue-400 shrink-0"></span>
                                             <span>Carbohidratos</span>
                                         </span>
-                                        <span class="text-slate-400" id="result-carbs">275g <span class="text-xs text-slate-600">• 1,100 kcal</span></span>
+                                        <span class="text-slate-400" id="result-carbs">275g <span class="text-[10px] sm:text-xs text-slate-600">• 1,100 kcal</span></span>
                                     </div>
-                                    <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden">
+                                    <div class="w-full bg-slate-950 h-2.5 sm:h-3 rounded-full overflow-hidden">
                                         <div class="bg-blue-400 h-full rounded-full transition-all duration-500" id="bar-carbs" style="width: 45%;"></div>
                                     </div>
                                 </div>
 
                                 <!-- Grasas -->
-                                <div class="space-y-2">
-                                    <div class="flex justify-between text-sm">
+                                <div class="space-y-1.5">
+                                    <div class="flex justify-between text-xs sm:text-sm">
                                         <span class="font-bold text-white flex items-center space-x-1.5">
-                                            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                                            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0"></span>
                                             <span>Grasas Saludables</span>
                                         </span>
-                                        <span class="text-slate-400" id="result-fats">83g <span class="text-xs text-slate-600">• 747 kcal</span></span>
+                                        <span class="text-slate-400" id="result-fats">83g <span class="text-[10px] sm:text-xs text-slate-600">• 747 kcal</span></span>
                                     </div>
-                                    <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden">
+                                    <div class="w-full bg-slate-950 h-2.5 sm:h-3 rounded-full overflow-hidden">
                                         <div class="bg-amber-400 h-full rounded-full transition-all duration-500" id="bar-fats" style="width: 30%;"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="pt-6 border-t border-slate-800 mt-6 flex items-center justify-between text-xs text-slate-500">
+                        <div class="pt-4 sm:pt-6 border-t border-slate-800 mt-6 flex flex-col sm:flex-row items-center justify-between text-[10px] sm:text-xs text-slate-500 gap-2">
                             <span>*Basado en la tasa metabólica en reposo (BMR).</span>
-                            <span class="text-emerald-400 underline cursor-pointer hover:text-emerald-300" onclick="openEquationModal()">Ver ecuación científica</span>
+                            <span class="text-emerald-400 underline cursor-pointer hover:text-emerald-300 py-1" onclick="openEquationModal()">Ver ecuación científica</span>
                         </div>
                     </div>
                 </div>
@@ -856,19 +863,19 @@
 
             <!-- TAB 2: ACTIVE WORKOUT GENERATOR -->
             <div id="tab-workout" class="hidden transition-all duration-300">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-slate-950 rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-xl relative">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 bg-slate-950 rounded-3xl p-5 sm:p-10 border border-slate-800 shadow-xl relative w-full">
                     <!-- Setup column (Left) -->
-                    <div class="lg:col-span-5 space-y-6">
-                        <h4 class="font-syne text-2xl font-bold text-white flex items-center space-x-2">
-                            <i data-lucide="dumbbell" class="text-emerald-400"></i>
+                    <div class="lg:col-span-5 space-y-5 sm:space-y-6">
+                        <h4 class="font-syne text-xl sm:text-2xl font-bold text-white flex items-center space-x-2">
+                            <i data-lucide="dumbbell" class="text-emerald-400 shrink-0"></i>
                             <span>Ajustar Parámetros</span>
                         </h4>
 
                         <div class="space-y-4">
                             <!-- Nivel -->
                             <div>
-                                <label class="block text-xs uppercase font-semibold text-slate-400 mb-2">Tu Nivel Físico</label>
-                                <select id="workout-level" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40">
+                                <label class="block text-[10px] sm:text-xs uppercase font-semibold text-slate-400 mb-2">Tu Nivel Físico</label>
+                                <select id="workout-level" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-base h-12">
                                     <option value="beginner">Principiante (Técnica básica)</option>
                                     <option value="intermediate" selected>Intermedio (Fuerza estable)</option>
                                     <option value="advanced">Avanzado (Intensidad óptima)</option>
@@ -877,8 +884,8 @@
 
                             <!-- Foco del Core -->
                             <div>
-                                <label class="block text-xs uppercase font-semibold text-slate-400 mb-2">Área a Priorizar</label>
-                                <select id="workout-target" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40">
+                                <label class="block text-[10px] sm:text-xs uppercase font-semibold text-slate-400 mb-2">Área a Priorizar</label>
+                                <select id="workout-target" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-3.5 text-white font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-base h-12">
                                     <option value="abs-core" selected>Core Integral & Transverso</option>
                                     <option value="obliques">Oblicuos & Rotadores</option>
                                     <option value="lower-back">Estabilidad Lumbar & Cadena Post</option>
@@ -886,24 +893,24 @@
                             </div>
                         </div>
 
-                        <button onclick="generateWorkout()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-4 rounded-xl shadow-lg shadow-emerald-500/10 transition-transform duration-300 hover:scale-[1.01]">
+                        <button onclick="generateWorkout()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3.5 sm:py-4 rounded-xl shadow-lg shadow-emerald-500/10 transition-transform duration-300 hover:scale-[1.01] text-sm sm:text-base h-12 flex items-center justify-center">
                             Generar Workout Ahora
                         </button>
 
                         <!-- Stopwatch / Timer Module inside left panel -->
-                        <div class="bg-slate-900 rounded-2xl p-6 border border-slate-800 space-y-4">
-                            <div class="flex items-center justify-between">
-                                <h5 class="text-xs uppercase font-bold tracking-wider text-slate-400 flex items-center gap-1.5">
-                                    <i data-lucide="timer" class="w-4 h-4 text-emerald-400"></i>
+                        <div class="bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-800 space-y-4">
+                            <div class="flex items-center justify-between gap-3">
+                                <h5 class="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-slate-400 flex items-center gap-1.5">
+                                    <i data-lucide="timer" class="w-4 h-4 text-emerald-400 shrink-0"></i>
                                     <span>Cronómetro VitalCore</span>
                                 </h5>
-                                <span id="timer-display" class="font-mono text-xl text-emerald-400 font-bold">00:00</span>
+                                <span id="timer-display" class="font-mono text-lg sm:text-xl text-emerald-400 font-bold shrink-0">00:00</span>
                             </div>
                             <div class="grid grid-cols-2 gap-2">
-                                <button id="timer-start-btn" onclick="toggleWorkoutTimer()" class="bg-slate-950 border border-slate-800 hover:border-emerald-500 text-slate-100 font-bold py-2 px-3 rounded-lg text-xs transition-colors">
+                                <button id="timer-start-btn" onclick="toggleWorkoutTimer()" class="bg-slate-950 border border-slate-800 hover:border-emerald-500 text-slate-100 font-bold py-2 px-3 rounded-lg text-xs transition-colors h-9">
                                     Iniciar
                                 </button>
-                                <button onclick="resetWorkoutTimer()" class="bg-slate-950 border border-slate-800 hover:border-red-500/50 text-slate-400 hover:text-red-400 py-2 px-3 rounded-lg text-xs transition-colors">
+                                <button onclick="resetWorkoutTimer()" class="bg-slate-950 border border-slate-800 hover:border-red-500/50 text-slate-400 hover:text-red-400 py-2 px-3 rounded-lg text-xs transition-colors h-9">
                                     Reiniciar
                                 </button>
                             </div>
@@ -916,22 +923,22 @@
                     </div>
 
                     <!-- Output Exercises Side (Right) -->
-                    <div class="lg:col-span-7 bg-slate-900 rounded-2xl p-6 sm:p-8 flex flex-col justify-between border border-slate-800/60 relative overflow-hidden">
-                        <div class="space-y-6">
-                            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                                <h4 class="font-syne text-lg font-bold text-white uppercase tracking-wider">Tu Rutina Sugerida</h4>
-                                <span class="text-xs bg-emerald-500/15 text-emerald-400 px-2.5 py-1 rounded-full font-medium" id="routine-tag">Día de Core</span>
+                    <div class="lg:col-span-7 bg-slate-900 rounded-2xl p-4 sm:p-8 flex flex-col justify-between border border-slate-800/60 relative overflow-hidden w-full">
+                        <div class="space-y-5 sm:space-y-6">
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-3">
+                                <h4 class="font-syne text-sm sm:text-lg font-bold text-white uppercase tracking-wider truncate">Tu Rutina Sugerida</h4>
+                                <span class="text-[10px] sm:text-xs bg-emerald-500/15 text-emerald-400 px-2.5 py-1 rounded-full font-medium shrink-0" id="routine-tag">Día de Core</span>
                             </div>
 
                             <!-- Dynamic Workout Items Container -->
-                            <div class="space-y-4" id="workout-list">
+                            <div class="space-y-3 sm:space-y-4" id="workout-list">
                                 <!-- Generated elements go here dynamically via JS -->
                             </div>
                         </div>
 
-                        <div class="pt-6 border-t border-slate-800 mt-6 flex items-center justify-between text-xs text-slate-500">
-                            <span>*Realiza calentamiento de movilidad articular previo.</span>
-                            <span class="text-emerald-400">VitalCore System • 2026</span>
+                        <div class="pt-4 sm:pt-6 border-t border-slate-800 mt-6 flex items-center justify-between text-[10px] sm:text-xs text-slate-500">
+                            <span>*Realiza calentamiento previo.</span>
+                            <span class="text-emerald-400 font-medium">VitalCore System • 2026</span>
                         </div>
                     </div>
                 </div>
@@ -941,74 +948,80 @@
     </section>
 
     <!-- TESTIMONIALS SECTION -->
-    <section class="py-24">
+    <section class="py-16 sm:py-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <h2 class="text-xs uppercase font-semibold text-emerald-400 tracking-widest">Testimonios</h2>
-                <h3 class="font-syne text-3xl sm:text-4xl lg:text-5xl font-extrabold">Historias de Cambio Real</h3>
-                <p class="text-slate-400">Ellos ya dieron el paso hacia una vida más fuerte y libre de dolor. Conoce sus testimonios reales.</p>
+            <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-16 space-y-3 sm:space-y-4">
+                <h2 class="text-[10px] sm:text-xs uppercase font-semibold text-emerald-400 tracking-widest">Testimonios</h2>
+                <h3 class="font-syne text-2xl sm:text-4xl lg:text-5xl font-extrabold">Historias de Cambio Real</h3>
+                <p class="text-slate-400 text-sm sm:text-base leading-relaxed">Ellos ya dieron el paso hacia una vida más fuerte y libre de dolor. Conoce sus testimonios reales.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 <!-- Testimonial 1 -->
-                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 space-y-6 relative">
-                    <div class="flex items-center space-x-1 text-amber-400">
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                <div class="bg-slate-900 p-5 sm:p-8 rounded-3xl border border-slate-800 space-y-4 sm:space-y-6 relative flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-1 text-amber-400">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                        </div>
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                            "Tenía dolores lumbares crónicos por trabajar sentado todo el día. Con el enfoque especializado de VitalCore logré erradicar el dolor por completo y además logré marcar mi abdomen por primera vez a mis 35 años."
+                        </p>
                     </div>
-                    <p class="text-slate-300 text-sm leading-relaxed">
-                        "Tenía dolores lumbares crónicos por trabajar sentado todo el día. Con el enfoque especializado de VitalCore logré erradicar el dolor por completo y además logré marcar mi abdomen por primera vez a mis 35 años."
-                    </p>
-                    <div class="flex items-center space-x-3 pt-4 border-t border-slate-800">
-                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold text-emerald-400">MR</div>
-                        <div>
-                            <h4 class="text-sm font-bold text-white">Mateo Rodríguez</h4>
-                            <p class="text-xs text-slate-500">Arquitecto • Coaching Online</p>
+                    <div class="flex items-center space-x-3 pt-4 border-t border-slate-800 mt-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold text-emerald-400 shrink-0">MR</div>
+                        <div class="min-w-0">
+                            <h4 class="text-xs sm:text-sm font-bold text-white truncate">Mateo Rodríguez</h4>
+                            <p class="text-[10px] sm:text-xs text-slate-500 truncate">Arquitecto • Coaching Online</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Testimonial 2 -->
-                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 space-y-6 relative">
-                    <div class="flex items-center space-x-1 text-amber-400">
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                <div class="bg-slate-900 p-5 sm:p-8 rounded-3xl border border-slate-800 space-y-4 sm:space-y-6 relative flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-1 text-amber-400">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                        </div>
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                            "El sistema de macronutrientes de la asesoría de alimentación me enseñó que no hace falta pasar hambre para estar en forma. He perdido 8 kilos de grasa sintiéndome con más energía que nunca."
+                        </p>
                     </div>
-                    <p class="text-slate-300 text-sm leading-relaxed">
-                        "El sistema de macronutrientes de la asesoría de alimentación me enseñó que no hace falta pasar hambre para estar en forma. He perdido 8 kilos de grasa sintiéndome con más energía que nunca."
-                    </p>
-                    <div class="flex items-center space-x-3 pt-4 border-t border-slate-800">
-                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold text-emerald-400">LG</div>
-                        <div>
-                            <h4 class="text-sm font-bold text-white">Lucía Gómez</h4>
-                            <p class="text-xs text-slate-500">Nutrióloga • VitalCore Personal</p>
+                    <div class="flex items-center space-x-3 pt-4 border-t border-slate-800 mt-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold text-emerald-400 shrink-0">LG</div>
+                        <div class="min-w-0">
+                            <h4 class="text-xs sm:text-sm font-bold text-white truncate">Lucía Gómez</h4>
+                            <p class="text-[10px] sm:text-xs text-slate-500 truncate">Nutrióloga • VitalCore Personal</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Testimonial 3 -->
-                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 space-y-6 relative">
-                    <div class="flex items-center space-x-1 text-amber-400">
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
-                        <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                <div class="bg-slate-900 p-5 sm:p-8 rounded-3xl border border-slate-800 space-y-4 sm:space-y-6 relative flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-1 text-amber-400">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                        </div>
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                            "Buscaba perfeccionar mis levantamientos y biomecánica en Powerlifting. La guía técnica de VitalCore reestructuró mis puntos débiles de estabilidad. ¡Nuevos récords personales logrados!"
+                        </p>
                     </div>
-                    <p class="text-slate-300 text-sm leading-relaxed">
-                        "Buscaba perfeccionar mis levantamientos y biomecánica en Powerlifting. La guía técnica de VitalCore reestructuró mis puntos débiles de estabilidad. ¡Nuevos récords personales logrados!"
-                    </p>
-                    <div class="flex items-center space-x-3 pt-4 border-t border-slate-800">
-                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold text-emerald-400">AF</div>
-                        <div>
-                            <h4 class="text-sm font-bold text-white">Alejandro Fernández</h4>
-                            <p class="text-xs text-slate-500">Atleta de Fuerza • Grupal de Alto Impacto</p>
+                    <div class="flex items-center space-x-3 pt-4 border-t border-slate-800 mt-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold text-emerald-400 shrink-0">AF</div>
+                        <div class="min-w-0">
+                            <h4 class="text-xs sm:text-sm font-bold text-white truncate">Alejandro Fernández</h4>
+                            <p class="text-[10px] sm:text-xs text-slate-500 truncate">Atleta • Grupal de Alto Impacto</p>
                         </div>
                     </div>
                 </div>
@@ -1017,53 +1030,53 @@
     </section>
 
     <!-- CONTACT SECTION -->
-    <section id="contact" class="py-24 bg-slate-900/50 border-t border-slate-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    <section id="contact" class="py-16 sm:py-24 bg-slate-900/50 border-t border-slate-900 w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center w-full">
                 <!-- Contact info (Left) -->
-                <div class="lg:col-span-5 space-y-6">
-                    <h2 class="text-xs uppercase font-semibold text-emerald-400 tracking-widest">Contacto</h2>
-                    <h3 class="font-syne text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white">
+                <div class="lg:col-span-5 space-y-5 sm:space-y-6 text-center lg:text-left">
+                    <h2 class="text-[10px] sm:text-xs uppercase font-semibold text-emerald-400 tracking-widest">Contacto</h2>
+                    <h3 class="font-syne text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
                         Inicia Tu Proceso Hoy
                     </h3>
-                    <p class="text-slate-400">
+                    <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
                         Completa el formulario y me pondré en contacto contigo en las próximas 24 horas hábiles para realizar un primer diagnóstico telefónico sin costo.
                     </p>
-                    <div class="space-y-4 pt-4">
-                        <div class="flex items-center space-x-3">
-                            <i data-lucide="mail" class="text-emerald-400 w-5 h-5"></i>
+                    <div class="space-y-4 pt-4 flex flex-col items-center lg:items-start">
+                        <div class="flex items-center space-x-3 text-sm sm:text-base">
+                            <i data-lucide="mail" class="text-emerald-400 w-5 h-5 shrink-0"></i>
                             <span class="text-slate-300">contacto@vitalcoretrainer.com</span>
                         </div>
-                        <a href="https://wa.me/5491165846235?text=Hola!%20Me%20gustar%C3%ADa%20obtener%20un%20diagn%C3%B3stico%20sin%20costo%20con%20VitalCore." target="_blank" class="flex items-center space-x-3 text-slate-300 hover:text-[#25D366] transition-all group">
-                            <svg class="w-5 h-5 fill-current text-emerald-400 group-hover:text-[#25D366] transition-colors" viewBox="0 0 24 24">
+                        <a href="https://wa.me/5491165846235?text=Hola!%20Me%20gustar%C3%ADa%20obtener%20un%20diagn%C3%B3stico%20sin%20costo%20con%20VitalCore." target="_blank" class="flex items-center space-x-3 text-slate-300 hover:text-[#25D366] transition-all group text-sm sm:text-base py-1">
+                            <svg class="w-5 h-5 fill-current text-emerald-400 group-hover:text-[#25D366] transition-colors shrink-0" viewBox="0 0 24 24">
                                 <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.413 9.863-9.832.002-2.623-1.01-5.09-2.855-6.94C16.636 1.986 14.174 1.01 11.55 1.011 6.116 1.011 1.69 5.424 1.687 10.843c-.001 1.701.447 3.361 1.299 4.837L1.879 21.01l5.441-1.427c-.201-.1-.301-.1-.727-.429zM19.229 15.54c-.299-.15-1.768-.871-2.041-.971-.274-.1-.473-.15-.673.15-.199.299-.772.971-.947 1.171-.174.199-.349.224-.648.074-.3-.15-1.265-.466-2.41-1.484-.89-.794-1.49-1.774-1.664-2.073-.174-.299-.018-.461.132-.609.135-.133.3-.349.449-.524.149-.174.199-.299.299-.499.1-.199.05-.374-.025-.524-.075-.15-.673-1.621-.922-2.22-.242-.584-.487-.504-.673-.514-.174-.008-.374-.008-.573-.008-.199 0-.524.075-.798.374-.274.299-1.047 1.022-1.047 2.494 0 1.472 1.071 2.892 1.221 3.093.15.199 2.107 3.218 5.105 4.512.713.308 1.27.492 1.704.63.717.227 1.37.195 1.886.118.576-.086 1.768-.722 2.017-1.421.25-.699.25-1.299.174-1.422-.075-.123-.274-.199-.573-.349z"/>
                             </svg>
-                            <span class="text-slate-300 group-hover:text-emerald-400 transition-colors font-medium">+54 9 11 6584-6235</span>
+                            <span class="text-slate-300 group-hover:text-emerald-400 transition-colors font-semibold tracking-wide">+54 9 11 6584-6235</span>
                         </a>
-                        <div class="flex items-center space-x-3">
-                            <i data-lucide="map-pin" class="text-emerald-400 w-5 h-5"></i>
+                        <div class="flex items-center space-x-3 text-sm sm:text-base">
+                            <i data-lucide="map-pin" class="text-emerald-400 w-5 h-5 shrink-0"></i>
                             <span class="text-slate-300">Buenos Aires, Argentina</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Form Card (Right) -->
-                <div class="lg:col-span-7 bg-slate-950 p-6 sm:p-10 rounded-3xl border border-slate-800 shadow-xl">
-                    <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="lg:col-span-7 bg-slate-950 p-5 sm:p-10 rounded-3xl border border-slate-800 shadow-xl w-full">
+                    <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-5 sm:space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                             <div>
-                                <label class="block text-xs uppercase font-semibold text-slate-400 mb-2">Nombre Completo</label>
-                                <input type="text" required placeholder="Tu nombre" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/40">
+                                <label class="block text-[10px] sm:text-xs uppercase font-semibold text-slate-400 mb-2">Nombre Completo</label>
+                                <input type="text" required placeholder="Tu nombre" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-base h-12">
                             </div>
                             <div>
-                                <label class="block text-xs uppercase font-semibold text-slate-400 mb-2">Correo Electrónico</label>
-                                <input type="email" required placeholder="tu@email.com" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/40">
+                                <label class="block text-[10px] sm:text-xs uppercase font-semibold text-slate-400 mb-2">Correo Electrónico</label>
+                                <input type="email" required placeholder="tu@email.com" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-base h-12">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs uppercase font-semibold text-slate-400 mb-2">Objetivo Principal</label>
-                            <select class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/40">
+                            <label class="block text-[10px] sm:text-xs uppercase font-semibold text-slate-400 mb-2">Objetivo Principal</label>
+                            <select class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-base h-12">
                                 <option>Acondicionamiento Integral & Core</option>
                                 <option>Aumento de Fuerza & Masa Muscular</option>
                                 <option>Reducción de Grasa Corporal</option>
@@ -1072,22 +1085,22 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs uppercase font-semibold text-slate-400 mb-2">Cuéntame un poco sobre ti</label>
-                            <textarea rows="4" placeholder="Háblame de tu condición actual, lesiones previas si tienes, y metas generales..." class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/40"></textarea>
+                            <label class="block text-[10px] sm:text-xs uppercase font-semibold text-slate-400 mb-2">Cuéntame un poco sobre ti</label>
+                            <textarea rows="4" placeholder="Háblame de tu condición actual, lesiones previas si tienes, y metas generales..." class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-base"></textarea>
                         </div>
 
-                        <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-4 rounded-xl transition-all duration-300 hover:scale-[1.01] shadow-lg shadow-emerald-500/15">
+                        <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3.5 sm:py-4 rounded-xl transition-all duration-300 hover:scale-[1.01] shadow-lg shadow-emerald-500/15 text-sm sm:text-base h-12 flex items-center justify-center">
                             Enviar Solicitud de Diagnóstico
                         </button>
                     </form>
 
                     <!-- Success Feedback State -->
-                    <div id="form-success" class="hidden text-center py-10 space-y-4">
-                        <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto">
-                            <i data-lucide="check-circle" class="w-10 h-10"></i>
+                    <div id="form-success" class="hidden text-center py-8 sm:py-10 space-y-4">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto">
+                            <i data-lucide="check-circle" class="w-8 h-8 sm:w-10 sm:h-10"></i>
                         </div>
-                        <h4 class="font-syne text-2xl font-bold text-white">¡Mensaje Recibido!</h4>
-                        <p class="text-slate-400 max-w-md mx-auto">
+                        <h4 class="font-syne text-xl sm:text-2xl font-bold text-white">¡Mensaje Recibido!</h4>
+                        <p class="text-slate-400 text-xs sm:text-sm max-w-md mx-auto leading-relaxed">
                             Tu solicitud ha sido enviada con éxito. Pronto iniciaremos este camino para transformar tu condición física. ¡Prepárate para entrenar fuerte!
                         </p>
                     </div>
@@ -1097,9 +1110,9 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-slate-950 border-t border-slate-900 py-12">
+    <footer class="bg-slate-950 border-t border-slate-900 py-8 sm:py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-900 pb-10 mb-10">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-900 pb-8 sm:pb-10 mb-8 sm:mb-10">
                 <a href="#" class="flex items-center space-x-2">
                     <div class="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center">
                         <i data-lucide="activity" class="text-slate-950 w-5 h-5 stroke-[2.5]"></i>
@@ -1108,92 +1121,92 @@
                         VitalCore
                     </span>
                 </a>
-                <div class="flex flex-wrap justify-center gap-6 text-sm text-slate-400">
-                    <a href="#" class="hover:text-emerald-400 transition-colors">Inicio</a>
-                    <a href="#about" class="hover:text-emerald-400 transition-colors">Certificaciones</a>
-                    <a href="#programs" class="hover:text-emerald-400 transition-colors">Programas</a>
-                    <a href="#calculator" class="hover:text-emerald-400 transition-colors">Módulo Interactivo</a>
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-slate-400">
+                    <a href="#" class="hover:text-emerald-400 transition-colors py-1">Inicio</a>
+                    <a href="#about" class="hover:text-emerald-400 transition-colors py-1">Certificaciones</a>
+                    <a href="#programs" class="hover:text-emerald-400 transition-colors py-1">Programas</a>
+                    <a href="#calculator" class="hover:text-emerald-400 transition-colors py-1">Módulo Interactivo</a>
                 </div>
             </div>
-            <div class="flex flex-col md:flex-row items-center justify-between text-xs text-slate-600 gap-4">
-                <span>© 2026 VitalCore Trainer. Todos los derechos reservados. Desarrollado con base científica.</span>
-                <span>Los resultados pueden variar según el nivel de apego individual al programa diseñado.</span>
+            <div class="flex flex-col md:flex-row items-center justify-between text-[10px] sm:text-xs text-slate-600 gap-4">
+                <span class="text-center md:text-left">© 2026 VitalCore Trainer. Todos los derechos reservados. Desarrollado con base científica.</span>
+                <span class="text-center md:text-right">Los resultados varían según el apego individual al programa diseñado.</span>
             </div>
         </div>
     </footer>
 
     <!-- FLOATING WHATSAPP BUTTON (PULSING EMERALD) -->
-    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20los%20programas%20de%20entrenamiento." target="_blank" class="fixed bottom-6 right-6 z-[100] bg-[#25D366] hover:bg-[#20ba5a] text-slate-950 p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center animate-bounce" style="animation-duration: 3s;" title="Escríbeme por WhatsApp">
-        <svg class="w-7 h-7 fill-white" viewBox="0 0 24 24">
+    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20los%20programas%20de%20entrenamiento." target="_blank" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[100] bg-[#25D366] hover:bg-[#20ba5a] text-slate-950 p-3.5 sm:p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center animate-bounce" style="animation-duration: 3s;" title="Escríbeme por WhatsApp" aria-label="Escríbeme por WhatsApp">
+        <svg class="w-6 h-6 sm:w-7 sm:h-7 fill-white" viewBox="0 0 24 24">
             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.413 9.863-9.832.002-2.623-1.01-5.09-2.855-6.94C16.636 1.986 14.174 1.01 11.55 1.011 6.116 1.011 1.69 5.424 1.687 10.843c-.001 1.701.447 3.361 1.299 4.837L1.879 21.01l5.441-1.427c-.201-.1-.301-.1-.727-.429zM19.229 15.54c-.299-.15-1.768-.871-2.041-.971-.274-.1-.473-.15-.673.15-.199.299-.772.971-.947 1.171-.174.199-.349.224-.648.074-.3-.15-1.265-.466-2.41-1.484-.89-.794-1.49-1.774-1.664-2.073-.174-.299-.018-.461.132-.609.135-.133.3-.349.449-.524.149-.174.199-.299.299-.499.1-.199.05-.374-.025-.524-.075-.15-.673-1.621-.922-2.22-.242-.584-.487-.504-.673-.514-.174-.008-.374-.008-.573-.008-.199 0-.524.075-.798.374-.274.299-1.047 1.022-1.047 2.494 0 1.472 1.071 2.892 1.221 3.093.15.199 2.107 3.218 5.105 4.512.713.308 1.27.492 1.704.63.717.227 1.37.195 1.886.118.576-.086 1.768-.722 2.017-1.421.25-.699.25-1.299.174-1.422-.075-.123-.274-.199-.573-.349z"/>
         </svg>
     </a>
 
     <!-- INTERACTIVE LIGHTBOX MODAL FOR DIPLOMAS -->
-    <div id="lightbox" class="fixed inset-0 bg-slate-950/95 z-50 flex items-center justify-center p-4 md:p-10 opacity-0 pointer-events-none transition-all duration-300">
+    <div id="lightbox" class="fixed inset-0 bg-slate-950/95 z-50 flex items-center justify-center p-4 sm:p-10 opacity-0 pointer-events-none transition-all duration-300 overflow-y-auto scroll-touch">
         <!-- Close trigger overlay -->
         <div class="absolute inset-0 cursor-zoom-out" onclick="closeLightbox()"></div>
         
-        <div class="relative bg-slate-900/90 border border-slate-800 max-w-3xl w-full rounded-2xl overflow-hidden shadow-2xl z-10 p-6 flex flex-col md:flex-row gap-6">
+        <div class="relative bg-slate-900/90 border border-slate-800 max-w-3xl w-full rounded-2xl overflow-hidden shadow-2xl z-10 p-5 sm:p-6 flex flex-col md:flex-row gap-5 sm:gap-6 my-auto">
             <!-- Close Button -->
-            <button onclick="closeLightbox()" class="absolute top-4 right-4 bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-white p-2 rounded-full transition-colors">
+            <button onclick="closeLightbox()" class="absolute top-3 right-3 sm:top-4 sm:right-4 bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-white p-2.5 rounded-full transition-colors z-20" aria-label="Cerrar modal">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
 
             <!-- Image Container -->
-            <div class="w-full md:w-1/2 aspect-[4/3] bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center relative">
+            <div class="w-full md:w-1/2 aspect-[4/3] bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center relative shrink-0">
                 <img id="lightbox-img" src="" alt="Diploma Ampliado" class="w-full h-full object-contain">
                 <!-- Fallback background when offline/preview -->
-                <div id="lightbox-fallback" class="absolute inset-0 bg-gradient-to-tr from-emerald-950 to-slate-950 flex flex-col items-center justify-center text-center p-6 hidden">
-                    <i data-lucide="award" class="w-16 h-16 text-emerald-400 mb-4 animate-bounce"></i>
-                    <span class="text-sm font-bold text-white" id="fallback-title"></span>
-                    <span class="text-xs text-slate-500 mt-2">Coloca tu archivo de diploma en esta carpeta para renderizarlo automáticamente.</span>
+                <div id="lightbox-fallback" class="absolute inset-0 bg-gradient-to-tr from-emerald-950 to-slate-950 flex flex-col items-center justify-center text-center p-5 hidden">
+                    <i data-lucide="award" class="w-12 h-12 text-emerald-400 mb-3 animate-bounce"></i>
+                    <span class="text-xs sm:text-sm font-bold text-white" id="fallback-title"></span>
+                    <span class="text-[10px] sm:text-xs text-slate-500 mt-2">Coloca tu archivo de diploma en esta carpeta para renderizarlo automáticamente.</span>
                 </div>
             </div>
 
             <!-- Content Container -->
-            <div class="w-full md:w-1/2 flex flex-col justify-between">
-                <div class="space-y-4">
-                    <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-2.5 py-1 rounded-full w-max">Credencial Oficial</span>
-                    <h3 id="lightbox-title" class="font-syne text-2xl font-bold text-white"></h3>
-                    <p id="lightbox-desc" class="text-slate-400 text-sm leading-relaxed"></p>
+            <div class="w-full md:w-1/2 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-2.5 py-1 rounded-full w-max block">Credencial Oficial</span>
+                    <h3 id="lightbox-title" class="font-syne text-xl sm:text-2xl font-bold text-white leading-snug"></h3>
+                    <p id="lightbox-desc" class="text-slate-400 text-xs sm:text-sm leading-relaxed"></p>
                 </div>
-                <div class="pt-6 border-t border-slate-800 text-xs text-slate-500 flex items-center space-x-2">
-                    <i data-lucide="shield-check" class="text-emerald-400 w-4 h-4"></i>
+                <div class="pt-4 border-t border-slate-800 text-[10px] sm:text-xs text-slate-500 flex items-center space-x-2">
+                    <i data-lucide="shield-check" class="text-emerald-400 w-4 h-4 shrink-0"></i>
                     <span>Verificado por VitalCore Institute</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- METABOLIC BMR EQUATION MODAL (Replaces banned alert) -->
-    <div id="equation-modal" class="fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+    <!-- METABOLIC BMR EQUATION MODAL -->
+    <div id="equation-modal" class="fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 overflow-y-auto">
         <div class="absolute inset-0 cursor-pointer" onclick="closeEquationModal()"></div>
-        <div class="relative bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl z-10 space-y-6">
+        <div class="relative bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-5 sm:p-8 shadow-2xl z-10 space-y-4 sm:space-y-6 my-auto">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h4 class="font-syne text-lg font-bold text-white flex items-center gap-2">
-                    <i data-lucide="equation" class="text-emerald-400"></i>
+                <h4 class="font-syne text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                    <i data-lucide="calculator" class="text-emerald-400 shrink-0"></i>
                     <span>Fórmula Mifflin-St Jeor</span>
                 </h4>
-                <button onclick="closeEquationModal()" class="text-slate-400 hover:text-white transition-colors">
+                <button onclick="closeEquationModal()" class="text-slate-400 hover:text-white transition-colors p-1" aria-label="Cerrar modal">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
             
-            <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
+            <div class="space-y-3 sm:space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
                 <p>
                     La ecuación de Mifflin-St Jeor se formuló en 1990 y se considera el estándar de oro actual en nutrición clínica para predecir la tasa metabólica basal (BMR).
                 </p>
-                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80 space-y-2 font-mono text-xs">
-                    <p class="text-emerald-400"><span class="text-slate-500">// Para Hombres</span><br>BMR = (10 × peso en kg) + (6.25 × altura en cm) - (5 × edad en años) + 5</p>
-                    <p class="text-emerald-400"><span class="text-slate-500">// Para Mujeres</span><br>BMR = (10 × peso en kg) + (6.25 × altura en cm) - (5 × edad en años) - 161</p>
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80 space-y-2 font-mono text-[11px] sm:text-xs overflow-x-auto">
+                    <p class="text-emerald-400 whitespace-nowrap"><span class="text-slate-500">// Para Hombres</span><br>BMR = (10 × peso) + (6.25 × altura) - (5 × edad) + 5</p>
+                    <p class="text-emerald-400 whitespace-nowrap"><span class="text-slate-500">// Para Mujeres</span><br>BMR = (10 × peso) + (6.25 × altura) - (5 × edad) - 161</p>
                 </div>
                 <p>
                     A este resultado basal se le multiplica el coeficiente correspondiente a tu nivel de actividad para obtener tu gasto energético total estimado (TDEE).
                 </p>
             </div>
 
-            <button onclick="closeEquationModal()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-xs transition-colors">
+            <button onclick="closeEquationModal()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-xs sm:text-sm transition-colors h-11 flex items-center justify-center">
                 Entendido
             </button>
         </div>
@@ -1231,13 +1244,13 @@
             if (tabId === 'tab-macro') {
                 tabMacro.classList.remove('hidden');
                 tabWorkout.classList.add('hidden');
-                btnMacro.className = 'w-full sm:w-auto px-6 py-3 rounded-full font-bold text-sm bg-emerald-500 text-slate-950 shadow-md transition-all';
-                btnWorkout.className = 'w-full sm:w-auto px-6 py-3 rounded-full font-bold text-sm bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 transition-all';
+                btnMacro.className = 'w-full sm:w-auto px-5 py-3 rounded-full font-bold text-xs sm:text-sm bg-emerald-500 text-slate-950 shadow-md transition-all h-12 flex items-center justify-center';
+                btnWorkout.className = 'w-full sm:w-auto px-5 py-3 rounded-full font-bold text-xs sm:text-sm bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 transition-all h-12 flex items-center justify-center';
             } else {
                 tabMacro.classList.add('hidden');
                 tabWorkout.classList.remove('hidden');
-                btnMacro.className = 'w-full sm:w-auto px-6 py-3 rounded-full font-bold text-sm bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 transition-all';
-                btnWorkout.className = 'w-full sm:w-auto px-6 py-3 rounded-full font-bold text-sm bg-emerald-500 text-slate-950 shadow-md transition-all';
+                btnMacro.className = 'w-full sm:w-auto px-5 py-3 rounded-full font-bold text-xs sm:text-sm bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 transition-all h-12 flex items-center justify-center';
+                btnWorkout.className = 'w-full sm:w-auto px-5 py-3 rounded-full font-bold text-xs sm:text-sm bg-emerald-500 text-slate-950 shadow-md transition-all h-12 flex items-center justify-center';
                 // Trigger quick generation if first time load
                 if (document.getElementById('workout-list').children.length === 0) {
                     generateWorkout();
@@ -1314,13 +1327,13 @@
 
             // Render to HTML
             document.getElementById('result-calories').textContent = targetCalories.toLocaleString('es-ES');
-            document.getElementById('result-protein').innerHTML = `${proteinGrams}g <span class="text-xs text-slate-600">• ${proteinKcal} kcal</span>`;
-            document.getElementById('result-carbs').innerHTML = `${carbsGrams}g <span class="text-xs text-slate-600">• ${Math.round(carbsGrams * 4)} kcal</span>`;
-            document.getElementById('result-fats').innerHTML = `${fatGrams}g <span class="text-xs text-slate-600">• ${Math.round(fatGrams * 9)} kcal</span>`;
+            document.getElementById('result-protein').innerHTML = `${proteinGrams}g <span class="text-[10px] sm:text-xs text-slate-600">• ${proteinKcal} kcal</span>`;
+            document.getElementById('result-carbs').innerHTML = `${carbsGrams}g <span class="text-[10px] sm:text-xs text-slate-600">• ${Math.round(carbsGrams * 4)} kcal</span>`;
+            document.getElementById('result-fats').innerHTML = `${fatGrams}g <span class="text-[10px] sm:text-xs text-slate-600">• ${Math.round(fatGrams * 9)} kcal</span>`;
 
             document.getElementById('result-bmi').textContent = bmi;
             document.getElementById('result-bmi-status').textContent = bmiStatus;
-            document.getElementById('result-water').textContent = `${waterIntake} Litros`;
+            document.getElementById('result-water').textContent = `${waterIntake} L`;
 
             // Adjust dynamic graphic progress bars
             const totalGrams = proteinGrams + carbsGrams + fatGrams;
@@ -1399,7 +1412,7 @@
             const targetCardId = recommendedUrl.replace('#', '');
             const targetElement = document.getElementById(targetCardId);
             if (targetElement) {
-                targetElement.classList.add('border-emerald-400', 'scale-102');
+                targetElement.classList.add('border-emerald-400', 'scale-[1.02]');
             }
         }
 
@@ -1408,7 +1421,7 @@
             document.getElementById('quiz-result-box').classList.add('hidden');
             document.getElementById('quiz-step-1').classList.remove('hidden');
             document.getElementById('quiz-progress-fill').style.width = '33%';
-            document.querySelectorAll('[id^="plan-"]').forEach(card => card.classList.remove('border-emerald-400', 'scale-102'));
+            document.querySelectorAll('[id^="plan-"]').forEach(card => card.classList.remove('border-emerald-400', 'scale-[1.02]'));
         }
 
         // Dynamic Workout Routine Generator Data
@@ -1480,23 +1493,23 @@
                 const secondsValue = isTimed ? parseInt(ex.spec.match(/\d+/)[0]) : 0;
                 
                 const timerBtnHtml = isTimed ? 
-                    `<button onclick="setupWorkoutTimer(${secondsValue})" class="mt-2 text-xs text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1">
+                    `<button onclick="setupWorkoutTimer(${secondsValue})" class="mt-2 text-xs text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1 py-1 px-1.5 rounded bg-emerald-500/10 w-max">
                         <i data-lucide="play-circle" class="w-4 h-4"></i> Cargar tiempo
                      </button>` : '';
 
                 const exHtml = `
-                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                        <div class="flex items-start space-x-3">
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+                        <div class="flex items-start space-x-3 min-w-0">
                             <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-sm shrink-0">
                                 0${idx+1}
                             </div>
-                            <div>
-                                <h5 class="font-bold text-white text-sm">${ex.name}</h5>
-                                <p class="text-xs text-slate-500 mt-1">${ex.tip}</p>
+                            <div class="min-w-0">
+                                <h5 class="font-bold text-white text-sm truncate">${ex.name}</h5>
+                                <p class="text-xs text-slate-500 mt-1 leading-normal">${ex.tip}</p>
                                 ${timerBtnHtml}
                             </div>
                         </div>
-                        <span class="text-xs bg-emerald-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg shrink-0 w-full sm:w-auto text-center">
+                        <span class="text-xs bg-emerald-500 text-slate-950 font-bold px-3 py-2 rounded-lg shrink-0 w-full sm:w-auto text-center">
                             ${ex.spec}
                         </span>
                     </div>
@@ -1645,8 +1658,7 @@
             success.classList.remove('hidden');
         }
 
-        // NEW: INTEGRATED ROUTINE & FREQUENCY SIMULATOR DATA ENGINE
-        // This is where we combine Modality (Online, Personal, Grupal) and Frequency (3, 4, 5 days)
+        // INTEGRATED ROUTINE & FREQUENCY SIMULATOR DATA ENGINE
         const explorerDb = {
             'online': {
                 focusText: "Rutinas dinámicas subidas directo a la app. Incluye vídeos de ejecución, cálculo de volumen de carga (RPE) por serie y control de descansos integrados.",
@@ -1700,7 +1712,7 @@
                         exercises: [
                             { name: "Peso Muerto Rumano Técnico", reps: "4 series x 8 reps (Tempo 4-0-1-0)", tip: "El entrenador regulará tu bisagra de cadera y asegurará que no redondees la zona lumbar." },
                             { name: "Prensa de Piernas 45 Grados", reps: "3 series x 10 reps (Drop Sets finales)", tip: "Asistencia directa en la última serie para aplicar técnicas de alta intensidad de forma segura." },
-                            { name: "Press Plano con Mancuernas en Banco Semi-Inclinado", reps: "3 series x 8-10 reps", tip: "Guiado físico en la trayectoria de los codos para proteger el manguito rotador." },
+                            { name: "Press Plano con Mancuernas", reps: "3 series x 8-10 reps", tip: "Guiado físico en la trayectoria de los codos para proteger el manguito rotador." },
                             { name: "Remo Gironda con Pausa Isométrica", reps: "3 series x 10 reps (Pausa 2s)", tip: "Mantén contracción máxima en la zona media de la espalda bajo resistencia." }
                         ]
                     },
@@ -1723,7 +1735,7 @@
                         advice: "⚡ Enfoque VitalCore Personal: Al entrenar 5 días presenciales, el control del sobreentrenamiento es vital. El entrenador modulará las intensidades y aplicará técnicas de estiramiento asistido al final.",
                         exercises: [
                             { name: "Remo Unilateral con Barra Libre", reps: "4 series x 8 reps", tip: "Estabilización manual de tu cadera por parte del entrenador para proteger lumbares." },
-                            { name: "Jalón al Pecho en Polea (Agarre Neutro Estrecho)", reps: "3 series x 10 reps", tip: "Tracción enfocada en maximizar el reclutamiento del dorsal ancho sin fatigar bíceps." },
+                            { name: "Jalón al Pecho en Polea (Agarre Neutro)", reps: "3 series x 10 reps", tip: "Tracción enfocada en maximizar el reclutamiento del dorsal ancho sin fatigar bíceps." },
                             { name: "Remo Multipower con Pecho Apoyado", reps: "3 series x 12 reps (Tempo 3-1-1-0)", tip: "Pausa en contracción para asegurar la activación del trapecio medio." },
                             { name: "Pájaros con Mancuerna (Hombro Posterior)", reps: "3 series x 15 reps", tip: "Movimiento estricto. El entrenador evitará la inercia controlando la fase inicial." }
                         ]
@@ -1752,7 +1764,7 @@
                         advice: "👥 Enfoque Grupal: Dinámica basada en sincronización. Mantén el tempo de ejecución idéntico al de tus compañeros para inducir fatiga isométrica uniforme.",
                         exercises: [
                             { name: "Press de Banca Plano Sincronizado", reps: "4 series x 8-10 reps", tip: "Mantengan la misma cadencia de empuje. Estimula el trabajo de equipo." },
-                            { name: "Jalón al Pecho Grupal en Estación Múltiple", reps: "4 series x 10 reps", tip: "Controlen la bajada de forma unísona. Retracción escapular perfecta." },
+                            { name: "Jalón al Pecho Grupal", reps: "4 series x 10 reps", tip: "Controlen la bajada de forma unísona. Retracción escapular perfecta." },
                             { name: "Flexiones de Brazos (Push Ups)", reps: "3 series al fallo técnico", tip: "Mantén el cuerpo rígido como una tabla desde los hombros hasta los tobillos." },
                             { name: "Remo con Mancuerna en Banco Inclinado", reps: "3 series x 12 reps", tip: "Foco en jalar con los codos para activar la espalda superior de manera estricta." }
                         ]
@@ -1784,9 +1796,9 @@
             modalities.forEach(mod => {
                 const btn = document.getElementById(`exp-btn-${mod}`);
                 if (mod === modality) {
-                    btn.className = "flex items-center justify-between p-4 bg-emerald-500 text-slate-950 font-bold rounded-xl transition-all shadow-md";
+                    btn.className = "flex items-center justify-between p-3.5 sm:p-4 bg-emerald-500 text-slate-950 font-bold rounded-xl transition-all shadow-md text-xs sm:text-sm text-left";
                 } else {
-                    btn.className = "flex items-center justify-between p-4 bg-slate-900 text-slate-300 hover:text-white rounded-xl border border-slate-800 hover:border-slate-700 transition-all";
+                    btn.className = "flex items-center justify-between p-3.5 sm:p-4 bg-slate-900 text-slate-300 hover:text-white rounded-xl border border-slate-800 hover:border-slate-700 transition-all text-xs sm:text-sm text-left";
                 }
             });
 
@@ -1801,9 +1813,9 @@
             frequencies.forEach(f => {
                 const btn = document.getElementById(`freq-btn-${f}`);
                 if (f === freq) {
-                    btn.className = "py-3 bg-emerald-500 text-slate-950 font-extrabold rounded-xl transition-all";
+                    btn.className = "py-3 bg-emerald-500 text-slate-950 font-extrabold rounded-xl transition-all text-xs sm:text-sm";
                 } else {
-                    btn.className = "py-3 bg-slate-900 text-slate-300 hover:text-white rounded-xl border border-slate-800 hover:border-slate-700 transition-all";
+                    btn.className = "py-3 bg-slate-900 text-slate-300 hover:text-white rounded-xl border border-slate-800 hover:border-slate-700 transition-all text-xs sm:text-sm";
                 }
             });
 
@@ -1843,14 +1855,14 @@
             workoutData.exercises.forEach((ex, idx) => {
                 const exHtml = `
                     <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:border-emerald-500/20 transition-colors">
-                        <div>
+                        <div class="min-w-0">
                             <h5 class="text-white text-sm font-bold flex items-center gap-2">
-                                <span class="text-xs bg-emerald-500/20 text-emerald-400 w-5 h-5 rounded flex items-center justify-center font-mono">0${idx+1}</span>
-                                ${ex.name}
+                                <span class="text-[10px] bg-emerald-500/20 text-emerald-400 w-5 h-5 rounded flex items-center justify-center font-mono shrink-0">0${idx+1}</span>
+                                <span class="truncate">${ex.name}</span>
                             </h5>
-                            <p class="text-xs text-slate-400 mt-1">${ex.tip}</p>
+                            <p class="text-xs text-slate-400 mt-1 leading-normal">${ex.tip}</p>
                         </div>
-                        <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full shrink-0">
+                        <span class="text-[11px] sm:text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full shrink-0 w-full sm:w-auto text-center">
                             ${ex.reps}
                         </span>
                     </div>
@@ -1863,9 +1875,9 @@
             adviceCard.innerHTML = `
                 <div class="flex items-start gap-3">
                     <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-                        <i data-lucide="zap" class="w-4 h-4"></i>
+                        <i data-lucide="zap" class="w-4 h-4 text-emerald-400"></i>
                     </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
+                    <p class="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
                         ${workoutData.advice}
                     </p>
                 </div>
