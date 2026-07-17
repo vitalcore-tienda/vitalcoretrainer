@@ -56,7 +56,20 @@
     <!-- Configuración para renderizar fórmulas matemáticas en LaTeX de forma segura -->
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-<body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen selection:bg-brand-500/30 selection:text-white">
+<body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen selection:bg-brand-500/30 selection:text-white pb-12 sm:pb-0">
+
+    <!-- FLOATING WHATSAPP BUTTON (Efecto premium con pulso) -->
+    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20gustaría%20hacer%20una%20consulta%20sobre%20los%2520planes%20de%20entrenamiento." 
+       target="_blank" 
+       class="fixed bottom-6 right-6 z-[99] flex items-center justify-center w-14 h-14 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-2xl shadow-emerald-500/40 transition-all duration-300 hover:scale-110 active:scale-95 group"
+       aria-label="Escribir por WhatsApp">
+        <!-- Onda de pulso animada -->
+        <span class="absolute -inset-1.5 rounded-full bg-[#25D366]/40 animate-ping opacity-75 group-hover:opacity-0 transition-opacity"></span>
+        <!-- Icono de WhatsApp en SVG para máxima nitidez -->
+        <svg class="w-7 h-7 relative z-10" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.457h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
 
     <!-- HEADER / NAVEGACIÓN -->
     <header class="sticky top-0 z-50 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-900/80">
@@ -84,7 +97,7 @@
             </nav>
 
             <div class="flex items-center gap-3">
-                <a href="https://wa.me/#" target="_blank" class="hidden sm:flex items-center gap-2 bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 text-sm font-medium px-4 py-2.5 rounded-xl transition">
+                <a href="https://wa.me/5491165846235?text=Hola!%20Vengo%20desde%20la%20web%20y%20quiero%20consultar%20por%20un%20plan." target="_blank" class="hidden sm:flex items-center gap-2 bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 text-sm font-medium px-4 py-2.5 rounded-xl transition">
                     <i data-lucide="message-square" class="w-4 h-4 text-brand-500"></i>
                     <span>Consultar Plan</span>
                 </a>
@@ -104,7 +117,7 @@
             </a>
             <a href="#certificaciones" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-zinc-500"></i> Certificaciones</a>
             <a href="#calculadora" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 flex items-center gap-2"><i data-lucide="calculator" class="w-4 h-4 text-zinc-500"></i> Herramientas Científicas</a>
-            <a href="https://wa.me/#" target="_blank" class="w-full mt-4 flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-600 text-zinc-950 font-bold py-3.5 rounded-xl transition">
+            <a href="https://wa.me/5491165846235?text=Hola!%20Me%20interesa%20empezar%20mi%20asesoría%20de%20entrenamiento." target="_blank" class="w-full mt-4 flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-600 text-zinc-950 font-bold py-3.5 rounded-xl transition">
                 <i data-lucide="message-square" class="w-5 h-5"></i>
                 <span>Escribir por WhatsApp</span>
             </a>
@@ -124,7 +137,7 @@
                         Optimiza tu <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-emerald-400">Rendimiento</span> Integral
                     </h1>
                     <p class="text-zinc-400 text-sm sm:text-base max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                        Lleva tu fuerza, estética y salud al siguiente nivel con planificación individualizada, entrenamiento inteligente y educación técnica de primer nivel.
+                        Lveva tu fuerza, estética y salud al siguiente nivel con planificación individualizada, entrenamiento inteligente y educación técnica de primer nivel.
                     </p>
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-4">
                         <a href="#biblioteca" class="w-full sm:w-auto bg-brand-500 hover:bg-brand-600 active:scale-[0.98] text-zinc-950 font-black px-6 py-4 rounded-xl shadow-lg shadow-brand-500/10 transition duration-150 flex items-center justify-center gap-2 text-sm uppercase tracking-wide">
@@ -141,15 +154,15 @@
                 <!-- Columna Simulador -->
                 <div class="lg:col-span-5 relative w-full flex justify-center">
                     <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-brand-500 to-emerald-500 opacity-15 blur-xl"></div>
-                    <div class="relative bg-zinc-900/95 border border-zinc-800/90 p-5 sm:p-7 rounded-2xl w-full max-w-md space-y-5">
+                    <div class="relative bg-zinc-900/95 border border-zinc-880 p-5 sm:p-7 rounded-2xl w-full max-w-md space-y-5">
                         <div class="space-y-3">
                             <h3 class="font-bold text-xs sm:text-sm text-zinc-300 text-center lg:text-left flex items-center gap-2 justify-center lg:justify-start">
                                 <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-500 animate-pulse"></span>
                                 Simulador de Programas
                             </h3>
-                            <div class="grid grid-cols-3 gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-800 text-[11px] sm:text-xs font-semibold">
+                            <div class="grid grid-cols-3 gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-880 text-[11px] sm:text-xs font-semibold">
                                 <button onclick="cargarRutinaSimulada('fuerza')" id="tab-fuerza" class="py-2.5 px-1 rounded-lg text-center transition duration-150 bg-brand-500 text-zinc-950 font-bold">Fuerza</button>
-                                <button onclick="cargarRutinaSimulada('estetica')" id="tab-estetica" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">Estética</button>
+                                <button onclick="cargarRutinaSimulada('estetica')" id="tab-estetica" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">Hipertrofia</button>
                                 <button onclick="cargarRutinaSimulada('encasa')" id="tab-encasa" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">En Casa</button>
                             </div>
                         </div>
@@ -207,7 +220,7 @@
                     </div>
                 </div>
 
-                <!-- NOTA DE CONFIGURACIÓN MÓVIL (Aviso de Gestos para que no se frustren) -->
+                <!-- NOTA DE CONFIGURACIÓN MÓVIL (Aviso de Gestos) -->
                 <div class="bg-brand-500/5 px-4 sm:px-6 py-3 border-b border-brand-500/10 text-[10px] sm:text-xs text-zinc-400 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                     <div class="flex items-center gap-2">
                         <i data-lucide="info" class="text-brand-500 w-4 h-4 shrink-0"></i>
@@ -237,61 +250,80 @@
                 <p class="text-zinc-400 text-xs sm:text-sm">Sin rutinas genéricas. Entrenamos de acuerdo a tus objetivos, disponibilidad y nivel de fuerza actual.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                <!-- Tarjeta 1 -->
-                <div class="bg-zinc-900/40 border border-zinc-850 hover:border-brand-500/20 rounded-2xl p-6 sm:p-8 space-y-6 transition flex flex-col justify-between">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Tarjeta 1: Fuerza -->
+                <div class="bg-zinc-900/40 border border-zinc-850 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
                     <div class="space-y-4">
                         <div class="w-11 h-11 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
                             <i data-lucide="zap" class="w-5 h-5"></i>
                         </div>
-                        <h3 class="text-lg font-black text-white uppercase tracking-tight">Full Body Fuerza</h3>
-                        <p class="text-zinc-400 text-xs sm:text-sm">Diseñado para optimizar tu tiempo. 3 días de entrenamiento intenso para ganar fuerza y masa muscular.</p>
-                        <ul class="space-y-2.5 text-xs sm:text-sm text-zinc-300 pt-2">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500 shrink-0"></i> 3 sesiones semanales</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500 shrink-0"></i> Foco en movimientos compuestos</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500 shrink-0"></i> Video-análisis técnico semanal</li>
+                        <h3 class="text-base font-black text-white uppercase tracking-tight">Full Body Fuerza</h3>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Diseñado para optimizar tu tiempo. 3 días de entrenamiento intenso para ganar fuerza y masa muscular con foco en movimientos compuestos.</p>
+                        <ul class="space-y-2 text-xs text-zinc-300 pt-1">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> 3 sesiones semanales</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Foco en fuerza y básicos</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Video-análisis técnico semanal</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/#?text=Hola,%20quiero%20información%20sobre%20el%20Plan%20Full%20Body%20Fuerza" target="_blank" class="w-full py-3.5 bg-zinc-800 hover:bg-zinc-750 text-white font-bold rounded-xl text-center block transition text-xs uppercase tracking-wide active:scale-98">
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20más%20información%20sobre%20el%20Plan%20Full%20Body%20Fuerza." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
                         Elegir Plan
                     </a>
                 </div>
 
-                <!-- Tarjeta 2 (Popular) -->
-                <div class="bg-zinc-900 border-2 border-brand-500 rounded-2xl p-6 sm:p-8 space-y-6 transition relative flex flex-col justify-between shadow-xl shadow-brand-500/10">
+                <!-- Tarjeta 2: Hipertrofia (¡Nueva!) -->
+                <div class="bg-zinc-900/40 border border-zinc-850 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-11 h-11 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
+                            <i data-lucide="dumbbell" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-base font-black text-white uppercase tracking-tight">Hipertrofia Científica</h3>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Maximiza el crecimiento muscular mediante tensión mecánica óptima y sobrecarga progresiva en rutinas torso/pierna o de empujes.</p>
+                        <ul class="space-y-2 text-xs text-zinc-300 pt-1">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Rutina adaptada (4 a 5 días)</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Enfoque en volumen y estímulo</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Control estricto de fatiga RPE</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20más%20información%20sobre%20el%20Plan%20de%20Hipertrofia." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
+                        Elegir Plan
+                    </a>
+                </div>
+
+                <!-- Tarjeta 3: Asesoría VIP (Popular) -->
+                <div class="bg-zinc-900 border-2 border-brand-500 rounded-2xl p-5 space-y-5 transition relative flex flex-col justify-between shadow-xl shadow-brand-500/10">
                     <span class="absolute top-0 right-6 -translate-y-1/2 bg-brand-500 text-zinc-950 font-black text-[9px] uppercase tracking-widest px-3 py-1 rounded-full">Recomendado</span>
                     <div class="space-y-4">
                         <div class="w-11 h-11 rounded-xl bg-brand-500/20 flex items-center justify-center text-brand-500">
                             <i data-lucide="crown" class="w-5 h-5"></i>
                         </div>
-                        <h3 class="text-lg font-black text-white uppercase tracking-tight">Asesoría Vital VIP</h3>
-                        <p class="text-zinc-400 text-xs sm:text-sm">Entrenamiento de fuerza de alta precisión, programación del volumen y optimización técnica para resultados de impacto.</p>
-                        <ul class="space-y-2.5 text-xs sm:text-sm text-zinc-300 pt-2">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500 shrink-0"></i> Rutina adaptada (3 a 5 días)</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500 shrink-0"></i> Sobrecarga progresiva individualizada</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500 shrink-0"></i> Soporte diario vía WhatsApp</li>
+                        <h3 class="text-base font-black text-white uppercase tracking-tight">Asesoría Vital VIP</h3>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Planificación integral de alto nivel. Combina fuerza, hipertrofia y nutrición de máxima precisión con contacto diario por WhatsApp.</p>
+                        <ul class="space-y-2 text-xs text-zinc-300 pt-1">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Plan entrenamiento + nutrición</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Soporte diario por WhatsApp</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Ajustes y revisiones ilimitadas</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/#?text=Hola,%20quiero%20información%20sobre%20la%20Asesoría%20Vital%20VIP" target="_blank" class="w-full py-3.5 bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black rounded-xl text-center block transition text-xs uppercase tracking-wide shadow-lg shadow-brand-500/10 active:scale-98">
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20interesa%20iniciar%20la%20Asesoría%20Vital%20VIP%20contigo." target="_blank" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black rounded-xl text-center block transition text-xs uppercase tracking-wide shadow-lg shadow-brand-500/10 active:scale-98">
                         Empezar Ahora
                     </a>
                 </div>
 
-                <!-- Tarjeta 3 -->
-                <div class="bg-zinc-900/40 border border-zinc-850 hover:border-brand-500/20 rounded-2xl p-6 sm:p-8 space-y-6 transition flex flex-col justify-between">
+                <!-- Tarjeta 4: Recomposición (¡Nueva!) -->
+                <div class="bg-zinc-900/40 border border-zinc-850 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
                     <div class="space-y-4">
                         <div class="w-11 h-11 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
-                            <i data-lucide="target" class="w-5 h-5"></i>
+                            <i data-lucide="scale" class="w-5 h-5"></i>
                         </div>
-                        <h3 class="text-lg font-black text-white uppercase tracking-tight">Fuerza & Powerlifting</h3>
-                        <p class="text-zinc-400 text-xs sm:text-sm">Para atletas que buscan maximizar sus marcas en Sentadilla, Banca y Peso Muerto bajo programación científica de picos de fuerza.</p>
-                        <ul class="space-y-2.5 text-xs sm:text-sm text-zinc-300 pt-2">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500 shrink-0"></i> Programación basada en RPE / RIR</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500 shrink-0"></i> Preparación de cargas de competición</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500 shrink-0"></i> Análisis de fallos técnicos mediante video</li>
+                        <h3 class="text-base font-black text-white uppercase tracking-tight">Recomposición</h3>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Pierde grasa y gana masa muscular de forma simultánea. Sincronización perfecta entre entrenamiento de fuerza y partición calórica.</p>
+                        <ul class="space-y-2 text-xs text-zinc-300 pt-1">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Protocolo de recomposición</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Guía estricta de macronutrientes</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Seguimiento de pliegues/medidas</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/#?text=Hola,%20quiero%20información%20sobre%20el%20Plan%20de%20Powerlifting" target="_blank" class="w-full py-3.5 bg-zinc-800 hover:bg-zinc-750 text-white font-bold rounded-xl text-center block transition text-xs uppercase tracking-wide active:scale-98">
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20más%20información%20sobre%20el%20Plan%20de%20Recomposición%20Corporal." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
                         Elegir Plan
                     </a>
                 </div>
@@ -388,7 +420,7 @@
                         Calcula tu repetición máxima teórica de forma segura para programar tus cargas de trabajo basadas en porcentajes de intensidad.
                     </p>
 
-                    <!-- Renderización matemática premium de la fórmula (Protección contra desborde) -->
+                    <!-- Renderización matemática premium de la fórmula -->
                     <div class="p-3 bg-zinc-900/40 border border-zinc-900 rounded-xl text-center select-all math-wrapper">
                         <span class="text-brand-400 font-mono text-xs sm:text-sm leading-none">$$1\text{RM} = w \cdot \left(1 + \frac{r}{30}\right)$$</span>
                     </div>
@@ -431,7 +463,7 @@
                         Calcula tu gasto calórico diario (TDEE) y distribuye de forma idónea las calorías basándote en un modelo enfocado a conservar masa muscular magra y acelerar la recuperación.
                     </p>
 
-                    <!-- Rejilla de inputs adaptables de 1 o 3 columnas -->
+                    <!-- Rejilla de inputs adaptables -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                         <div class="space-y-1">
                             <label class="block text-[10px] sm:text-xs font-bold text-zinc-400 uppercase">Peso Corporal</label>
@@ -497,6 +529,10 @@
                 </div>
                 <span class="text-sm font-black text-white tracking-wider uppercase">VITAL CORE TRAINER</span>
             </div>
+            <!-- Contacto Directo en Footer -->
+            <p class="text-xs text-zinc-400">
+                Contacto Asesorías: <a href="https://wa.me/5491165846235" target="_blank" class="text-brand-500 hover:underline font-bold">+54 9 11 6584-6235</a>
+            </p>
             <p class="text-[11px] text-zinc-500 max-w-md mx-auto leading-relaxed">
                 © 2026 Vital Core Trainer. Todos los derechos reservados. Diseñado bajo estándares de ciencia deportiva y entrenamiento de fuerza de alta precisión.
             </p>
@@ -650,7 +686,7 @@
             cargarRutinaSimulada('fuerza');
         });
 
-        // Calculadora de 1RM con fórmula de Epley (Sin alert)
+        // Calculadora de 1RM con fórmula de Epley
         function calcular1RM() {
             const peso = parseFloat(document.getElementById('epley-peso').value);
             const reps = parseInt(document.getElementById('epley-reps').value);
@@ -676,7 +712,7 @@
             resultBox.innerHTML = `💪 Tu repetición máxima estimada (1RM) es de <strong>${rm} KG</strong>.`;
         }
 
-        // Calculadora Científica de Macronutrientes (Sin alert)
+        // Calculadora Científica de Macronutrientes
         function calcularMacros() {
             const peso = parseFloat(document.getElementById('macro-peso').value);
             const altura = parseFloat(document.getElementById('macro-altura').value);
