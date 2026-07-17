@@ -8,6 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons para iconos limpios -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- SDK oficial de Supabase desde CDN seguro -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -16,7 +18,7 @@
                         brand: {
                             50: '#eefef4',
                             100: '#d3fbe2',
-                            500: '#10b981', /* Emerald accent */
+                            500: '#10b981', /* Emerald accent de Vital Core */
                             600: '#059669',
                             950: '#022c22',
                         }
@@ -58,8 +60,51 @@
 </head>
 <body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen selection:bg-brand-500/30 selection:text-white pb-12 sm:pb-0">
 
+    <!-- PANTALLA DE INICIO DE SESIÓN (LOGIN) - Se muestra si no hay sesión activa -->
+    <div id="login-screen" class="fixed inset-0 z-[110] bg-zinc-950 flex items-center justify-center p-4">
+        <div class="absolute inset-0 glow-bg opacity-30"></div>
+        <div class="relative bg-zinc-900/90 border border-zinc-800 p-6 sm:p-10 rounded-2xl w-full max-w-md space-y-6 text-center shadow-2xl backdrop-blur-md">
+            <div class="flex flex-col items-center gap-3">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-brand-500/10">
+                    <i data-lucide="dumbbell" class="text-zinc-950 w-7 h-7"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black tracking-wider text-white">VITAL CORE</h1>
+                    <span class="text-[10px] font-bold tracking-widest text-brand-500 uppercase">Consola del Atleta</span>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <h2 class="text-lg font-bold text-zinc-200">Ingreso a la Plataforma</h2>
+                <p class="text-xs text-zinc-400">Ingresá el correo electrónico que te registramos para ver tu plan y rutina personalizada en vivo.</p>
+            </div>
+
+            <div class="space-y-4">
+                <div class="space-y-1.5 text-left">
+                    <label class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Tu Correo Registrado</label>
+                    <div class="relative">
+                        <input type="email" id="login-email" placeholder="ejemplo@correo.com" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3.5 pl-10 pr-4 text-xs focus:outline-none transition-all">
+                        <i data-lucide="mail" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-600 w-4.5 h-4.5"></i>
+                    </div>
+                </div>
+
+                <!-- Caja de Errores de Login -->
+                <div id="login-error-box" class="hidden bg-red-500/5 border border-red-500/10 p-3 rounded-xl text-center text-red-400 text-xs font-semibold"></div>
+
+                <button onclick="intentarIniciarSesion()" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-4 rounded-xl transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-brand-500/10 active:scale-98">
+                    <span>Acceder al Portal</span>
+                    <i data-lucide="log-in" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <div class="pt-2">
+                <a href="https://wa.me/5491165846235?text=Hola!%20Me%20gustar%C3%ADa%20que%20me%20registres%20en%20el%20sistema%20Vital%20Core." target="_blank" class="text-[11px] text-brand-400 font-bold hover:underline">¿No estás registrado? Pedí tu acceso acá</a>
+            </div>
+        </div>
+    </div>
+
     <!-- FLOATING WHATSAPP BUTTON (Efecto premium con pulso) -->
-    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20gustaría%20hacer%20una%20consulta%20sobre%20los%2520planes%20de%20entrenamiento." 
+    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20gustaría%20hacer%20una%20consulta%20sobre%20los%20planes%20de%20entrenamiento." 
        target="_blank" 
        class="fixed bottom-6 right-6 z-[99] flex items-center justify-center w-14 h-14 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-2xl shadow-emerald-500/40 transition-all duration-300 hover:scale-110 active:scale-95 group"
        aria-label="Escribir por WhatsApp">
@@ -97,11 +142,14 @@
             </nav>
 
             <div class="flex items-center gap-3">
-                <a href="https://wa.me/5491165846235?text=Hola!%20Vengo%20desde%20la%20web%20y%20quiero%20consultar%20por%20un%20plan." target="_blank" class="hidden sm:flex items-center gap-2 bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 text-sm font-medium px-4 py-2.5 rounded-xl transition">
-                    <i data-lucide="message-square" class="w-4 h-4 text-brand-500"></i>
-                    <span>Consultar Plan</span>
-                </a>
-                <button onclick="toggleMobileMenu()" class="p-2.5 text-zinc-400 hover:text-white active:bg-zinc-900 rounded-xl transition" aria-label="Abrir menú">
+                <span id="welcome-badge" class="hidden lg:flex items-center gap-2 bg-brand-500/10 border border-brand-500/20 px-3.5 py-1.5 rounded-xl text-brand-400 text-xs font-semibold">
+                    <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                    <span id="welcome-name">Atleta</span>
+                </span>
+                <button onclick="cerrarSesion()" class="p-2 text-zinc-400 hover:text-red-400 rounded-xl transition" title="Cerrar Sesión">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                </button>
+                <button onclick="toggleMobileMenu()" class="p-2.5 text-zinc-400 hover:text-white active:bg-zinc-900 rounded-xl transition md:hidden" aria-label="Abrir menú">
                     <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
                 </button>
             </div>
@@ -117,7 +165,8 @@
             </a>
             <a href="#certificaciones" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-zinc-500"></i> Certificaciones</a>
             <a href="#calculadora" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 flex items-center gap-2"><i data-lucide="calculator" class="w-4 h-4 text-zinc-500"></i> Herramientas Científicas</a>
-            <a href="https://wa.me/5491165846235?text=Hola!%20Me%20interesa%20empezar%20mi%20asesoría%20de%20entrenamiento." target="_blank" class="w-full mt-4 flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-600 text-zinc-950 font-bold py-3.5 rounded-xl transition">
+            
+            <a href="https://wa.me/5491165846235?text=Hola!%20Me%20interesa%20empezar%20mi%20asesor%C3%ADa%20personalizada." target="_blank" class="w-full mt-4 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold py-3.5 rounded-xl transition">
                 <i data-lucide="message-square" class="w-5 h-5"></i>
                 <span>Escribir por WhatsApp</span>
             </a>
@@ -131,13 +180,13 @@
                 <!-- Columna Texto -->
                 <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
                     <div class="inline-flex items-center gap-2 bg-brand-500/10 border border-brand-500/20 px-3 py-1.5 rounded-full text-brand-400 text-[10px] sm:text-xs font-semibold tracking-wider uppercase">
-                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Asesoría Basada en Evidencia Científica
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Portal Oficial de Vital Core Trainer
                     </div>
                     <h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black tracking-tight text-white leading-tight">
-                        Optimiza tu <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-emerald-400">Rendimiento</span> Integral
+                        Hola, <span id="hero-user-name" class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-emerald-400">Atleta</span>
                     </h1>
                     <p class="text-zinc-400 text-sm sm:text-base max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                        Lveva tu fuerza, estética y salud al siguiente nivel con planificación individualizada, entrenamiento inteligente y educación técnica de primer nivel.
+                        Bienvenido a tu panel de control personalizado de fuerza, estética e hipertrofia. A continuación, el sistema cargó tu plan y rutina asignados desde tu base de datos científica.
                     </p>
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-4">
                         <a href="#biblioteca" class="w-full sm:w-auto bg-brand-500 hover:bg-brand-600 active:scale-[0.98] text-zinc-950 font-black px-6 py-4 rounded-xl shadow-lg shadow-brand-500/10 transition duration-150 flex items-center justify-center gap-2 text-sm uppercase tracking-wide">
@@ -145,25 +194,25 @@
                             <span>Buscador de Ejercicios</span>
                         </a>
                         <a href="#asesorias" class="w-full sm:w-auto bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 active:scale-[0.98] text-white font-semibold px-6 py-4 rounded-xl transition duration-150 flex items-center justify-center gap-2 text-sm uppercase tracking-wide">
-                            <span>Ver Asesorías</span>
+                            <span>Ver Otros Planes</span>
                             <i data-lucide="arrow-down" class="w-4 h-4"></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Columna Simulador -->
+                <!-- Columna Simulador de Rutina -->
                 <div class="lg:col-span-5 relative w-full flex justify-center">
                     <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-brand-500 to-emerald-500 opacity-15 blur-xl"></div>
                     <div class="relative bg-zinc-900/95 border border-zinc-880 p-5 sm:p-7 rounded-2xl w-full max-w-md space-y-5">
                         <div class="space-y-3">
                             <h3 class="font-bold text-xs sm:text-sm text-zinc-300 text-center lg:text-left flex items-center gap-2 justify-center lg:justify-start">
                                 <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-500 animate-pulse"></span>
-                                Simulador de Programas
+                                Tu Rutina Adaptada
                             </h3>
                             <div class="grid grid-cols-3 gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-880 text-[11px] sm:text-xs font-semibold">
-                                <button onclick="cargarRutinaSimulada('fuerza')" id="tab-fuerza" class="py-2.5 px-1 rounded-lg text-center transition duration-150 bg-brand-500 text-zinc-950 font-bold">Fuerza</button>
+                                <button onclick="cargarRutinaSimulada('fuerza')" id="tab-fuerza" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">Fuerza</button>
                                 <button onclick="cargarRutinaSimulada('estetica')" id="tab-estetica" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">Hipertrofia</button>
-                                <button onclick="cargarRutinaSimulada('encasa')" id="tab-encasa" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">En Casa</button>
+                                <button onclick="cargarRutinaSimulada('recomposicion')" id="tab-recomposicion" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">Recomp.</button>
                             </div>
                         </div>
 
@@ -220,7 +269,6 @@
                     </div>
                 </div>
 
-                <!-- NOTA DE CONFIGURACIÓN MÓVIL (Aviso de Gestos) -->
                 <div class="bg-brand-500/5 px-4 sm:px-6 py-3 border-b border-brand-500/10 text-[10px] sm:text-xs text-zinc-400 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                     <div class="flex items-center gap-2">
                         <i data-lucide="info" class="text-brand-500 w-4 h-4 shrink-0"></i>
@@ -250,7 +298,8 @@
                 <p class="text-zinc-400 text-xs sm:text-sm">Sin rutinas genéricas. Entrenamos de acuerdo a tus objetivos, disponibilidad y nivel de fuerza actual.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Grilla Adaptada a 4 Columnas -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Tarjeta 1: Fuerza -->
                 <div class="bg-zinc-900/40 border border-zinc-850 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
                     <div class="space-y-4">
@@ -265,7 +314,7 @@
                             <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Video-análisis técnico semanal</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20más%20información%20sobre%20el%20Plan%20Full%20Body%20Fuerza." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20Plan%20Full%20Body%20Fuerza." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
                         Elegir Plan
                     </a>
                 </div>
@@ -284,7 +333,7 @@
                             <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Control estricto de fatiga RPE</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20más%20información%20sobre%20el%20Plan%20de%20Hipertrofia." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20Plan%20de%20Hipertrofia." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
                         Elegir Plan
                     </a>
                 </div>
@@ -304,7 +353,7 @@
                             <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Ajustes y revisiones ilimitadas</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20interesa%20iniciar%20la%20Asesoría%20Vital%20VIP%20contigo." target="_blank" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black rounded-xl text-center block transition text-xs uppercase tracking-wide shadow-lg shadow-brand-500/10 active:scale-98">
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20interesa%20iniciar%20la%20Asesor%C3%ADa%20Vital%20VIP%20contigo." target="_blank" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black rounded-xl text-center block transition text-xs uppercase tracking-wide shadow-lg shadow-brand-500/10 active:scale-98">
                         Empezar Ahora
                     </a>
                 </div>
@@ -323,7 +372,7 @@
                             <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Seguimiento de pliegues/medidas</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20más%20información%20sobre%20el%20Plan%20de%20Recomposición%20Corporal." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20Plan%20de%20Recomposici%C3%B3n%20Corporal." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
                         Elegir Plan
                     </a>
                 </div>
@@ -391,7 +440,7 @@
         </div>
     </section>
 
-    <!-- SECCIÓN: CALCULADORAS CIENTÍFICAS HORIZONTALES (1RM Y MACROS) -->
+    <!-- SECCIÓN: CALCULADORAS CIENTÍFICAS -->
     <section id="calculadora" class="py-20 bg-zinc-900/40 border-t border-zinc-900 relative overflow-hidden">
         <div class="absolute inset-0 glow-bg opacity-20 pointer-events-none"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -552,6 +601,13 @@
 
     <!-- SCRIPTS INTERACTIVOS -->
     <script>
+        // Instanciar cliente de Supabase
+        const { createClient } = supabase;
+        const _supabase = createClient(
+            'https://kesbwmurxuncddirlbyt.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtlc2J3bXVyeHVuY2RkaXJsYnl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjY1MDcsImV4cCI6MjA5OTg0MjUwN30.GYC9LEOTG1mb9JjY4qHx1oZXg3451albuUhBwVi3ZJc'
+        );
+
         // Inicializar iconos de Lucide
         lucide.createIcons();
 
@@ -599,14 +655,14 @@
                     { name: "Elevaciones Laterales", desc: "4 series x 15 reps (Hombro)", rpe: "RPE 9.5" }
                 ]
             },
-            encasa: {
-                nombre: "Calistenia & Peso Corporal",
-                badge: "Sin Equipo / RPE 9",
+            recomposicion: {
+                nombre: "Recomposición Estructurada",
+                badge: "Grasa/Músculo / RPE 8-9",
                 ejercicios: [
-                    { name: "Flexiones de Brazos Expl.", desc: "4 series x 15-20 reps (Empuje)", rpe: "RPE 8.5" },
-                    { name: "Zancadas Búlgaras Unilat.", desc: "3 series x 12 reps/pierna (Piernas)", rpe: "RPE 8" },
-                    { name: "Dominadas en Barra Fija", desc: "3 series x Máximas reps (Espalda)", rpe: "RPE 9" },
-                    { name: "Plancha Abdominal Activa", desc: "3 series x 45-60 seg (Core)", rpe: "RPE 8.5" }
+                    { name: "Sentadilla Búlgara con Lastre", desc: "3 series x 10 reps/pierna (Cuádriceps)", rpe: "RPE 8.5" },
+                    { name: "Press Militar con Barra de Pie", desc: "3 series x 8 reps (Empuje Vertical)", rpe: "RPE 8" },
+                    { name: "Peso Muerto Convencional", desc: "3 series x 5 reps (Cadena Posterior)", rpe: "RPE 8.5" },
+                    { name: "Fondos en Paralelas", desc: "3 series x Máximas reps (Pecho/Tríceps)", rpe: "RPE 9" }
                 ]
             }
         };
@@ -616,17 +672,20 @@
 
         // Inyectar y renderizar los ejercicios del simulador en el DOM
         function cargarRutinaSimulada(tipo) {
-            const tabs = ['fuerza', 'estetica', 'encasa'];
+            const tabs = ['fuerza', 'estetica', 'recomposicion'];
             tabs.forEach(t => {
                 const btn = document.getElementById(`tab-${t}`);
-                if (t === tipo) {
-                    btn.className = "py-2.5 px-1 rounded-lg text-center transition duration-150 bg-brand-500 text-zinc-950 font-bold shadow-sm shadow-brand-500/10";
-                } else {
-                    btn.className = "py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white";
+                if (btn) {
+                    if (t === tipo) {
+                        btn.className = "py-2.5 px-1 rounded-lg text-center transition duration-150 bg-brand-500 text-zinc-950 font-bold shadow-sm shadow-brand-500/10";
+                    } else {
+                        btn.className = "py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white";
+                    }
                 }
             });
 
             const rutina = rutinasSimuladas[tipo];
+            if (!rutina) return;
             document.getElementById('rutina-nombre').innerText = rutina.nombre;
             document.getElementById('rutina-badge').innerText = rutina.badge;
 
@@ -661,7 +720,7 @@
                         </div>
                         <div class="flex items-center gap-2 shrink-0">
                             <span class="text-[8px] sm:text-[9px] font-black tracking-widest text-zinc-500 border border-zinc-800 px-1.5 py-0.5 rounded-md">${ej.rpe}</span>
-                            <i data-lucide="${completado ? 'check-circle animate-scaleIn' : 'circle'}" class="w-5 h-5 transition-all duration-200 ${
+                            <i data-lucide="${completado ? 'check-circle' : 'circle'}" class="w-5 h-5 transition-all duration-200 ${
                                 completado ? 'text-brand-500' : 'text-zinc-700'
                             }"></i>
                         </div>
@@ -681,10 +740,69 @@
             cargarRutinaSimulada(tipo);
         }
 
-        // Inicializar rutina predeterminada en carga inicial de la página
-        document.addEventListener("DOMContentLoaded", () => {
-            cargarRutinaSimulada('fuerza');
-        });
+        // Sistema de autenticación de Supabase en tiempo real
+        async function intentarIniciarSesion() {
+            const emailInput = document.getElementById('login-email').value.trim().toLowerCase();
+            const errorBox = document.getElementById('login-error-box');
+
+            if (!emailInput) {
+                mostrarError("Por favor, ingresá un correo válido.");
+                return;
+            }
+
+            errorBox.classList.add('hidden');
+
+            try {
+                // Consultar en Supabase por el correo del alumno
+                const { data, error } = await _supabase
+                    .from('usuarios_alumnos')
+                    .select('*')
+                    .eq('email', emailInput)
+                    .single();
+
+                if (error || !data) {
+                    mostrarError("El correo electrónico no se encuentra registrado en nuestra base de datos.");
+                    return;
+                }
+
+                // Guardar datos en localstorage y dar bienvenida
+                localStorage.setItem('vitalcore_logged_in_user', JSON.stringify(data));
+                ejecutarAccesoUsuario(data);
+
+            } catch (err) {
+                console.error("Error de login:", err);
+                mostrarError("Ocurrió un error al conectar con el servidor.");
+            }
+        }
+
+        function mostrarError(msg) {
+            const errorBox = document.getElementById('login-error-box');
+            errorBox.innerText = msg;
+            errorBox.classList.remove('hidden');
+        }
+
+        function ejecutarAccesoUsuario(usuario) {
+            // Ocultar pantalla de login
+            document.getElementById('login-screen').classList.add('hidden');
+
+            // Actualizar interfaz con el nombre del usuario
+            document.getElementById('welcome-name').innerText = usuario.nombre_completo;
+            document.getElementById('hero-user-name').innerText = usuario.nombre_completo;
+
+            // Cargar rutina automática dependiendo de su tipo de plan
+            let planPredefinido = 'fuerza';
+            if (usuario.tipo_plan === 'hipertrofia') planPredefinido = 'estetica';
+            if (usuario.tipo_plan === 'recomposicion') planPredefinido = 'recomposicion';
+
+            cargarRutinaSimulada(planPredefinido);
+        }
+
+        function cerrarSesion() {
+            localStorage.removeItem('vitalcore_logged_in_user');
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-error-box').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+        }
 
         // Calculadora de 1RM con fórmula de Epley
         function calcular1RM() {
@@ -823,6 +941,23 @@
             lightbox.classList.add('hidden');
             document.body.style.overflow = 'auto';
         }
+
+        // Control de Carga Inicial
+        window.addEventListener("DOMContentLoaded", () => {
+            const cachedUser = localStorage.getItem('vitalcore_logged_in_user');
+            if (cachedUser) {
+                // Si ya había ingresado previamente, saltar login
+                try {
+                    const parsed = JSON.parse(cachedUser);
+                    ejecutarAccesoUsuario(parsed);
+                } catch(e) {
+                    cerrarSesion();
+                }
+            } else {
+                // Mostrar pantalla de acceso
+                document.getElementById('login-screen').classList.remove('hidden');
+            }
+        });
     </script>
 </body>
 </html>
