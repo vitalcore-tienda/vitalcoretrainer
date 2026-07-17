@@ -44,7 +44,6 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #10b981;
         }
-        /* Prevenir que ecuaciones grandes rompan el layout en pantallas de 320px */
         .math-wrapper {
             overflow-x: auto;
             max-width: 100%;
@@ -60,7 +59,7 @@
 </head>
 <body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen selection:bg-brand-500/30 selection:text-white pb-12 sm:pb-0">
 
-    <!-- PANTALLA DE INICIO DE SESIÓN (LOGIN) - Se muestra si no hay sesión activa -->
+    <!-- PANTALLA DE INICIO DE SESIÓN (LOGIN) -->
     <div id="login-screen" class="fixed inset-0 z-[110] bg-zinc-950 flex items-center justify-center p-4">
         <div class="absolute inset-0 glow-bg opacity-30"></div>
         <div class="relative bg-zinc-900/90 border border-zinc-800 p-6 sm:p-10 rounded-2xl w-full max-w-md space-y-6 text-center shadow-2xl backdrop-blur-md">
@@ -88,7 +87,7 @@
                     </div>
                 </div>
 
-                <!-- Caja de Errores de Login con soporte técnico en tiempo real -->
+                <!-- Caja de Errores de Login -->
                 <div id="login-error-box" class="hidden bg-red-500/10 border border-red-500/20 p-3 rounded-xl text-center text-red-400 text-xs font-semibold"></div>
 
                 <button onclick="intentarIniciarSesion()" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-4 rounded-xl transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-brand-500/10 active:scale-98">
@@ -103,7 +102,7 @@
         </div>
     </div>
 
-    <!-- FLOATING WHATSAPP BUTTON (Efecto premium con pulso) -->
+    <!-- FLOATING WHATSAPP BUTTON -->
     <a href="https://wa.me/5491165846235?text=Hola!%20Me%20gustaría%20hacer%20una%20consulta%20sobre%20los%20planes%20de%20entrenamiento." 
        target="_blank" 
        class="fixed bottom-6 right-6 z-[99] flex items-center justify-center w-14 h-14 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-2xl shadow-emerald-500/40 transition-all duration-300 hover:scale-110 active:scale-95 group"
@@ -204,8 +203,8 @@
                     <div class="relative bg-zinc-900/95 border border-zinc-880 p-5 sm:p-7 rounded-2xl w-full max-w-md space-y-5">
                         <div class="space-y-3">
                             <h3 class="font-bold text-xs sm:text-sm text-zinc-300 text-center lg:text-left flex items-center gap-2 justify-center lg:justify-start">
-                                <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-500 animate-pulse"></span>
-                                Tu Rutina Adaptada
+                                <span id="source-indicator-dot" class="inline-block w-2.5 h-2.5 rounded-full bg-brand-500 animate-pulse"></span>
+                                <span id="source-indicator-text">Tu Rutina Adaptada</span>
                             </h3>
                             <div id="tabs-selector-container" class="grid grid-cols-3 gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-880 text-[11px] sm:text-xs font-semibold">
                                 <button onclick="cargarRutinaSimulada('fuerza')" id="tab-fuerza" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">Fuerza</button>
@@ -245,9 +244,8 @@
                 </p>
             </div>
 
-            <!-- Contenedor del Buscador de Ejercicios en Iframe -->
+            <!-- Contenedor del Buscador de Ejercicios -->
             <div class="relative bg-zinc-950 border border-zinc-850 rounded-2xl overflow-hidden shadow-2xl">
-                <!-- Barra del sistema simulada -->
                 <div class="bg-zinc-900 px-4 py-3 flex items-center justify-between border-b border-zinc-850">
                     <div class="flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block"></span>
@@ -273,7 +271,6 @@
                     </div>
                 </div>
 
-                <!-- El Iframe que carga index.html del repositorio -->
                 <div class="relative h-[600px] bg-zinc-900">
                     <iframe 
                         id="exercises-iframe"
@@ -342,7 +339,7 @@
                         <div class="w-11 h-11 rounded-xl bg-brand-500/20 flex items-center justify-center text-brand-500">
                             <i data-lucide="crown" class="w-5 h-5"></i>
                         </div>
-                        <h3 class="text-base font-black text-white uppercase tracking-tight">Asesoría Vital VIP</h3>
+                        <h3 class="text-base font-black text-white uppercase tracking-tight">Asesoría VIP</h3>
                         <p class="text-zinc-400 text-xs leading-relaxed">Planificación integral de alto nivel. Combina fuerza, hipertrofia y nutrición de máxima precisión con contacto diario por WhatsApp.</p>
                         <ul class="space-y-2 text-xs text-zinc-300 pt-1">
                             <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Plan entrenamiento + nutrición</li>
@@ -350,7 +347,7 @@
                             <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Ajustes y revisiones ilimitadas</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20interesa%20iniciar%20la%20Asesor%C3%ADa%20Vital%20VIP%20contigo." target="_blank" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black rounded-xl text-center block transition text-xs uppercase tracking-wide shadow-lg shadow-brand-500/10 active:scale-98">
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20interesa%20iniciar%20la%20Asesor%C3%ADa%20VIP%20contigo." target="_blank" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black rounded-xl text-center block transition text-xs uppercase tracking-wide shadow-lg shadow-brand-500/10 active:scale-98">
                         Empezar Ahora
                     </a>
                 </div>
@@ -509,7 +506,6 @@
                         Calcula tu gasto calórico diario (TDEE) y distribuye de forma idónea las calorías basándote en un modelo enfocado a conservar masa muscular magra y acelerar la recuperación.
                     </p>
 
-                    <!-- Rejilla de inputs -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                         <div class="space-y-1">
                             <label class="block text-[10px] sm:text-xs font-bold text-zinc-400 uppercase">Peso Corporal</label>
@@ -601,7 +597,7 @@
         const SUPABASE_URL = "https://kesbwmurxuncddirlbyt.supabase.co";
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtlc2J3bXVyeHVuY2RkaXJsYnl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjY1MDcsImV4cCI6MjA5OTg0MjUwN30.GYC9LEOTG1mb9JjY4qHx1oZXg3451albuUhBwVi3ZJc";
 
-        // Instanciar cliente de Supabase
+        // Instanciar cliente de Supabase de manera definitiva
         const { createClient } = supabase;
         const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -630,7 +626,7 @@
             }
         }
 
-        // Dataset de Programas y Rutinas de Simulación Científica
+        // Dataset de Programas y Rutinas de Simulación Científica (Fallback)
         const rutinasSimuladas = {
             fuerza: {
                 nombre: "Full Body Fuerza",
@@ -665,6 +661,7 @@
         };
 
         let ejerciciosCompletados = {};
+        window.rutinasReales = null;
 
         // Inyectar y renderizar los ejercicios del simulador en el DOM
         function cargarRutinaSimulada(tipo) {
@@ -753,11 +750,11 @@
                     .from('usuarios_alumnos')
                     .select('*')
                     .eq('email', emailInput)
-                    .maybeSingle(); // Usar maybeSingle para evitar el error PGRST116 si da vacío
+                    .maybeSingle();
 
                 if (error) {
                     console.error("Error de base de datos:", error);
-                    mostrarError(`Error de conexión: ${error.message} (Código: ${error.code})`);
+                    mostrarError(`Error de conexión: ${error.message}`);
                     return;
                 }
 
@@ -796,25 +793,47 @@
 
         // Carga real de rutinas desde Supabase
         async function cargarRutinasDesdeServidor(alumnoId, tipoPlanDefault) {
+            const indicatorText = document.getElementById('source-indicator-text');
+            const indicatorDot = document.getElementById('source-indicator-dot');
+
             try {
-                const { data, error } = await supabaseClient
+                // Consultar la tabla de rutinas_asignadas
+                const { data, error } = await _supabase
                     .from('rutinas_asignadas')
                     .select('*')
                     .eq('alumno_id', alumnoId);
 
-                if (error) throw error;
+                if (error) {
+                    console.error("Error cargando rutinas reales de Supabase:", error);
+                    // Mostrar error visual para depuración rápida
+                    document.getElementById('rutina-nombre').innerHTML = `<span class="text-red-500">Error Base Datos</span>`;
+                    document.getElementById('rutina-badge').innerText = error.message;
+                    throw error;
+                }
 
                 if (data && data.length > 0) {
-                    // Guardar rutinas reales de forma global para renderizado
+                    // ¡Encontramos rutinas en la nube! Cambiamos indicadores
                     window.rutinasReales = data;
+                    
+                    indicatorText.innerText = "Tu Plan Personalizado (Nube)";
+                    indicatorDot.className = "inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-lg shadow-emerald-500/50 animate-pulse";
+                    
                     renderizarTabsRutinasReales(data);
                 } else {
-                    // Fallback a simulación por defecto si la base de datos no tiene rutinas asignadas
+                    // No hay rutinas cargadas en la tabla para este usuario, usamos fallback simulado
                     window.rutinasReales = null;
+                    
+                    indicatorText.innerText = "Tu Rutina Adaptada (Simulación)";
+                    indicatorDot.className = "inline-block w-2.5 h-2.5 rounded-full bg-yellow-500 animate-pulse";
+                    
                     restablecerTabsSimuladas(tipoPlanDefault);
                 }
             } catch (err) {
-                console.error("Error cargando rutinas reales:", err);
+                console.error("Error cargando rutinas reales, usando fallback simulado:", err);
+                
+                indicatorText.innerText = "Rutina Adaptada (Modo Seguro)";
+                indicatorDot.className = "inline-block w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse";
+                
                 restablecerTabsSimuladas(tipoPlanDefault);
             }
         }
@@ -835,22 +854,24 @@
 
         function renderizarTabsRutinasReales(rutinas) {
             const container = document.getElementById('tabs-selector-container');
-            // Adaptar columnas del grid dinámicamente según la cantidad de días
+            
+            // Adaptar las columnas del selector dinámicamente según la cantidad de días cargados
             container.className = `grid grid-cols-${rutinas.length} gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-880 text-[11px] sm:text-xs font-semibold`;
             container.innerHTML = '';
 
             rutinas.forEach((r, idx) => {
                 const btn = document.createElement('button');
                 btn.id = `tab-real-${idx}`;
-                btn.className = "py-2 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white truncate";
-                // Extraer el día de la semana para que entre bien en pantallas chicas
+                btn.className = "py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white truncate";
+                
+                // Extraer el día de la semana principal (ej. Lunes, Miércoles)
                 btn.innerText = r.dia_semana.split(' ')[0];
                 btn.title = r.dia_semana;
                 btn.onclick = () => mostrarRutinaReal(idx);
                 container.appendChild(btn);
             });
 
-            // Mostrar el primer día por defecto
+            // Mostrar el primer día real cargado por defecto
             mostrarRutinaReal(0);
         }
 
@@ -858,14 +879,14 @@
             const rutinas = window.rutinasReales;
             if (!rutinas || !rutinas[idx]) return;
 
-            // Resaltar la pestaña seleccionada
+            // Resaltar la pestaña del día seleccionado
             rutinas.forEach((_, i) => {
                 const btn = document.getElementById(`tab-real-${i}`);
                 if (btn) {
                     if (i === idx) {
-                        btn.className = "py-2 px-1 rounded-lg text-center transition duration-150 bg-brand-500 text-zinc-950 font-bold shadow-sm shadow-brand-500/10 truncate";
+                        btn.className = "py-2.5 px-1 rounded-lg text-center transition duration-150 bg-brand-500 text-zinc-950 font-bold shadow-sm shadow-brand-500/10 truncate";
                     } else {
-                        btn.className = "py-2 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white truncate";
+                        btn.className = "py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white truncate";
                     }
                 }
             });
@@ -882,7 +903,7 @@
                 const ejercicios = rutina.bloque_ejercicios;
 
                 if (!Array.isArray(ejercicios) || ejercicios.length === 0) {
-                    container.innerHTML = '<p class="text-zinc-500 text-xs text-center py-10">No hay ejercicios asignados.</p>';
+                    container.innerHTML = '<p class="text-zinc-500 text-xs text-center py-10">No hay ejercicios asignados en este día.</p>';
                     container.classList.remove('opacity-0');
                     return;
                 }
@@ -898,6 +919,7 @@
                             ? 'bg-brand-500/5 border-brand-500/20 opacity-70' 
                             : 'bg-zinc-950/50 border-zinc-900 hover:border-zinc-800'
                     }`;
+                    
                     exDiv.onclick = () => {
                         ejerciciosCompletados[uniqueId] = !ejerciciosCompletados[uniqueId];
                         mostrarRutinaReal(idx);
@@ -1075,7 +1097,7 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Control de Carga Inicial con caché
+        // Control de Carga Inicial con caché persistente
         window.addEventListener("DOMContentLoaded", () => {
             const cachedUser = localStorage.getItem('vitalcore_logged_in_user');
             if (cachedUser) {
