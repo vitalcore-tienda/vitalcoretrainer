@@ -207,7 +207,7 @@
                                 <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-500 animate-pulse"></span>
                                 Tu Rutina Adaptada
                             </h3>
-                            <div class="grid grid-cols-3 gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-880 text-[11px] sm:text-xs font-semibold">
+                            <div id="tabs-selector-container" class="grid grid-cols-3 gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-880 text-[11px] sm:text-xs font-semibold">
                                 <button onclick="cargarRutinaSimulada('fuerza')" id="tab-fuerza" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">Fuerza</button>
                                 <button onclick="cargarRutinaSimulada('estetica')" id="tab-estetica" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">Hipertrofia</button>
                                 <button onclick="cargarRutinaSimulada('recomposicion')" id="tab-recomposicion" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">Recomp.</button>
@@ -790,12 +790,144 @@
             document.getElementById('welcome-name').innerText = usuario.nombre_completo;
             document.getElementById('hero-user-name').innerText = usuario.nombre_completo;
 
-            // Cargar rutina automática dependiendo de su tipo de plan
-            let planPredefinido = 'fuerza';
-            if (usuario.tipo_plan === 'hipertrofia' || usuario.tipo_plan === 'estetica') planPredefinido = 'estetica';
-            if (usuario.tipo_plan === 'recomposicion') planPredefinido = 'recomposicion';
+            // Intentar cargar rutinas reales desde la base de datos de Supabase
+            cargarRutinasDesdeServidor(usuario.id, usuario.tipo_plan);
+        }
 
+        // Carga real de rutinas desde Supabase
+        async function cargarRutinasDesdeServidor(alumnoId, tipoPlanDefault) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('rutinas_asignadas')
+                    .select('*')
+                    .eq('alumno_id', alumnoId);
+
+                if (error) throw error;
+
+                if (data && data.length > 0) {
+                    // Guardar rutinas reales de forma global para renderizado
+                    window.rutinasReales = data;
+                    renderizarTabsRutinasReales(data);
+                } else {
+                    // Fallback a simulación por defecto si la base de datos no tiene rutinas asignadas
+                    window.rutinasReales = null;
+                    restablecerTabsSimuladas(tipoPlanDefault);
+                }
+            } catch (err) {
+                console.error("Error cargando rutinas reales:", err);
+                restablecerTabsSimuladas(tipoPlanDefault);
+            }
+        }
+
+        function restablecerTabsSimuladas(tipoPlanDefault) {
+            const container = document.getElementById('tabs-selector-container');
+            container.className = "grid grid-cols-3 gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-880 text-[11px] sm:text-xs font-semibold";
+            container.innerHTML = `
+                <button onclick="cargarRutinaSimulada('fuerza')" id="tab-fuerza" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">Fuerza</button>
+                <button onclick="cargarRutinaSimulada('estetica')" id="tab-estetica" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">Hipertrofia</button>
+                <button onclick="cargarRutinaSimulada('recomposicion')" id="tab-recomposicion" class="py-2.5 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white">Recomp.</button>
+            `;
+            let planPredefinido = 'fuerza';
+            if (tipoPlanDefault === 'hipertrofia' || tipoPlanDefault === 'estetica') planPredefinido = 'estetica';
+            if (tipoPlanDefault === 'recomposicion') planPredefinido = 'recomposicion';
             cargarRutinaSimulada(planPredefinido);
+        }
+
+        function renderizarTabsRutinasReales(rutinas) {
+            const container = document.getElementById('tabs-selector-container');
+            // Adaptar columnas del grid dinámicamente según la cantidad de días
+            container.className = `grid grid-cols-${rutinas.length} gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-880 text-[11px] sm:text-xs font-semibold`;
+            container.innerHTML = '';
+
+            rutinas.forEach((r, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `tab-real-${idx}`;
+                btn.className = "py-2 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white truncate";
+                // Extraer el día de la semana para que entre bien en pantallas chicas
+                btn.innerText = r.dia_semana.split(' ')[0];
+                btn.title = r.dia_semana;
+                btn.onclick = () => mostrarRutinaReal(idx);
+                container.appendChild(btn);
+            });
+
+            // Mostrar el primer día por defecto
+            mostrarRutinaReal(0);
+        }
+
+        function mostrarRutinaReal(idx) {
+            const rutinas = window.rutinasReales;
+            if (!rutinas || !rutinas[idx]) return;
+
+            // Resaltar la pestaña seleccionada
+            rutinas.forEach((_, i) => {
+                const btn = document.getElementById(`tab-real-${i}`);
+                if (btn) {
+                    if (i === idx) {
+                        btn.className = "py-2 px-1 rounded-lg text-center transition duration-150 bg-brand-500 text-zinc-950 font-bold shadow-sm shadow-brand-500/10 truncate";
+                    } else {
+                        btn.className = "py-2 px-1 rounded-lg text-center transition duration-150 text-zinc-400 hover:text-white truncate";
+                    }
+                }
+            });
+
+            const rutina = rutinas[idx];
+            document.getElementById('rutina-nombre').innerText = rutina.dia_semana;
+            document.getElementById('rutina-badge').innerText = "Personalizada / Plan Activo";
+
+            const container = document.getElementById('rutina-ejercicios-container');
+            container.classList.add('opacity-0');
+
+            setTimeout(() => {
+                container.innerHTML = '';
+                const ejercicios = rutina.bloque_ejercicios;
+
+                if (!Array.isArray(ejercicios) || ejercicios.length === 0) {
+                    container.innerHTML = '<p class="text-zinc-500 text-xs text-center py-10">No hay ejercicios asignados.</p>';
+                    container.classList.remove('opacity-0');
+                    return;
+                }
+
+                ejercicios.forEach((ej, index) => {
+                    const uniqueId = `real-${rutina.id}-${index}`;
+                    const completado = ejerciciosCompletados[uniqueId] || false;
+                    const idTag = ej.id_ejercicio ? `ID: ${ej.id_ejercicio}` : 'S/I';
+
+                    const exDiv = document.createElement('div');
+                    exDiv.className = `flex items-center gap-3 p-3 rounded-xl border transition-all duration-200 cursor-pointer ${
+                        completado 
+                            ? 'bg-brand-500/5 border-brand-500/20 opacity-70' 
+                            : 'bg-zinc-950/50 border-zinc-900 hover:border-zinc-800'
+                    }`;
+                    exDiv.onclick = () => {
+                        ejerciciosCompletados[uniqueId] = !ejerciciosCompletados[uniqueId];
+                        mostrarRutinaReal(idx);
+                    };
+
+                    exDiv.innerHTML = `
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs transition-all duration-200 shrink-0 ${
+                            completado ? 'bg-brand-500 text-zinc-950' : 'bg-brand-500/10 text-brand-500'
+                        }">
+                            ${index + 1}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs sm:text-sm font-semibold truncate transition-all duration-200 ${
+                                completado ? 'text-zinc-400 line-through' : 'text-white'
+                            }">${ej.name || ej.nombre}</p>
+                            <p class="text-[10px] text-zinc-500 truncate">${ej.desc || ej.descripcion || ''}</p>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <span class="text-[8px] sm:text-[9px] font-black tracking-widest text-zinc-500 border border-zinc-800 px-1.5 py-0.5 rounded-md">${idTag}</span>
+                            <i data-lucide="${completado ? 'check-circle' : 'circle'}" class="w-5 h-5 transition-all duration-200 ${
+                                completado ? 'text-brand-500' : 'text-zinc-700'
+                            }"></i>
+                        </div>
+                    `;
+                    container.appendChild(exDiv);
+                });
+
+                lucide.createIcons();
+                container.classList.remove('opacity-0');
+            }, 150);
         }
 
         function cerrarSesion() {
