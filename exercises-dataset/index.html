@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Ejercicios — Vital Core Trainer</title>
+    <!-- Tailwind CSS para diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para iconos limpios -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eefef4',
+                            100: '#d3fbe2',
+                            500: '#10b981', /* Esmeralda de Vital Core */
+                            600: '#059669',
+                            950: '#022c22',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #3f3f46;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen custom-scrollbar">
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+        <!-- Encabezado de la Biblioteca -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-900 pb-6">
+            <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-500 animate-pulse"></span>
+                    <h1 class="text-2xl font-black tracking-tight text-white uppercase">Biblioteca de Ejercicios</h1>
+                </div>
+                <p class="text-zinc-400 text-xs sm:text-sm">Buscador inteligente con base de datos científica e instrucciones en español nativo.</p>
+            </div>
+            <div id="stats-badge" class="bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs px-3.5 py-1.5 rounded-xl font-bold">
+                Cargando biblioteca...
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE BÚSQUEDA Y FILTROS -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
+            
+            <!-- Barra Lateral de Filtros -->
+            <div class="md:col-span-1 bg-zinc-900/40 border border-zinc-900 rounded-2xl p-5 space-y-6">
+                <h3 class="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
+                    <i data-lucide="sliders-horizontal" class="w-4 h-4 text-brand-500"></i>
+                    <span>Filtros</span>
+                </h3>
+
+                <!-- Búsqueda General -->
+                <div class="space-y-2">
+                    <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Buscar por nombre o ID</label>
+                    <div class="relative">
+                        <input type="text" id="search-input" placeholder="Ej. Press banca, 0032..." class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 pl-10 pr-4 text-xs focus:outline-none transition-all">
+                        <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 w-4 h-4"></i>
+                    </div>
+                </div>
+
+                <!-- Filtro de Grupo Muscular -->
+                <div class="space-y-2">
+                    <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Grupo Muscular</label>
+                    <select id="filter-category" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 px-3 text-xs focus:outline-none transition-all cursor-pointer">
+                        <option value="">Todos los músculos</option>
+                    </select>
+                </div>
+
+                <!-- Filtro de Equipamiento -->
+                <div class="space-y-2">
+                    <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Equipamiento</label>
+                    <select id="filter-equipment" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 px-3 text-xs focus:outline-none transition-all cursor-pointer">
+                        <option value="">Cualquier equipo</option>
+                    </select>
+                </div>
+
+                <!-- Botón de Limpieza -->
+                <button id="btn-reset" class="w-full bg-zinc-950 hover:bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white text-xs font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                    <span>Limpiar Filtros</span>
+                </button>
+            </div>
+
+            <!-- GRILLA DE EJERCICIOS -->
+            <div class="md:col-span-3 space-y-6">
+                <div id="exercises-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Las tarjetas se cargarán dinámicamente -->
+                </div>
+
+                <!-- Cargando / Sin Resultados -->
+                <div id="state-message" class="text-center py-20 bg-zinc-900/10 border border-dashed border-zinc-900 rounded-2xl hidden">
+                    <div id="message-content" class="space-y-3">
+                        <!-- Mensaje inyectado por JS -->
+                    </div>
+                </div>
+
+                <!-- Botón Cargar Más -->
+                <div id="load-more-container" class="flex justify-center pt-4 hidden">
+                    <button id="btn-load-more" class="bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black text-xs uppercase tracking-wider px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-brand-500/10 flex items-center gap-2">
+                        <span>Cargar más ejercicios</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL DE DETALLE DEL EJERCICIO -->
+    <div id="exercise-modal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-zinc-950 border border-zinc-900 w-full max-w-3xl rounded-3xl overflow-hidden max-h-[90vh] flex flex-col shadow-2xl relative">
+            <!-- Botón de Cerrar -->
+            <button id="btn-close-modal" class="absolute top-5 right-5 z-10 bg-zinc-900/80 hover:bg-zinc-900 text-zinc-400 hover:text-white p-2 rounded-full transition-all">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Contenido Scrollable -->
+            <div class="overflow-y-auto custom-scrollbar flex-1 p-6 md:p-8 space-y-6">
+                <!-- Parte Superior: Título e Info Básica -->
+                <div class="space-y-2.5">
+                    <div class="flex flex-wrap gap-2">
+                        <span id="modal-category" class="bg-brand-500/10 text-brand-400 border border-brand-500/20 text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md"></span>
+                        <span id="modal-equipment" class="bg-zinc-900 text-zinc-300 border border-zinc-800 text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md"></span>
+                    </div>
+                    <h2 id="modal-name" class="text-xl md:text-2xl font-black text-white tracking-tight uppercase"></h2>
+                </div>
+
+                <!-- Cuerpo del Detalle -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                    <!-- Columna Izquierda: Animación/GIF -->
+                    <div class="bg-zinc-900/50 border border-zinc-900 rounded-2xl overflow-hidden aspect-square flex items-center justify-center relative group min-h-[250px]">
+                        <img id="modal-gif" src="" alt="Demostración" class="w-full h-full object-cover transition-opacity duration-300 opacity-0" onerror="handleGifError(this)">
+                        <div id="gif-loader" class="absolute inset-0 flex flex-col items-center justify-center text-zinc-500 gap-2">
+                            <i data-lucide="loader-2" class="w-8 h-8 animate-spin text-brand-500"></i>
+                            <span class="text-xs">Cargando animación técnica...</span>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Parámetros e Instrucciones -->
+                    <div class="space-y-5">
+                        <div class="bg-zinc-900/30 border border-zinc-900 p-4 rounded-xl space-y-3">
+                            <h4 class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Enfoque de Biomecánica</h4>
+                            <div class="grid grid-cols-2 gap-3 text-xs">
+                                <div>
+                                    <span class="text-zinc-500 block">Músculo Objetivo:</span>
+                                    <span id="modal-target" class="font-bold text-white uppercase"></span>
+                                </div>
+                                <div>
+                                    <span class="text-zinc-500 block">Sinergistas/Apoyo:</span>
+                                    <span id="modal-synergists" class="font-bold text-zinc-300 uppercase"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h3 class="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2 border-b border-zinc-900 pb-2">
+                                <i data-lucide="book-open" class="w-4 h-4 text-brand-500"></i>
+                                <span>Ejecución Paso a Paso</span>
+                            </h3>
+                            <!-- Lista de pasos inyectada en Español -->
+                            <ol id="modal-steps" class="space-y-3 text-xs text-zinc-400 list-decimal pl-4 leading-relaxed">
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie de Página del Modal -->
+                <div class="pt-4 border-t border-zinc-900 flex justify-between items-center text-[10px] text-zinc-500">
+                    <span id="modal-attribution"></span>
+                    <span id="modal-id"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS DE CONTROL -->
+    <script>
+        // Diccionario de Traducción Inteligente (Previene auto-traducciones erróneas)
+        const traducciones = {
+            categorias: {
+                "chest": "Pecho",
+                "back": "Espalda",
+                "shoulders": "Hombros",
+                "upper arms": "Brazos (Bíceps/Tríceps)",
+                "lower arms": "Antebrazos",
+                "waist": "Abdomen / Core",
+                "upper legs": "Piernas (Muslos)",
+                "lower legs": "Pantorrillas",
+                "cardio": "Cardio y Resistencia",
+                "neck": "Cuello"
+            },
+            equipos: {
+                "body weight": "Peso Corporal",
+                "dumbbell": "Mancuernas",
+                "barbell": "Barra",
+                "cable": "Poleas",
+                "leverage machine": "Máquina de Palanca",
+                "band": "Bandas de Resistencia",
+                "smith machine": "Máquina Multipower/Smith",
+                "kettlebell": "Pesa Rusa (Kettlebell)",
+                "weighted": "Con Lastre",
+                "stability ball": "Fitball / Pelota Suiza",
+                "ez barbell": "Barra Z",
+                "medicine ball": "Balón Medicinal",
+                "rope": "Cuerda",
+                "roller": "Rodillo para Abdominales",
+                "assisted": "Asistido",
+                "wheel roller": "Rueda Abdominal"
+            },
+            musculos: {
+                "abs": "Abdominales",
+                "glutes": "Glúteos",
+                "biceps": "Bíceps",
+                "triceps": "Tríceps",
+                "hamstrings": "Isquiosurales",
+                "quads": "Cuádriceps",
+                "lats": "Dorsales",
+                "pectorals": "Pectorales",
+                "delts": "Deltoides",
+                "calves": "Gemelos",
+                "forearms": "Antebrazos",
+                "traps": "Trapecios",
+                "cardio": "Sistema Cardiovascular",
+                "spine": "Erectores de Columna",
+                "upper back": "Espalda Superior",
+                "serratus anterior": "Serrato Anterior",
+                "adductors": "Aductores",
+                "abductors": "Abductores",
+                "levator scapulae": "Elevador de la Escápula"
+            },
+            ejerciciosComunes: {
+                "bench press": "Press de banca",
+                "deadlift": "Peso muerto",
+                "squat": "Sentadilla",
+                "pull-up": "Dominada",
+                "push-up": "Flexión de brazos",
+                "curl": "Curling",
+                "raise": "Elevación",
+                "press": "Press",
+                "row": "Remo",
+                "lunge": "Zancada"
+            }
+        };
+
+        // Función para traducir textos técnicos
+        function t(categoria, valorOriginal) {
+            if (!valorOriginal) return "No especificado";
+            const valorMin = valorOriginal.toLowerCase().trim();
+            const dict = traducciones[categoria];
+            if (dict && dict[valorMin]) {
+                return dict[valorMin];
+            }
+            return valorOriginal;
+        }
+
+        // Traducir nombres de ejercicios de manera amigable
+        function traducirNombreEjercicio(nombre) {
+            let traducido = nombre.toLowerCase();
+            Object.entries(traducciones.ejerciciosComunes).forEach(([en, es]) => {
+                traducido = traducido.replace(new RegExp(en, 'g'), es);
+            });
+            return traducido.charAt(0).toUpperCase() + traducido.slice(1);
+        }
+
+        // Estado de la Aplicación
+        let bibliotecaCompleta = [];
+        let ejerciciosFiltrados = [];
+        let paginaActual = 0;
+        const itemsPorPagina = 24;
+
+        // Método que apunta de manera directa y permanente al CDN del Repositorio de GitHub
+        function resolverRutaDatos() {
+            return 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/data/exercises.json';
+        }
+
+        // Obtener URLs de recursos multimedia directamente de la nube para no subir archivos locales
+        function obtenerUrlRecurso(tipo, ex) {
+            return tipo === 'image'
+                ? `https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/${ex.id}-${ex.media_id}.jpg`
+                : `https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/${ex.id}-${ex.media_id}.gif`;
+        }
+
+        // Carga inicial de datos
+        async function inicializarBiblioteca() {
+            try {
+                const urlDeOrigen = resolverRutaDatos();
+                const response = await fetch(urlDeOrigen);
+                if (!response.ok) throw new Error("No se pudo leer el origen de datos");
+                
+                bibliotecaCompleta = await response.json();
+                ejerciciosFiltrados = [...bibliotecaCompleta];
+                
+                // Configurar opciones de filtros dinámicamente
+                cargarFiltrosSelect();
+                
+                // Mostrar datos
+                actualizarEstadisticas();
+                renderizarGrilla();
+                
+            } catch (err) {
+                console.error("Error al inicializar:", err);
+                mostrarMensajeError();
+            }
+        }
+
+        // Llenar los desplegables de categorías y equipamientos traducidos
+        function cargarFiltrosSelect() {
+            const categoriasUnicas = new Set();
+            const equiposUnicos = new Set();
+            
+            bibliotecaCompleta.forEach(ex => {
+                if (ex.category) categoriasUnicas.add(ex.category.trim());
+                if (ex.equipment) equiposUnicos.add(ex.equipment.trim());
+            });
+
+            const catSelect = document.getElementById('filter-category');
+            Array.from(categoriasUnicas).sort().forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat;
+                opt.innerText = t('categorias', cat);
+                catSelect.appendChild(opt);
+            });
+
+            const eqSelect = document.getElementById('filter-equipment');
+            Array.from(equiposUnicos).sort().forEach(eq => {
+                const opt = document.createElement('option');
+                opt.value = eq;
+                opt.innerText = t('equipos', eq);
+                eqSelect.appendChild(opt);
+            });
+        }
+
+        // Filtrado en tiempo real
+        function aplicarFiltros() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const catSelected = document.getElementById('filter-category').value;
+            const eqSelected = document.getElementById('filter-equipment').value;
+
+            ejerciciosFiltrados = bibliotecaCompleta.filter(ex => {
+                const matchSearch = !query || 
+                    ex.name.toLowerCase().includes(query) || 
+                    (ex.id && ex.id.toLowerCase().includes(query)) || 
+                    (ex.target && ex.target.toLowerCase().includes(query)) ||
+                    (ex.instructions && ex.instructions.es && ex.instructions.es.toLowerCase().includes(query));
+                
+                const matchCat = !catSelected || ex.category === catSelected;
+                const matchEq = !eqSelected || ex.equipment === eqSelected;
+
+                return matchSearch && matchCat && matchEq;
+            });
+
+            paginaActual = 0;
+            renderizarGrilla();
+            actualizarEstadisticas();
+        }
+
+        // Renderizado de las tarjetas en la grilla
+        function renderizarGrilla() {
+            const grid = document.getElementById('exercises-grid');
+            const stateMsg = document.getElementById('state-message');
+            const btnMore = document.getElementById('load-more-container');
+
+            if (paginaActual === 0) {
+                grid.innerHTML = '';
+            }
+
+            if (ejerciciosFiltrados.length === 0) {
+                grid.classList.add('hidden');
+                stateMsg.classList.remove('hidden');
+                btnMore.classList.add('hidden');
+                
+                document.getElementById('message-content').innerHTML = `
+                    <i data-lucide="search-code" class="w-12 h-12 text-zinc-600 mx-auto"></i>
+                    <p class="text-zinc-400 text-sm font-semibold">No encontramos ejercicios que coincidan con tus filtros.</p>
+                    <button onclick="resetearFiltros()" class="text-xs text-brand-400 font-bold hover:underline">Limpiar filtros e intentar de nuevo</button>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            stateMsg.classList.add('hidden');
+
+            const limite = Math.min((paginaActual + 1) * itemsPorPagina, ejerciciosFiltrados.length);
+            const inicio = paginaActual * itemsPorPagina;
+
+            for (let i = inicio; i < limite; i++) {
+                const ex = ejerciciosFiltrados[i];
+                const imgSrc = obtenerUrlRecurso('image', ex);
+
+                const card = document.createElement('div');
+                card.className = "bg-zinc-900/30 hover:bg-zinc-900 border border-zinc-900 hover:border-brand-500/20 rounded-2xl p-4 transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-4 group";
+                card.onclick = () => abrirDetalleModal(ex);
+
+                card.innerHTML = `
+                    <div class="space-y-3">
+                        <!-- Imagen/Miniatura -->
+                        <div class="bg-zinc-950 aspect-square rounded-xl overflow-hidden flex items-center justify-center relative border border-zinc-900">
+                            <img src="${imgSrc}" alt="${ex.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/180x180/09090b/10b981?text=VitalCore'">
+                        </div>
+                        
+                        <!-- Categoría y Equipamiento -->
+                        <div class="flex flex-wrap gap-1">
+                            <span class="bg-brand-500/10 text-brand-400 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md">${t('categorias', ex.category)}</span>
+                            <span class="bg-zinc-900 text-zinc-400 text-[9px] font-bold px-2 py-0.5 rounded-md">${t('equipos', ex.equipment)}</span>
+                        </div>
+
+                        <!-- Nombre -->
+                        <h4 class="text-white font-bold text-xs sm:text-sm leading-snug tracking-tight group-hover:text-brand-400 transition-colors duration-200 line-clamp-2 uppercase">
+                            ${traducirNombreEjercicio(ex.name)}
+                        </h4>
+                    </div>
+
+                    <div class="pt-3 border-t border-zinc-900/55 flex justify-between items-center text-[10px] text-zinc-500 font-medium">
+                        <span>Foco: ${t('musculos', ex.target)}</span>
+                        <i data-lucide="arrow-up-right" class="w-4 h-4 text-zinc-600 group-hover:text-brand-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+                    </div>
+                `;
+                grid.appendChild(card);
+            }
+
+            // Mostrar u ocultar botón de cargar más
+            if (limite < ejerciciosFiltrados.length) {
+                btnMore.classList.remove('hidden');
+            } else {
+                btnMore.classList.add('hidden');
+            }
+
+            lucide.createIcons();
+        }
+
+        // Apertura de modal con instrucciones de forma limpia
+        function abrirDetalleModal(ex) {
+            const modal = document.getElementById('exercise-modal');
+            const gifLoader = document.getElementById('gif-loader');
+            const gifImg = document.getElementById('modal-gif');
+
+            document.getElementById('modal-name').innerText = traducirNombreEjercicio(ex.name);
+            document.getElementById('modal-category').innerText = t('categorias', ex.category);
+            document.getElementById('modal-equipment').innerText = t('equipos', ex.equipment);
+            document.getElementById('modal-target').innerText = t('musculos', ex.target);
+            document.getElementById('modal-synergists').innerText = t('musculos', ex.muscle_group);
+            document.getElementById('modal-id').innerText = `ID: ${ex.id}`;
+            document.getElementById('modal-attribution').innerText = ex.attribution || "© Gym visual";
+
+            // Limpiar y cargar pasos de instrucciones en español
+            const stepsList = document.getElementById('modal-steps');
+            stepsList.innerHTML = '';
+
+            let pasos = [];
+            if (ex.instruction_steps && ex.instruction_steps.es && ex.instruction_steps.es.length > 0) {
+                pasos = ex.instruction_steps.es;
+            } else if (ex.instructions && ex.instructions.es) {
+                pasos = ex.instructions.es.split('.').map(p => p.trim()).filter(p => p.length > 0);
+            } else if (ex.instruction_steps && ex.instruction_steps.en) {
+                pasos = ex.instruction_steps.en;
+            }
+
+            pasos.forEach(p => {
+                const li = document.createElement('li');
+                li.innerText = p;
+                stepsList.appendChild(li);
+            });
+
+            // Lógica de carga de GIF de manera inteligente
+            gifImg.style.opacity = '0';
+            gifLoader.classList.remove('hidden');
+
+            // Cargar GIF de forma robusta
+            const gifSrc = obtenerUrlRecurso('gif', ex);
+            gifImg.src = gifSrc;
+
+            gifImg.onload = () => {
+                gifLoader.classList.add('hidden');
+                gifImg.style.opacity = '1';
+            };
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Manejar errores si falta algún GIF en el repositorio
+        function handleGifError(img) {
+            document.getElementById('gif-loader').classList.add('hidden');
+            img.src = 'https://placehold.co/300x300/09090b/10b981?text=Demostración+Técnica';
+            img.style.opacity = '1';
+        }
+
+        function cerrarModal() {
+            document.getElementById('exercise-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function actualizarEstadisticas() {
+            const badge = document.getElementById('stats-badge');
+            if (bibliotecaCompleta.length === 0) {
+                badge.innerText = "Cargando biblioteca...";
+            } else {
+                badge.innerText = `Mostrando ${ejerciciosFiltrados.length} de ${bibliotecaCompleta.length} ejercicios`;
+            }
+        }
+
+        function resetearFiltros() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('filter-category').value = '';
+            document.getElementById('filter-equipment').value = '';
+            aplicarFiltros();
+        }
+
+        function mostrarMensajeError() {
+            const grid = document.getElementById('exercises-grid');
+            const stateMsg = document.getElementById('state-message');
+            grid.classList.add('hidden');
+            stateMsg.classList.remove('hidden');
+            document.getElementById('message-content').innerHTML = `
+                <i data-lucide="alert-triangle" class="w-12 h-12 text-red-500 mx-auto animate-bounce"></i>
+                <h4 class="text-white font-bold text-sm">Error de lectura de base de datos</h4>
+                <p class="text-zinc-500 text-xs max-w-sm mx-auto">
+                    No se pudieron cargar los datos de los ejercicios en la nube. Revisa tu conexión a internet.
+                </p>
+            `;
+            lucide.createIcons();
+        }
+
+        // Event Listeners y Lanzadores
+        document.getElementById('search-input').addEventListener('input', aplicarFiltros);
+        document.getElementById('filter-category').addEventListener('change', aplicarFiltros);
+        document.getElementById('filter-equipment').addEventListener('change', aplicarFiltros);
+        document.getElementById('btn-reset').addEventListener('click', resetearFiltros);
+        document.getElementById('btn-close-modal').addEventListener('click', cerrarModal);
+        
+        document.getElementById('btn-load-more').addEventListener('click', () => {
+            paginaActual++;
+            renderizarGrilla();
+        });
+
+        // Cerrar modal al hacer clic en el fondo
+        document.getElementById('exercise-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'exercise-modal') cerrarModal();
+        });
+
+        // Carga inicial
+        window.addEventListener('DOMContentLoaded', () => {
+            inicializarBiblioteca();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

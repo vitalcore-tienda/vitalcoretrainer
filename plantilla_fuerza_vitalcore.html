@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Plan de Fuerza Máxima — Vital Core Trainer</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 12mm;
+            background-color: #0b0f19; /* Fondo oscuro premium */
+            @bottom-right {
+                content: "Pág. " counter(page);
+                font-family: 'Arial', sans-serif;
+                font-size: 8pt;
+                color: #6b7280;
+            }
+            @bottom-left {
+                content: "Vital Core Trainer — Fuerza de Alta Precisión";
+                font-family: 'Arial', sans-serif;
+                font-size: 8pt;
+                color: #6b7280;
+            }
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #f3f4f6;
+            background-color: #0b0f19;
+            line-height: 1.4;
+            font-size: 10pt;
+            /* Fuerza al navegador a imprimir el fondo oscuro al exportar a PDF */
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        
+        /* Cabecera con Degradado de la Marca */
+        .header-accent {
+            margin: -15mm -12mm 15px -12mm;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            padding: 22px 12mm;
+            text-align: center;
+        }
+        
+        .header-accent h1 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 19pt;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+        
+        .header-accent p {
+            margin: 5px 0 0 0;
+            color: #ecfdf5;
+            font-size: 9.5pt;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            color: #10b981;
+            font-size: 13pt;
+            border-left: 4px solid #10b981;
+            padding-left: 8px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            page-break-after: avoid;
+        }
+
+        /* Tabla de Información del Alumno (Editable) */
+        .info-grid {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            background-color: #111827;
+            border: 1px solid #1f2937;
+        }
+        
+        .info-grid td {
+            padding: 10px 15px;
+            font-size: 9pt;
+            border: 1px solid #1f2937;
+        }
+        
+        .info-label {
+            color: #9ca3af;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 8pt;
+            display: block;
+            margin-bottom: 3px;
+        }
+        
+        .info-value {
+            color: #ffffff;
+            font-size: 10pt;
+            font-weight: bold;
+        }
+
+        /* Diseño de Tablas de Rutinas */
+        table.routine-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            background-color: #111827;
+            border: 1px solid #1f2937;
+        }
+        
+        table.routine-table th {
+            background-color: #1f2937;
+            color: #10b981;
+            text-align: left;
+            padding: 11px 12px;
+            font-size: 8.5pt;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #10b981;
+        }
+        
+        table.routine-table td {
+            padding: 11px 12px;
+            border-bottom: 1px solid #1f2937;
+            vertical-align: top;
+            font-size: 9pt;
+        }
+        
+        table.routine-table tr:nth-child(even) {
+            background-color: #161e2e;
+        }
+        
+        .ex-name {
+            font-weight: bold;
+            color: #ffffff;
+            font-size: 10pt;
+            margin-bottom: 3px;
+        }
+        
+        .ex-meta {
+            font-size: 8pt;
+            color: #9ca3af;
+        }
+        
+        .ex-badge {
+            display: inline-block;
+            background-color: #064e3b;
+            color: #34d399;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 7.5pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .ex-desc {
+            font-size: 8.5pt;
+            color: #d1d5db;
+            line-height: 1.35;
+        }
+        
+        .ex-desc strong {
+            color: #10b981;
+        }
+
+        /* Bloque de Destacados (Consejos Científicos) */
+        .callout-box {
+            background-color: #065f46;
+            border-left: 4px solid #34d399;
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-size: 9pt;
+            color: #ecfdf5;
+        }
+        
+        .callout-box strong {
+            color: #ffffff;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 9.5pt;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABECERA PRINCIPAL (VITAL CORE BRAND) -->
+    <div class="header-accent">
+        <h1>Vital Core Trainer</h1>
+        <p>Programación Científica de Fuerza Máxima — Frecuencia 3 (Full Body)</p>
+    </div>
+
+    <!-- INFORMACIÓN DEL ALUMNO (Edita estos campos para cada cliente nuevo) -->
+    <table class="info-grid">
+        <tr>
+            <td style="width: 33%;">
+                <span class="info-label">Alumno / Atleta</span>
+                <span class="info-value" style="color: #34d399;">[TEO]</span>
+            </td>
+            <td style="width: 33%;">
+                <span class="info-label">Estructura</span>
+                <span class="info-value">Full Body (Fuerza Máxima)</span>
+            </td>
+            <td style="width: 33%;">
+                <span class="info-label">Frecuencia Semanal</span>
+                <span class="info-value">3 Días (Martes - Jueves - Viernes)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="info-label">Método de Sobrecarga</span>
+                <span class="info-value">Triple Progresión Autorregulada</span>
+            </td>
+            <td>
+                <span class="info-label">Duración del Bloque</span>
+                <span class="info-value">4 - 6 Semanas (Mesociclo 1)</span>
+            </td>
+            <td>
+                <span class="info-label">Soporte Biomecánico</span>
+                <span class="info-value">Buscador Vital Core ID</span>
+            </td>
+        </tr>
+    </table>
+
+    <div class="callout-box">
+        <strong>Fisiología de la Fuerza: Tensión Mecánica & Reclutamiento</strong>
+        La fuerza máxima se construye optimizando la coordinación inter e intramuscular. Asegúrate de respetar los tiempos de descanso prolongados (entre 2.5 y 3.5 minutos). Descansar muy poco reduce los niveles de ATP-PC y mermará drásticamente la cantidad de kilos que puedes mover en la siguiente serie, reduciendo el estímulo neuromuscular.
+    </div>
+
+    <!-- DÍA 1 DE ENTRENAMIENTO -->
+    <div class="section-title">Día 1: Dominancia de Empuje & Cadena Anterior</div>
+
+    <table class="routine-table">
+        <thead>
+            <tr>
+                <th style="width: 35%;">Ejercicio & Biomecánica</th>
+                <th style="width: 20%;">Carga de Trabajo</th>
+                <th style="width: 45%;">Instrucciones & Foco Atencional (Cues)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="ex-name">1. Sentadilla Trasera con Barra</div>
+                    <div class="ex-meta">Enfoque: Cuádriceps & Glúteos</div>
+                    <span class="ex-badge">ID: 0043</span>
+                </td>
+                <td>
+                    <strong>4 Series</strong><br>
+                    5 Repeticiones<br>
+                    RPE 8.5 (RIR 1.5)<br>
+                    <span class="ex-meta">Descanso: 3 min</span>
+                </td>
+                <td class="ex-desc">
+                    Barra sobre los trapecios. Inhala, realiza la maniobra de Valsalva (contrae el abdomen) antes de bajar. Rompe el paralelo de manera controlada y empuja.<br>
+                    <strong>Clave:</strong> Empuja el suelo firmemente extendiendo las rodillas y mantén los talones clavados abajo.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="ex-name">2. Press de Banca Plano</div>
+                    <div class="ex-meta">Enfoque: Pectoral Mayor & Deltoides Ant.</div>
+                    <span class="ex-badge">ID: 0025</span>
+                </td>
+                <td>
+                    <strong>4 Series</strong><br>
+                    5 - 6 Repeticiones<br>
+                    RPE 8 (RIR 2)<br>
+                    <span class="ex-meta">Descanso: 2.5 min</span>
+                </td>
+                <td class="ex-desc">
+                    Túmbate en el banco. Realiza una retracción y depresión escapular activa (junta los omóplatos). Pies planos y firmes en el suelo (Leg Drive).<br>
+                    <strong>Clave:</strong> Baja la barra controladamente tocando la base del esternón y empuja hacia arriba de forma explosiva.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="ex-name">3. Dominadas Pronas</div>
+                    <div class="ex-meta">Enfoque: Dorsal Ancho & Tracción Vertical</div>
+                    <span class="ex-badge">ID: 0652</span>
+                </td>
+                <td>
+                    <strong>3 Series</strong><br>
+                    Al fallo técnico (Máximas)<br>
+                    RPE 9 (RIR 1)<br>
+                    <span class="ex-meta">Descanso: 2 min</span>
+                </td>
+                <td class="ex-desc">
+                    Agarre prono (palmas hacia adelante) un poco más ancho que los hombros. Inicia el movimiento descendiendo tus hombros para reclutar la espalda.<br>
+                    <strong>Clave:</strong> Imagina que intentas "llevar el pecho a la barra", no solo tu barbilla. Controla la fase de descenso lentamente.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- DÍA 2 DE ENTRENAMIENTO -->
+    <div class="section-title">Día 2: Dominancia de Tracción & Cadena Posterior</div>
+
+    <table class="routine-table">
+        <thead>
+            <tr>
+                <th style="width: 35%;">Ejercicio & Biomecánica</th>
+                <th style="width: 20%;">Carga de Trabajo</th>
+                <th style="width: 45%;">Instrucciones & Foco Atencional (Cues)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="ex-name">1. Peso Muerto Convencional</div>
+                    <div class="ex-meta">Enfoque: Isquiotibiales, Glúteos & Erectores</div>
+                    <span class="ex-badge">ID: 0032</span>
+                </td>
+                <td>
+                    <strong>3 Series</strong><br>
+                    5 Repeticiones<br>
+                    RPE 9 (RIR 1)<br>
+                    <span class="ex-meta">Descanso: 3.5 min</span>
+                </td>
+                <td class="ex-desc">
+                    Barra sobre la mitad de tu pie. Hombros ligeramente adelantados. Mantén la espalda totalmente neutra y empuja con tus piernas.<br>
+                    <strong>Clave:</strong> Tensa los dorsales "cerrando tus axilas" antes de levantar la barra. Termina extendiendo caderas arriba.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="ex-name">2. Press Militar de Pie con Barra</div>
+                    <div class="ex-meta">Enfoque: Deltoides Anterior & Tríceps</div>
+                    <span class="ex-badge">ID: 0041</span>
+                </td>
+                <td>
+                    <strong>4 Series</strong><br>
+                    6 Repeticiones<br>
+                    RPE 8 (RIR 2)<br>
+                    <span class="ex-meta">Descanso: 2.5 min</span>
+                </td>
+                <td class="ex-desc">
+                    De pie, glúteos y abdomen contraídos fuertemente para proteger la lumbar. Agarre justo por fuera de tus hombros, codos ligeramente adelantados.<br>
+                    <strong>Clave:</strong> Empuja la barra en línea recta sobre tu cabeza, metiendo la cabeza bajo tus brazos en el bloqueo final.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="ex-name">3. Prensa de Pierna a 45º</div>
+                    <div class="ex-meta">Enfoque: Cuádriceps (Extensión Mecánica)</div>
+                    <span class="ex-badge">ID: 0412</span>
+                </td>
+                <td>
+                    <strong>3 Series</strong><br>
+                    8 - 10 Repeticiones<br>
+                    RPE 8.5 (RIR 1.5)<br>
+                    <span class="ex-meta">Descanso: 2 min</span>
+                </td>
+                <td class="ex-desc">
+                    Coloca los pies a lo ancho de los hombros en la parte media de la plataforma. Desciende de forma profunda y controlada hasta rozar el pecho.<br>
+                    <strong>Clave:</strong> No permitas que tu rabadilla o cadera se despegue del asiento en la parte profunda del movimiento.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- DÍA 3 DE ENTRENAMIENTO -->
+    <div class="section-title">Día 3: Estímulo Auxiliar & Accesorios</div>
+
+    <table class="routine-table">
+        <thead>
+            <tr>
+                <th style="width: 35%;">Ejercicio & Biomecánica</th>
+                <th style="width: 20%;">Carga de Trabajo</th>
+                <th style="width: 45%;">Instrucciones & Foco Atencional (Cues)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="ex-name">1. Elevaciones Laterales con Mancuernas</div>
+                    <div class="ex-meta">Enfoque: Deltoides Lateral (Ancho de Hombro)</div>
+                    <span class="ex-badge">ID: 0334</span>
+                </td>
+                <td>
+                    <strong>4 Series</strong><br>
+                    12 - 15 Repeticiones<br>
+                    RPE 9 (RIR 1)<br>
+                    <span class="ex-meta">Descanso: 1.5 min</span>
+                </td>
+                <td class="ex-desc">
+                    Torso inclinado sutilmente hacia adelante. Eleva las mancuernas en el plano escapular (30 grados hacia adelante) y no totalmente recto.<br>
+                    <strong>Clave:</strong> Piensa en "empujar las mancuernas hacia las paredes de tus costados" en lugar de subirlas.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="ex-name">2. Curl de Bíceps con Mancuernas</div>
+                    <div class="ex-meta">Enfoque: Bíceps Braquial & Braquiorradial</div>
+                    <span class="ex-badge">ID: 0294</span>
+                </td>
+                <td>
+                    <strong>3 Series</strong><br>
+                    10 - 12 Repeticiones<br>
+                    RPE 8.5 (RIR 1.5)<br>
+                    <span class="ex-meta">Descanso: 1.5 min</span>
+                </td>
+                <td class="ex-desc">
+                    De pie, codos inmóviles bloqueados a los lados de tus costados. Contrae los bíceps supinando las muñecas (gíralas hacia arriba) al subir.<br>
+                    <strong>Clave:</strong> Baja lentamente en un recorrido excéntrico de 3 segundos para maximizar el microdaño controlado.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- BLOQUE DE NOTA INTERACTIVA -->
+    <div class="callout-box" style="background-color: #1e1b4b; border-left-color: #6366f1;">
+        <strong>Soporte Técnico de Animación de Vital Core</strong>
+        Si tu alumno tiene dudas con la técnica de alguno de los movimientos compuestos o accesorios de este plan (como por ejemplo el *ID: 0652* para las Dominadas Pronas o el *ID: 0334* para los Vuelos Laterales), indícale que introduzca los 4 dígitos del código identificador en el buscador de tu página web de Vital Core para acceder inmediatamente a la animación biomecánica explicativa.
+    </div>
+
+</body>
+</html>
