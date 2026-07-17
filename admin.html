@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consola de Administración — Vital Core Trainer</title>
+    <!-- Tailwind CSS para diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para iconos limpios -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- SDK oficial de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eefef4',
+                            100: '#d3fbe2',
+                            500: '#10b981', /* Esmeralda */
+                            600: '#059669',
+                            950: '#022c22',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen pb-12">
+
+    <!-- PANTALLA DE BLOQUEO (SEGURIDAD DE ACCESO) -->
+    <div id="lock-screen" class="fixed inset-0 z-[200] bg-zinc-950 flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.08)_0%,rgba(9,9,11,0)_75%)] pointer-events-none"></div>
+        <div class="relative bg-zinc-900/90 border border-zinc-800 p-8 rounded-2xl w-full max-w-sm space-y-6 text-center shadow-2xl backdrop-blur-md">
+            <div class="flex flex-col items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-brand-500/10">
+                    <i data-lucide="shield-alert" class="text-zinc-950 w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-black tracking-wider text-white uppercase">Acceso Restringido</h1>
+                    <span class="text-[9px] font-bold tracking-widest text-brand-500 uppercase">Consola de Entrenador</span>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="space-y-1.5 text-left">
+                    <label class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider">PIN de Seguridad de Vital Core</label>
+                    <input type="password" id="admin-pin" placeholder="••••••••" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 px-4 text-center text-sm font-mono focus:outline-none tracking-widest transition-all">
+                </div>
+                <div id="pin-error" class="hidden text-xs text-red-400 font-bold bg-red-500/10 p-2.5 rounded-xl border border-red-500/20"></div>
+                <button onclick="verificarAccesoAdmin()" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-3.5 rounded-xl transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-brand-500/10">
+                    <span>Desbloquear Consola</span>
+                    <i data-lucide="unlock" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CABECERA PRINCIPAL -->
+    <header class="border-b border-zinc-900 bg-zinc-950/80 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-9 h-9 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500 border border-brand-500/20">
+                    <i data-lucide="sliders" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <span class="text-sm font-black tracking-wider text-white uppercase block leading-none">VITAL CORE</span>
+                    <span class="text-[9px] font-bold tracking-widest text-brand-500 uppercase">Panel del Entrenador</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="index.html" target="_blank" class="text-xs bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 px-3.5 py-2 rounded-xl text-zinc-300 font-bold flex items-center gap-1.5 transition">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    <span>Ver Plataforma Web</span>
+                </a>
+                <button onclick="cerrarPanelAdmin()" class="p-2 text-zinc-500 hover:text-red-400 rounded-xl transition" title="Salir de Consola">
+                    <i data-lucide="power" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CUERPO PRINCIPAL DEL PANEL -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        <!-- Navegación de la Consola -->
+        <div class="grid grid-cols-2 gap-2 max-w-md bg-zinc-900/60 p-1 rounded-xl border border-zinc-900">
+            <button id="tab-btn-atletas" onclick="cambiarSeccion('atletas')" class="py-3 rounded-lg text-xs font-bold text-center flex items-center justify-center gap-2 transition duration-200">
+                <i data-lucide="users" class="w-4 h-4"></i>
+                <span>Gestión de Atletas</span>
+            </button>
+            <button id="tab-btn-programador" onclick="cambiarSeccion('programador')" class="py-3 rounded-lg text-xs font-bold text-center flex items-center justify-center gap-2 transition duration-200">
+                <i data-lucide="dumbbell" class="w-4 h-4"></i>
+                <span>Programar Rutinas</span>
+            </button>
+        </div>
+
+        <!-- NOTIFICACIONES DE FEEDBACK RÁPIDO -->
+        <div id="alert-toast" class="hidden bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold p-4 rounded-xl flex items-center gap-3 animate-fadeIn">
+            <i data-lucide="check-circle" class="w-5 h-5"></i>
+            <span id="toast-msg">Cambio guardado de manera exitosa.</span>
+        </div>
+
+        <!-- SECCIÓN 1: GESTIÓN DE ATLETAS (USUARIOS) -->
+        <section id="section-atletas" class="grid grid-cols-1 lg:grid-cols-12 gap-8 hidden">
+            <!-- Formulario de Registro -->
+            <div class="lg:col-span-4 bg-zinc-900/40 border border-zinc-900 p-6 rounded-2xl space-y-5">
+                <div class="space-y-1">
+                    <h3 class="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="user-plus" class="text-brand-500 w-4 h-4"></i>
+                        <span>Registrar Nuevo Atleta</span>
+                    </h3>
+                    <p class="text-zinc-500 text-[11px]">Sincroniza y da de alta una fila en tu base de datos de Supabase en un segundo.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold text-zinc-400 uppercase">Nombre Completo</label>
+                        <input type="text" id="add-nombre" placeholder="Ej. Juan Pérez" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 px-4 text-xs focus:outline-none transition">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold text-zinc-400 uppercase">Correo Electrónico</label>
+                        <input type="email" id="add-email" placeholder="Ej. juanperez@gmail.com" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 px-4 text-xs focus:outline-none transition">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold text-zinc-400 uppercase">Tipo de Plan Base</label>
+                        <select id="add-plan" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 px-3 text-xs focus:outline-none transition cursor-pointer">
+                            <option value="fuerza">Fuerza Máxima (Fuerza)</option>
+                            <option value="hipertrofia">Hipertrofia Científica (Estética)</option>
+                            <option value="recomposicion">Recomposición Corporal</option>
+                        </select>
+                    </div>
+
+                    <div id="add-error" class="hidden text-xs text-red-400 font-bold bg-red-500/10 p-2.5 rounded-xl border border-red-500/20"></div>
+
+                    <button onclick="guardarNuevoAtleta()" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-3.5 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-2 active:scale-98">
+                        <span>Registrar Alumno</span>
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabla de Alumnos Guardados -->
+            <div class="lg:col-span-8 bg-zinc-900/40 border border-zinc-900 p-6 rounded-2xl space-y-4">
+                <div class="flex items-center justify-between border-b border-zinc-900 pb-3">
+                    <div>
+                        <h3 class="text-sm font-black text-white uppercase tracking-wider">Atletas en tu Base de Datos</h3>
+                        <p class="text-zinc-500 text-[11px]">Listado total guardado en la tabla <span class="font-mono text-zinc-400 text-[10px]">usuarios_alumnos</span>.</p>
+                    </div>
+                    <span id="atletas-count" class="bg-zinc-950 border border-zinc-800 text-zinc-400 px-3 py-1 rounded-md text-[10px] font-bold">Cargando...</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="border-b border-zinc-900 text-zinc-500 font-bold">
+                                <th class="py-3 px-4">Nombre Atleta</th>
+                                <th class="py-3 px-4">Correo Registrado</th>
+                                <th class="py-3 px-4">Plan Actual</th>
+                                <th class="py-3 px-4 text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="atletas-table-body" class="divide-y divide-zinc-900/60">
+                            <!-- Inyección dinámica -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: PROGRAMADOR VISUAL DE RUTINAS -->
+        <section id="section-programador" class="grid grid-cols-1 lg:grid-cols-12 gap-8 hidden">
+            <!-- Barra Lateral: Selector de Atleta y Días de Entrenamiento -->
+            <div class="lg:col-span-4 space-y-6">
+                <!-- Selector de Alumno -->
+                <div class="bg-zinc-900/40 border border-zinc-900 p-5 rounded-2xl space-y-3.5">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Seleccionar Alumno</label>
+                        <select id="prog-atleta-select" onchange="seleccionarAtleta(this.value)" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 px-3 text-xs focus:outline-none transition cursor-pointer">
+                            <option value="">-- Elige un atleta registrado --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Días de Entrenamiento del Alumno Seleccionado -->
+                <div id="prog-days-container" class="bg-zinc-900/40 border border-zinc-900 p-5 rounded-2xl space-y-4 hidden">
+                    <div class="flex items-center justify-between border-b border-zinc-900 pb-3">
+                        <div>
+                            <h4 class="text-xs font-black text-white uppercase tracking-wider">Días Programados</h4>
+                            <p class="text-zinc-500 text-[9px]">Días cargados en la nube.</p>
+                        </div>
+                        <button onclick="abrirCrearRutinaDia()" class="p-1.5 bg-brand-500/10 hover:bg-brand-500/20 text-brand-500 border border-brand-500/20 rounded-lg transition active:scale-95" title="Añadir Día de Rutina">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <!-- Lista de días de rutina guardados -->
+                    <div id="prog-days-list" class="space-y-2">
+                        <!-- Botones de días -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diseñador Principal de Ejercicios -->
+            <div class="lg:col-span-8">
+                <div id="prog-rutina-editor" class="bg-zinc-900/40 border border-zinc-900 p-6 rounded-2xl space-y-6 hidden">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-900 pb-4">
+                        <div>
+                            <span class="text-brand-500 text-[9px] font-black uppercase tracking-widest block">Diseñador de Bloques Científicos</span>
+                            <h3 id="editor-dia-semana" class="text-base font-black text-white uppercase tracking-tight">Cargando...</h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="eliminarRutinaDia()" class="bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 text-[10px] font-bold uppercase tracking-wider px-3.5 py-2.5 rounded-xl transition flex items-center gap-1.5 active:scale-95">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                <span>Eliminar Día</span>
+                            </button>
+                            <button onclick="guardarRutinaActual()" class="bg-brand-500 hover:bg-brand-600 text-zinc-950 text-[10px] font-black uppercase tracking-wider px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-brand-500/10 active:scale-95">
+                                <i data-lucide="save" class="w-4 h-4"></i>
+                                <span>Guardar en la Nube</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Lista de Ejercicios del Día (Modificable en tiempo real) -->
+                    <div id="editor-ejercicios-container" class="space-y-4">
+                        <!-- Caja de Ejercicio Dinámica -->
+                    </div>
+
+                    <!-- Botón para añadir nuevo bloque de ejercicio -->
+                    <button onclick="añadirEjercicioAlEditor()" class="w-full border-2 border-dashed border-zinc-800 hover:border-brand-500/30 bg-zinc-950/20 hover:bg-brand-500/5 text-zinc-400 hover:text-brand-400 text-xs font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                        <span>Añadir Ejercicio al Entrenamiento</span>
+                    </button>
+                </div>
+
+                <!-- Estado Inicial: Seleccionar Alumno -->
+                <div id="prog-empty-state" class="bg-zinc-900/10 border border-dashed border-zinc-900 p-16 rounded-2xl text-center space-y-3">
+                    <i data-lucide="dumbbell" class="w-12 h-12 text-zinc-800 mx-auto animate-pulse"></i>
+                    <h4 class="text-zinc-400 font-bold text-sm uppercase">Consola de Programación</h4>
+                    <p class="text-zinc-600 text-xs max-w-xs mx-auto">Seleccioná un alumno registrado en el panel de la izquierda para empezar a maquetar y subir sus rutinas personalizadas.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- SCRIPTS DE INTERACCIÓN Y CONEXIÓN DIRECTA -->
+    <script>
+        // CONFIGURACIÓN DE SUPABASE INTEGRADA Y LIMPIA
+        const SUPABASE_URL = "https://kesbwmurxuncddirlbyt.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtlc2J3bXVyeHVuY2RkaXJsYnl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjY1MDcsImV4cCI6MjA5OTg0MjUwN30.GYC9LEOTG1mb9JjY4qHx1oZXg3451albuUhBwVi3ZJc";
+
+        const { createClient } = supabase;
+        const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Estado del Panel
+        let sectionActiva = 'atletas';
+        let listaAtletas = [];
+        let listaRutinasAsignadas = [];
+        let atletaSeleccionado = null;
+        let rutinaSeleccionada = null; // Día en edición actual
+
+        // Clave maestra para acceder a la administración
+        const CLAVE_ADMIN_MASTER = "vitalcoreadmin";
+
+        // Inicialización de Lucide Icons
+        lucide.createIcons();
+
+        // Control de Acceso del Administrador
+        function verificarAccesoAdmin() {
+            const inputPin = document.getElementById('admin-pin').value.trim();
+            const errBox = document.getElementById('pin-error');
+
+            if (inputPin === CLAVE_ADMIN_MASTER) {
+                // Dar acceso, guardar en caché de sesión para evitar que moleste al refrescar
+                sessionStorage.setItem('vitalcore_admin_logged', 'true');
+                document.getElementById('lock-screen').classList.add('hidden');
+                inicializarPanelCompleto();
+            } else {
+                errBox.innerText = "❌ PIN de Seguridad Incorrecto. Acceso Denegado.";
+                errBox.classList.remove('hidden');
+            }
+        }
+
+        function cerrarPanelAdmin() {
+            sessionStorage.removeItem('vitalcore_admin_logged');
+            window.location.reload();
+        }
+
+        // Cambiar entre la pestaña de Alumnos y el Programador
+        function cambiarSeccion(nuevaSec) {
+            sectionActiva = nuevaSec;
+            
+            const tabs = ['atletas', 'programador'];
+            tabs.forEach(sec => {
+                const btn = document.getElementById(`tab-btn-${sec}`);
+                const div = document.getElementById(`section-${sec}`);
+                if (sec === nuevaSec) {
+                    btn.className = "py-3 rounded-lg text-xs font-bold text-center flex items-center justify-center gap-2 bg-brand-500 text-zinc-950 shadow-sm shadow-brand-500/10";
+                    div.classList.remove('hidden');
+                } else {
+                    btn.className = "py-3 rounded-lg text-xs font-bold text-center flex items-center justify-center gap-2 text-zinc-400 hover:text-white hover:bg-zinc-950/40";
+                    div.classList.add('hidden');
+                }
+            });
+        }
+
+        // Cargar Datos Iniciales de Supabase
+        async function inicializarPanelCompleto() {
+            cambiarSeccion('atletas');
+            await cargarAtletasDesdeNube();
+        }
+
+        // Mostrar un cartel de éxito temporal (Toast)
+        function mostrarToast(mensaje) {
+            const toast = document.getElementById('alert-toast');
+            document.getElementById('toast-msg').innerText = mensaje;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // ================= GESTIÓN DE ATLETAS =================
+
+        async function cargarAtletasDesdeNube() {
+            const tbody = document.getElementById('atletas-table-body');
+            const countBadge = document.getElementById('atletas-count');
+            const selectProg = document.getElementById('prog-atleta-select');
+
+            try {
+                const { data, error } = await _supabase
+                    .from('usuarios_alumnos')
+                    .select('*')
+                    .order('nombre_completo', { ascending: true });
+
+                if (error) throw error;
+
+                listaAtletas = data || [];
+                countBadge.innerText = `${listaAtletas.length} Alumnos Activos`;
+
+                // Inyectar en la tabla visual de gestión
+                tbody.innerHTML = '';
+                // Inyectar en el selector de la pestaña de rutinas
+                selectProg.innerHTML = '<option value="">-- Elige un atleta registrado --</option>';
+
+                if (listaAtletas.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="py-10 text-center text-zinc-500">No hay atletas registrados aún en el sistema.</td></tr>';
+                    return;
+                }
+
+                listaAtletas.forEach(at => {
+                    // Agregar fila a la tabla
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b border-zinc-900/40 hover:bg-zinc-900/20";
+                    
+                    const badgeClass = at.tipo_plan === 'hipertrofia' 
+                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+                        : at.tipo_plan === 'recomposicion' 
+                        ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' 
+                        : 'bg-brand-500/10 text-brand-400 border-brand-500/20';
+
+                    tr.innerHTML = `
+                        <td class="py-3.5 px-4 font-bold text-white">${at.nombre_completo}</td>
+                        <td class="py-3.5 px-4 font-mono text-zinc-400 text-[11px]">${at.email}</td>
+                        <td class="py-3.5 px-4">
+                            <span class="border px-2.5 py-0.5 rounded-md font-black text-[9px] uppercase tracking-wider ${badgeClass}">
+                                ${at.tipo_plan}
+                            </span>
+                        </td>
+                        <td class="py-3.5 px-4 text-right">
+                            <button onclick="intentarEliminarAtleta('${at.id}', '${at.nombre_completo}')" class="p-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/10 hover:border-red-500/20 rounded-lg transition active:scale-95" title="Eliminar Alumno">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+
+                    // Agregar opción al programador
+                    const opt = document.createElement('option');
+                    opt.value = at.id;
+                    opt.innerText = `${at.nombre_completo} (${at.email})`;
+                    selectProg.appendChild(opt);
+                });
+
+                lucide.createIcons();
+
+            } catch (err) {
+                console.error("Error cargando atletas:", err);
+                alert("Error de Supabase cargando la lista de alumnos: " + err.message);
+            }
+        }
+
+        async function guardarNuevoAtleta() {
+            const nombre = document.getElementById('add-nombre').value.trim();
+            const email = document.getElementById('add-email').value.trim().toLowerCase();
+            const plan = document.getElementById('add-plan').value.trim();
+            const errBox = document.getElementById('add-error');
+
+            errBox.classList.add('hidden');
+
+            if (!nombre || !email || !plan) {
+                errBox.innerText = "❌ Por favor, completa todos los campos del formulario.";
+                errBox.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                // Registrar alumno de forma directa y limpia
+                const { error } = await _supabase
+                    .from('usuarios_alumnos')
+                    .insert([
+                        { nombre_completo: nombre, email: email, tipo_plan: plan }
+                    ]);
+
+                if (error) {
+                    if (error.code === '23505') {
+                        throw new Error("El correo ingresado ya pertenece a un atleta registrado.");
+                    }
+                    throw error;
+                }
+
+                // Limpiar inputs
+                document.getElementById('add-nombre').value = '';
+                document.getElementById('add-email').value = '';
+                
+                mostrarToast(`Atleta "${nombre}" registrado de forma impecable.`);
+                await cargarAtletasDesdeNube();
+
+            } catch (err) {
+                console.error("Error guardando atleta:", err);
+                errBox.innerText = `❌ Error: ${err.message}`;
+                errBox.classList.remove('hidden');
+            }
+        }
+
+        async function intentarEliminarAtleta(id, nombre) {
+            const confirmar = confirm(`⚠️ ¿Estás totalmente seguro de eliminar al atleta "${nombre}"?\n\nAl hacer esto, también se eliminarán de forma automática todas las rutinas asignadas asociadas en su cuenta.`);
+            if (!confirmar) return;
+
+            try {
+                // 1. Eliminar primero todas sus rutinas asociadas para evitar errores de claves foráneas
+                const { error: errorRutinas } = await _supabase
+                    .from('rutinas_asignadas')
+                    .delete()
+                    .eq('alumno_id', id);
+
+                if (errorRutinas) throw errorRutinas;
+
+                // 2. Eliminar al atleta de la base de datos
+                const { error: errorUsuario } = await _supabase
+                    .from('usuarios_alumnos')
+                    .delete()
+                    .eq('id', id);
+
+                if (errorUsuario) throw errorUsuario;
+
+                mostrarToast(`Atleta "${nombre}" y sus rutinas eliminados con éxito.`);
+                await cargarAtletasDesdeNube();
+
+            } catch (err) {
+                console.error("Error eliminando atleta:", err);
+                alert("Error al dar de baja: " + err.message);
+            }
+        }
+
+        // ================= PROGRAMADOR DE RUTINAS =================
+
+        async function seleccionarAtleta(atletaId) {
+            const emptyState = document.getElementById('prog-empty-state');
+            const daysContainer = document.getElementById('prog-days-container');
+            const editor = document.getElementById('prog-rutina-editor');
+
+            editor.classList.add('hidden');
+
+            if (!atletaId) {
+                atletaSeleccionado = null;
+                emptyState.classList.remove('hidden');
+                daysContainer.classList.add('hidden');
+                return;
+            }
+
+            atletaSeleccionado = listaAtletas.find(a => a.id === atletaId);
+            emptyState.classList.add('hidden');
+            daysContainer.classList.remove('hidden');
+
+            await cargarRutinasDeAtleta(atletaId);
+        }
+
+        async function cargarRutinasDeAtleta(atletaId) {
+            const daysList = document.getElementById('prog-days-list');
+            daysList.innerHTML = '';
+
+            try {
+                const { data, error } = await _supabase
+                    .from('rutinas_asignadas')
+                    .select('*')
+                    .eq('alumno_id', atletaId)
+                    .order('dia_semana', { ascending: true });
+
+                if (error) throw error;
+
+                listaRutinasAsignadas = data || [];
+
+                if (listaRutinasAsignadas.length === 0) {
+                    daysList.innerHTML = '<p class="text-zinc-500 text-[11px] text-center py-4">No tiene entrenamientos creados aún.</p>';
+                    return;
+                }
+
+                listaRutinasAsignadas.forEach((r, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = "w-full text-left py-2.5 px-3.5 rounded-xl border border-zinc-850 hover:border-brand-500/20 text-xs text-zinc-300 hover:text-white flex items-center justify-between transition-all group";
+                    btn.onclick = () => abrirEditorDeRutina(r);
+
+                    btn.innerHTML = `
+                        <span class="font-bold uppercase truncate">${r.dia_semana}</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-500 group-hover:text-brand-500 group-hover:translate-x-0.5 transition-all"></i>
+                    `;
+                    daysList.appendChild(btn);
+                });
+
+                lucide.createIcons();
+
+            } catch (err) {
+                console.error("Error de Supabase cargando rutinas:", err);
+                alert("Error: " + err.message);
+            }
+        }
+
+        function abrirCrearRutinaDia() {
+            if (!atletaSeleccionado) return;
+            
+            const dia = prompt("Introduce el nombre del nuevo entrenamiento:\n(Ej: Lunes (Torso), Miércoles (Piernas), Viernes (Fuerza))");
+            if (!dia || !dia.trim()) return;
+
+            // Insertar nueva fila vacía en Supabase
+            crearNuevoDiaRutinaNube(dia.trim());
+        }
+
+        async function crearNuevoDiaRutinaNube(nombreDia) {
+            try {
+                const { data, error } = await _supabase
+                    .from('rutinas_asignadas')
+                    .insert([
+                        {
+                            alumno_id: atletaSeleccionado.id,
+                            dia_semana: nombreDia,
+                            bloque_ejercicios: [] // Vacío inicialmente
+                        }
+                    ])
+                    .select();
+
+                if (error) throw error;
+
+                mostrarToast(`Día "${nombreDia}" creado en tu base de datos.`);
+                await cargarRutinasDeAtleta(atletaSeleccionado.id);
+                
+                // Abrir el editor de este día nuevo automáticamente
+                if (data && data.length > 0) {
+                    abrirEditorDeRutina(data[0]);
+                }
+
+            } catch (err) {
+                console.error("Error al crear rutina:", err);
+                alert("Error de Supabase al insertar día: " + err.message);
+            }
+        }
+
+        function abrirEditorDeRutina(rutina) {
+            rutinaSeleccionada = rutina;
+            document.getElementById('prog-rutina-editor').classList.remove('hidden');
+            document.getElementById('editor-dia-semana').innerText = `Entrenamiento: ${rutina.dia_semana}`;
+
+            renderizarEjerciciosEnEditor();
+        }
+
+        // Renderiza el array de ejercicios dentro de la pantalla de edición
+        function renderizarEjerciciosEnEditor() {
+            const container = document.getElementById('editor-ejercicios-container');
+            container.innerHTML = '';
+
+            const ejercicios = rutinaSeleccionada.bloque_ejercicios || [];
+
+            if (ejercicios.length === 0) {
+                container.innerHTML = '<p class="text-zinc-500 text-xs text-center py-8 border border-dashed border-zinc-900 rounded-xl">No hay ejercicios cargados en este día. Hacé clic abajo para añadir tu primer movimiento.</p>';
+                return;
+            }
+
+            ejercicios.forEach((ej, idx) => {
+                const exCard = document.createElement('div');
+                exCard.className = "bg-zinc-950 border border-zinc-900 p-4 rounded-xl space-y-4 relative group hover:border-zinc-800 transition-all";
+                
+                exCard.innerHTML = `
+                    <!-- Cabecera de bloque -->
+                    <div class="flex justify-between items-center border-b border-zinc-900/60 pb-2">
+                        <span class="text-brand-500 font-extrabold text-[11px] uppercase tracking-wider">Ejercicio #${idx + 1}</span>
+                        <button onclick="eliminarEjercicioDeRutina(${idx})" class="text-red-400 hover:text-red-300 text-[10px] font-bold flex items-center gap-1 bg-red-500/5 px-2 py-1 rounded border border-red-500/10 active:scale-95 transition">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Eliminar
+                        </button>
+                    </div>
+
+                    <!-- Grilla de Parámetros -->
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3.5">
+                        <div class="sm:col-span-8 space-y-1">
+                            <label class="text-[9px] font-bold text-zinc-500 uppercase block">Nombre del Ejercicio (Ej. Press banca con barra)</label>
+                            <input type="text" value="${ej.name || ej.nombre || ''}" onchange="actualizarDatoEjercicio(${idx}, 'name', this.value)" class="w-full bg-zinc-900 border border-zinc-850 text-white rounded-lg py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500 transition">
+                        </div>
+                        <div class="sm:col-span-4 space-y-1">
+                            <label class="text-[9px] font-bold text-zinc-500 uppercase block">ID Biblioteca (4 dígitos - Ej. 0025)</label>
+                            <input type="text" value="${ej.id_ejercicio || ''}" onchange="actualizarDatoEjercicio(${idx}, 'id_ejercicio', this.value)" placeholder="Ej. 0043" class="w-full bg-zinc-900 border border-zinc-850 text-white rounded-lg py-2.5 px-3 text-xs font-mono text-center focus:outline-none focus:border-brand-500 transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div class="space-y-1">
+                            <label class="text-[9px] font-bold text-zinc-500 uppercase block">Carga / Esfuerzo (Ej. 4 series x 6 reps o RPE 8.5)</label>
+                            <input type="text" value="${ej.rpe || ''}" onchange="actualizarDatoEjercicio(${idx}, 'rpe', this.value)" placeholder="Ej. 4 series x 5 reps / RPE 8" class="w-full bg-zinc-900 border border-zinc-850 text-white rounded-lg py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500 transition">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[9px] font-bold text-zinc-500 uppercase block">Enfoque muscular (Ej. Pecho superior)</label>
+                            <input type="text" value="${ej.desc || ej.descripcion || ''}" onchange="actualizarDatoEjercicio(${idx}, 'desc', this.value)" placeholder="Ej. Cuádriceps (Énfasis estiramiento)" class="w-full bg-zinc-900 border border-zinc-850 text-white rounded-lg py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500 transition">
+                        </div>
+                    </div>
+                `;
+                container.appendChild(exCard);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Añadir un bloque en blanco al editor local
+        function añadirEjercicioAlEditor() {
+            if (!rutinaSeleccionada) return;
+
+            const nuevoEx = {
+                name: "Nuevo Ejercicio",
+                desc: "Enfoque / Músculo",
+                rpe: "3 series x 10 reps / RPE 8",
+                id_ejercicio: "0000"
+            };
+
+            if (!rutinaSeleccionada.bloque_ejercicios) {
+                rutinaSeleccionada.bloque_ejercicios = [];
+            }
+
+            rutinaSeleccionada.bloque_ejercicios.push(nuevoEx);
+            renderizarEjerciciosEnEditor();
+        }
+
+        // Actualiza el dato dentro del array local cuando el entrenador edita una entrada
+        function actualizarDatoEjercicio(index, propiedad, valor) {
+            rutinaSeleccionada.bloque_ejercicios[index][propiedad] = valor.trim();
+        }
+
+        // Quita un bloque del listado del editor local
+        function eliminarEjercicioDeRutina(index) {
+            rutinaSeleccionada.bloque_ejercicios.splice(index, 1);
+            renderizarEjerciciosEnEditor();
+        }
+
+        // Guarda el array actual de ejercicios en la nube (Supabase)
+        async function guardarRutinaActual() {
+            if (!rutinaSeleccionada) return;
+
+            try {
+                const { error } = await _supabase
+                    .from('rutinas_asignadas')
+                    .update({
+                        bloque_ejercicios: rutinaSeleccionada.bloque_ejercicios
+                    })
+                    .eq('id', rutinaSeleccionada.id);
+
+                if (error) throw error;
+
+                mostrarToast(`Entrenamiento de "${rutinaSeleccionada.dia_semana}" actualizado de forma exitosa.`);
+                await cargarRutinasDeAtleta(atletaSeleccionado.id);
+
+            } catch (err) {
+                console.error("Error guardando rutina:", err);
+                alert("Error de Supabase al guardar: " + err.message);
+            }
+        }
+
+        // Elimina por completo el día de rutina del alumno
+        async function eliminarRutinaDia() {
+            if (!rutinaSeleccionada) return;
+
+            const confirmar = confirm(`⚠️ ¿Estás totalmente seguro de eliminar el día "${rutinaSeleccionada.dia_semana}" de las rutinas de ${atletaSeleccionado.nombre_completo}?\nEsta acción no se puede deshacer.`);
+            if (!confirmar) return;
+
+            try {
+                const { error } = await _supabase
+                    .from('rutinas_asignadas')
+                    .delete()
+                    .eq('id', rutinaSeleccionada.id);
+
+                if (error) throw error;
+
+                document.getElementById('prog-rutina-editor').classList.add('hidden');
+                mostrarToast("Día de entrenamiento borrado de la base de datos.");
+                await cargarRutinasDeAtleta(atletaSeleccionado.id);
+
+            } catch (err) {
+                console.error("Error eliminando día:", err);
+                alert("Error al borrar: " + err.message);
+            }
+        }
+
+        // Al cargar la ventana, verificamos si ya estaba desbloqueado
+        window.addEventListener("DOMContentLoaded", () => {
+            const yaAccedido = sessionStorage.getItem('vitalcore_admin_logged');
+            if (yaAccedido === 'true') {
+                document.getElementById('lock-screen').classList.add('hidden');
+                inicializarPanelCompleto();
+            }
+        });
+    </script>
+</body>
+</html>
