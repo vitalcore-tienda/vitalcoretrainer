@@ -30,9 +30,22 @@
         .glow-bg {
             background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, rgba(9, 9, 11, 0) 70%);
         }
+        /* Barra de scroll personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
     </style>
     <!-- Configuración para renderizar fórmulas matemáticas en LaTeX -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen">
@@ -59,7 +72,7 @@
                     Biblioteca de Ejercicios
                 </a>
                 <a href="#certificaciones" class="text-sm font-medium text-zinc-400 hover:text-white transition">Certificaciones</a>
-                <a href="#calculadora" class="text-sm font-medium text-zinc-400 hover:text-white transition">Cálculo 1RM</a>
+                <a href="#calculadora" class="text-sm font-medium text-zinc-400 hover:text-white transition">Herramientas Científicas</a>
             </nav>
 
             <div class="flex items-center gap-4">
@@ -82,7 +95,7 @@
                 Biblioteca de Ejercicios
             </a>
             <a href="#certificaciones" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-lg">Certificaciones</a>
-            <a href="#calculadora" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-lg">Cálculo 1RM</a>
+            <a href="#calculadora" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-lg">Herramientas Científicas</a>
         </div>
     </header>
 
@@ -111,39 +124,37 @@
                         </a>
                     </div>
                 </div>
-                <div class="relative flex justify-center">
+                <div class="relative flex justify-center w-full">
                     <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-brand-500 to-emerald-500 opacity-20 blur-xl"></div>
-                    <div class="relative bg-zinc-900 border border-zinc-800 p-8 rounded-2xl w-full max-w-md space-y-6">
-                        <div class="flex items-center justify-between">
-                            <h3 class="font-bold text-lg text-white">Próximo Entrenamiento</h3>
-                            <span class="text-xs bg-brand-500/20 text-brand-400 px-2.5 py-1 rounded-md font-semibold">Full Body</span>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-4 bg-zinc-950/50 p-3 rounded-xl border border-zinc-900">
-                                <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-500 font-bold">1</div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-semibold text-white">Sentadilla con Barra</p>
-                                    <p class="text-xs text-zinc-500">4 series x 6-8 reps (Fuerza)</p>
-                                </div>
-                                <i data-lucide="check-circle" class="w-5 h-5 text-zinc-700"></i>
-                            </div>
-                            <div class="flex items-center gap-4 bg-zinc-950/50 p-3 rounded-xl border border-zinc-900">
-                                <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-500 font-bold">2</div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-semibold text-white">Press de Banca Plano</p>
-                                    <p class="text-xs text-zinc-500">3 series x 8-10 reps (Hipertrofia)</p>
-                                </div>
-                                <i data-lucide="check-circle" class="w-5 h-5 text-zinc-700"></i>
-                            </div>
-                            <div class="flex items-center gap-4 bg-zinc-950/50 p-3 rounded-xl border border-zinc-900">
-                                <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-500 font-bold">3</div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-semibold text-white">Dominadas Pronas</p>
-                                    <p class="text-xs text-zinc-500">3 series al fallo técnico</p>
-                                </div>
-                                <i data-lucide="circle" class="w-5 h-5 text-zinc-700"></i>
+                    <div class="relative bg-zinc-900 border border-zinc-800 p-6 sm:p-8 rounded-2xl w-full max-w-md space-y-6">
+                        <!-- Pestañas del Simulador -->
+                        <div class="space-y-2.5">
+                            <h3 class="font-bold text-base text-zinc-300 text-center md:text-left flex items-center gap-2 justify-center md:justify-start">
+                                <span class="inline-block w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+                                Simulador de Programas
+                            </h3>
+                            <div class="grid grid-cols-3 gap-1.5 bg-zinc-950 p-1 rounded-xl border border-zinc-800 text-xs font-semibold">
+                                <button onclick="cargarRutinaSimulada('fuerza')" id="tab-fuerza" class="py-2 px-1 rounded-lg text-center transition bg-brand-500 text-zinc-950 font-bold shadow-sm shadow-brand-500/20">Fuerza</button>
+                                <button onclick="cargarRutinaSimulada('estetica')" id="tab-estetica" class="py-2 px-1 rounded-lg text-center transition text-zinc-400 hover:text-white">Estética</button>
+                                <button onclick="cargarRutinaSimulada('encasa')" id="tab-encasa" class="py-2 px-1 rounded-lg text-center transition text-zinc-400 hover:text-white">En Casa</button>
                             </div>
                         </div>
+
+                        <!-- Información del Programa Seleccionado -->
+                        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-3">
+                            <span id="rutina-nombre" class="text-sm font-bold text-white">Full Body Fuerza</span>
+                            <span id="rutina-badge" class="text-[9px] bg-brand-500/20 text-brand-400 px-2.5 py-1 rounded-md font-black uppercase tracking-wider">Fuerza / RPE 8.5</span>
+                        </div>
+
+                        <!-- Lista de Ejercicios Dinámica -->
+                        <div id="rutina-ejercicios-container" class="space-y-3 min-h-[220px] transition-all duration-300">
+                            <!-- Los ejercicios se inyectarán aquí interactivamente desde JavaScript -->
+                        </div>
+
+                        <!-- Indicador Interactividad -->
+                        <p class="text-[10px] text-zinc-500 text-center italic">
+                            💡 Haz clic sobre un ejercicio para marcarlo como completado.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -182,7 +193,7 @@
                     </div>
                 </div>
 
-                <!-- NOTA DE CONFIGURACIÓN DE GITHUB -->
+                <!-- NOTA DE CONFIGURACIÓN -->
                 <div class="bg-brand-500/5 px-6 py-3 border-b border-brand-500/10 text-xs text-zinc-400 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                     <div class="flex items-center gap-2">
                         <i data-lucide="info" class="text-brand-500 w-4 h-4 shrink-0"></i>
@@ -256,17 +267,17 @@
                 <div class="bg-zinc-900/60 border border-zinc-800 hover:border-brand-500/30 rounded-2xl p-8 space-y-6 transition relative flex flex-col justify-between">
                     <div class="space-y-4">
                         <div class="w-12 h-12 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
-                            <i data-lucide="activity" class="w-6 h-6"></i>
+                            <i data-lucide="target" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-white">Recomposición Corporal</h3>
-                        <p class="text-zinc-400 text-sm">Optimiza tu masa muscular mientras reduces tu porcentaje de grasa mediante estímulos mecánicos y de fuerza de alta calidad.</p>
+                        <h3 class="text-xl font-bold text-white">Powerlifting & Fuerza Máxima</h3>
+                        <p class="text-zinc-400 text-sm">Para atletas que buscan maximizar sus marcas en Sentadilla, Banca y Peso Muerto bajo programación científica de picos de fuerza.</p>
                         <ul class="space-y-2.5 text-sm text-zinc-300 pt-2">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Distribución exacta del volumen de entrenamiento semanal</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Monitoreo de rendimiento, medidas y pliegues</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Guía de técnica de levantamiento y biomecánica avanzada</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Programación basada en RPE / RIR</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Preparación de cargas de competición</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Análisis de fallos técnicos mediante video</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/#?text=Hola,%20quiero%20información%20sobre%20el%20Plan%20Recomposición" target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-semibold rounded-xl text-center block transition text-sm">
+                    <a href="https://wa.me/#?text=Hola,%20quiero%20información%20sobre%20el%20Plan%20de%20Powerlifting" target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-semibold rounded-xl text-center block transition text-sm">
                         Elegir Plan
                     </a>
                 </div>
@@ -274,104 +285,194 @@
         </div>
     </section>
 
-    <!-- SECCIÓN: CERTIFICACIONES Y DIPLOMAS -->
-    <section id="certificaciones" class="py-24 bg-zinc-950">
+    <!-- SECCIÓN: CERTIFICACIONES (DIPLOMAS) -->
+    <section id="certificaciones" class="py-20 bg-zinc-900/30 border-t border-zinc-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <span class="text-brand-500 font-bold text-xs uppercase tracking-widest block">Mi Trayectoria</span>
-                <h2 class="text-3xl md:text-4xl font-black text-white">Certificaciones Profesionales</h2>
-                <p class="text-zinc-400">Estudio y formación continua con instituciones referentes en ciencias del ejercicio físico y biomecánica.</p>
+                <span class="text-brand-500 font-bold text-xs uppercase tracking-widest block">Garantía Profesional</span>
+                <h2 class="text-3xl md:text-4xl font-black text-white">Formación y Certificaciones</h2>
+                <p class="text-zinc-400">
+                    Tu entrenamiento está respaldado por preparación académica, ciencias del ejercicio y certificaciones de validez nacional e internacional.
+                </p>
             </div>
 
-            <!-- Grid de imágenes de diplomas -->
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Diploma 1 -->
-                <div class="group relative bg-zinc-900 border border-zinc-800 hover:border-brand-500/30 rounded-2xl p-4 overflow-hidden transition cursor-pointer" onclick="openLightbox('diploma1.jpeg', 'Certificado de Entrenamiento de Fuerza')">
-                    <div class="aspect-[4/3] rounded-xl bg-zinc-950 overflow-hidden relative border border-zinc-800">
-                        <img src="diploma1.jpeg" alt="Diploma 1" class="w-full h-full object-cover group-hover:scale-105 transition duration-355" onerror="this.src='diploma1.JPEG.jpeg'">
-                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                            <i data-lucide="eye" class="text-white w-8 h-8"></i>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <!-- Certificado 1 -->
+                <div onclick="openLightbox('diploma1.jpeg', 'Certificado de Preparación Física de Élite')" class="bg-zinc-950 border border-zinc-900 hover:border-brand-500/30 rounded-2xl overflow-hidden cursor-pointer group transition-all duration-300">
+                    <div class="aspect-[4/3] bg-zinc-900 relative overflow-hidden border-b border-zinc-900">
+                        <img src="diploma1.jpeg" alt="Diploma 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x300/111827/ffffff?text=Certificado+1'">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+                            <i data-lucide="maximize-2" class="text-brand-500 w-8 h-8"></i>
                         </div>
                     </div>
-                    <div class="pt-4 space-y-1">
-                        <h4 class="font-bold text-white text-base">Entrenador de Fuerza Especializado</h4>
-                        <p class="text-xs text-brand-400">Certificación Internacional</p>
+                    <div class="p-5 space-y-1">
+                        <span class="text-[10px] text-brand-500 font-black uppercase tracking-wider">Acondicionamiento Físico</span>
+                        <h4 class="text-white font-bold text-sm">Preparación Física de Élite</h4>
+                        <p class="text-zinc-500 text-xs leading-relaxed">Sólida formación en programación, volumen de carga e hipertrofia avanzada.</p>
                     </div>
                 </div>
 
-                <!-- Diploma 2 -->
-                <div class="group relative bg-zinc-900 border border-zinc-800 hover:border-brand-500/30 rounded-2xl p-4 overflow-hidden transition cursor-pointer" onclick="openLightbox('diploma2.jpeg', 'Diplomado en Biomecánica aplicada')">
-                    <div class="aspect-[4/3] rounded-xl bg-zinc-950 overflow-hidden relative border border-zinc-800">
-                        <img src="diploma2.jpeg" alt="Diploma 2" class="w-full h-full object-cover group-hover:scale-105 transition duration-355" onerror="this.src='diploma2.jpeg.jpeg'">
-                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                            <i data-lucide="eye" class="text-white w-8 h-8"></i>
+                <!-- Certificado 2 -->
+                <div onclick="openLightbox('diploma2.jpeg', 'Certificado en Biomecánica y Entrenamiento')" class="bg-zinc-950 border border-zinc-900 hover:border-brand-500/30 rounded-2xl overflow-hidden cursor-pointer group transition-all duration-300">
+                    <div class="aspect-[4/3] bg-zinc-900 relative overflow-hidden border-b border-zinc-900">
+                        <img src="diploma2.jpeg" alt="Diploma 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x300/111827/ffffff?text=Certificado+2'">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+                            <i data-lucide="maximize-2" class="text-brand-500 w-8 h-8"></i>
                         </div>
                     </div>
-                    <div class="pt-4 space-y-1">
-                        <h4 class="font-bold text-white text-base">Elite strength Specialist</h4>
-                        <p class="text-xs text-brand-400">Biomecánica Avanzada</p>
+                    <div class="p-5 space-y-1">
+                        <span class="text-[10px] text-brand-500 font-black uppercase tracking-wider">Biomecánica</span>
+                        <h4 class="text-white font-bold text-sm">Especialista en Biomecánica Aplicada</h4>
+                        <p class="text-zinc-500 text-xs leading-relaxed">Análisis cinemático del movimiento humano y optimización de palancas.</p>
                     </div>
                 </div>
 
-                <!-- Diploma 3 -->
-                <div class="group relative bg-zinc-900 border border-zinc-800 hover:border-brand-500/30 rounded-2xl p-4 overflow-hidden transition cursor-pointer" onclick="openLightbox('diploma3.jpeg', 'Especialista en Biomecánica aplicada')">
-                    <div class="aspect-[4/3] rounded-xl bg-zinc-950 overflow-hidden relative border border-zinc-800">
-                        <img src="diploma3.jpeg" alt="Diploma 3" class="w-full h-full object-cover group-hover:scale-105 transition duration-355" onerror="this.src='diploma3.jpeg.jpeg'">
-                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                            <i data-lucide="eye" class="text-white w-8 h-8"></i>
+                <!-- Certificado 3 -->
+                <div onclick="openLightbox('diploma3.jpeg', 'Certificado en Fisiología del Ejercicio')" class="bg-zinc-950 border border-zinc-900 hover:border-brand-500/30 rounded-2xl overflow-hidden cursor-pointer group transition-all duration-300 col-span-1 sm:col-span-2 lg:col-span-1">
+                    <div class="aspect-[4/3] bg-zinc-900 relative overflow-hidden border-b border-zinc-900">
+                        <img src="diploma3.jpeg" alt="Diploma 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x300/111827/ffffff?text=Certificado+3'">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+                            <i data-lucide="maximize-2" class="text-brand-500 w-8 h-8"></i>
                         </div>
                     </div>
-                    <div class="pt-4 space-y-1">
-                        <h4 class="font-bold text-white text-base">Anatomía Funcional y Biomecánica</h4>
-                        <p class="text-xs text-brand-400">Fisiología del Ejercicio</p>
+                    <div class="p-5 space-y-1">
+                        <span class="text-[10px] text-brand-500 font-black uppercase tracking-wider">Ciencias del Deporte</span>
+                        <h4 class="text-white font-bold text-sm">Fisiología del Ejercicio de Fuerza</h4>
+                        <p class="text-zinc-500 text-xs leading-relaxed">Procesos de síntesis de proteínas, fatiga neuromuscular y adaptaciones.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SECCIÓN: CALCULADORA CIENTÍFICA DE FUERZA (1RM) -->
-    <section id="calculadora" class="py-24 bg-zinc-900/40 border-t border-zinc-900">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-8 md:p-12 space-y-8 relative overflow-hidden">
-                <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand-500/10 rounded-full blur-2xl"></div>
-                
-                <div class="space-y-2">
-                    <span class="text-brand-500 font-bold text-xs uppercase tracking-widest block">Metodología de Carga</span>
-                    <h3 class="text-2xl md:text-3xl font-black text-white">Calculadora Científica de Repetición Máxima ($1\text{RM}$)</h3>
-                    <p class="text-zinc-400 text-sm">
-                        La fuerza en levantamientos clave se mide a través del $1\text{RM}$. Para evitar lesiones por levantar cargas máximas directamente, se calcula de manera segura mediante la ecuación de Epley:
-                    </p>
-                    <!-- Ecuación en formato LaTeX -->
-                    <div class="py-4 text-center text-lg md:text-xl font-mono text-brand-400 bg-zinc-900/60 rounded-xl my-4">
-                        $$1\text{RM} = w \cdot \left(1 + \frac{r}{30}\right)$$
-                    </div>
-                    <p class="text-zinc-500 text-xs italic">
-                        Donde $w$ es el peso en kilogramos levantado en una serie y $r$ representa la cantidad de repeticiones completadas antes del fallo muscular ($r > 1$).
-                    </p>
-                </div>
+    <!-- SECCIÓN: CALCULADORAS CIENTÍFICAS HORIZONTALES (1RM Y MACROS) -->
+    <section id="calculadora" class="py-24 bg-zinc-900/40 border-t border-zinc-900 relative overflow-hidden">
+        <div class="absolute inset-0 glow-bg opacity-30 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-brand-500 font-bold text-xs uppercase tracking-widest block">Herramientas de Precisión</span>
+                <h2 class="text-3xl md:text-4xl font-black tracking-tight text-white">Consola Científica de Rendimiento</h2>
+                <p class="text-zinc-400">
+                    Optimiza tus entrenamientos y nutrición de forma simultánea. Dos potentes motores de cálculo basados en la ciencia del deporte más actualizada.
+                </p>
+            </div>
 
-                <div class="grid sm:grid-cols-2 gap-6 pt-4">
-                    <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-zinc-300">Peso Levantado ($w$)</label>
-                        <div class="relative rounded-xl overflow-hidden">
-                            <input type="number" id="epley-peso" placeholder="ej. 80" class="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-brand-500 text-sm">
-                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 text-xs">KG</span>
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <!-- PANEL IZQUIERDO (1RM - Fuerza Máxima) - 5 Columnas -->
+                <div class="lg:col-span-5 bg-zinc-950 border border-zinc-900 hover:border-brand-500/20 rounded-3xl p-6 sm:p-8 space-y-6 transition-all duration-300 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-500/5 rounded-full blur-2xl group-hover:bg-brand-500/10 transition-all duration-500"></div>
+                    
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
+                            <i data-lucide="gauge" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white leading-tight">Estimador de Fuerza (1RM)</h3>
+                            <p class="text-[10px] text-zinc-500">Fórmula de Epley</p>
                         </div>
                     </div>
-                    <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-zinc-300">Repeticiones Completadas ($r$)</label>
-                        <input type="number" id="epley-reps" placeholder="ej. 5" class="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-brand-500 text-sm rounded-xl">
+                    
+                    <p class="text-zinc-400 text-xs leading-relaxed">
+                        Calcula tu repetición máxima teórica de forma segura para programar tus cargas de trabajo basadas en porcentajes de intensidad.
+                    </p>
+
+                    <!-- Renderización matemática premium de la fórmula -->
+                    <div class="p-3 bg-zinc-900/40 border border-zinc-900/80 rounded-2xl text-center select-all">
+                        <span class="text-brand-400 font-mono text-sm leading-none">$$1\text{RM} = w \cdot \left(1 + \frac{r}{30}\right)$$</span>
                     </div>
+
+                    <div class="space-y-4">
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-semibold text-zinc-400">Peso Levantado</label>
+                            <div class="relative rounded-xl overflow-hidden">
+                                <input type="number" id="epley-peso" placeholder="ej. 80" class="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-brand-500 text-xs transition-all">
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 text-[10px] font-bold">KG</span>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-semibold text-zinc-400">Repeticiones Completadas</label>
+                            <input type="number" id="epley-reps" placeholder="ej. 5" class="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition-all">
+                        </div>
+                    </div>
+
+                    <button onclick="calcular1RM()" class="w-full bg-zinc-900 border border-zinc-800 hover:border-brand-500/50 hover:bg-zinc-850 text-white font-bold py-3.5 rounded-xl transition-all duration-300 text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                        <span>Calcular Fuerza Máxima</span>
+                        <i data-lucide="calculator" class="w-4 h-4"></i>
+                    </button>
+
+                    <div id="resultado-1rm" class="hidden bg-brand-500/5 border border-brand-500/10 p-4 rounded-xl text-center text-brand-400 text-xs font-semibold animate-fadeIn"></div>
                 </div>
 
-                <div class="flex flex-col sm:flex-row items-center gap-6 pt-4">
-                    <button onclick="calcular1RM()" class="w-full sm:w-auto bg-brand-500 hover:bg-brand-600 text-zinc-950 font-bold px-8 py-3.5 rounded-xl transition text-sm">
-                        Calcular Fuerza Máxima
-                    </button>
-                    <div id="resultado-1rm" class="hidden flex-1 bg-brand-500/10 border border-brand-500/20 p-4 rounded-xl text-brand-400 text-sm font-semibold">
-                        <!-- El resultado se inyectará dinámicamente -->
+                <!-- PANEL DERECHO (Nutrición y Macros) - 7 Columnas -->
+                <div class="lg:col-span-7 bg-zinc-950 border border-zinc-900 hover:border-brand-500/20 rounded-3xl p-6 sm:p-8 space-y-6 transition-all duration-300 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl group-hover:bg-emerald-500/10 transition-all duration-500"></div>
+                    
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                            <i data-lucide="activity" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white leading-tight">Distribución de Macronutrientes</h3>
+                            <p class="text-[10px] text-zinc-500">Mifflin-St Jeor & Metabolismo de Fuerza</p>
+                        </div>
                     </div>
+
+                    <p class="text-zinc-400 text-xs leading-relaxed">
+                        Calcula tu gasto calórico diario (TDEE) y distribuye de forma idónea las calorías basándote en un modelo enfocado a conservar masa muscular magra y acelerar la recuperación.
+                    </p>
+
+                    <!-- Rejilla de inputs -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-semibold text-zinc-400">Peso Corporal</label>
+                            <div class="relative rounded-xl overflow-hidden">
+                                <input type="number" id="macro-peso" placeholder="ej. 75" class="w-full bg-zinc-900 border border-zinc-800 text-white px-3 py-2.5 focus:outline-none focus:border-brand-500 text-xs transition-all">
+                                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-600 text-[9px] font-bold">KG</span>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-semibold text-zinc-400">Estatura</label>
+                            <div class="relative rounded-xl overflow-hidden">
+                                <input type="number" id="macro-altura" placeholder="ej. 175" class="w-full bg-zinc-900 border border-zinc-800 text-white px-3 py-2.5 focus:outline-none focus:border-brand-500 text-xs transition-all">
+                                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-600 text-[9px] font-bold">CM</span>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5 col-span-2 sm:col-span-1">
+                            <label class="block text-xs font-semibold text-zinc-400">Edad</label>
+                            <input type="number" id="macro-edad" placeholder="ej. 26" class="w-full bg-zinc-900 border border-zinc-800 text-white px-3 py-2.5 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition-all">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-semibold text-zinc-400">Género Biológico</label>
+                            <select id="macro-genero" class="w-full bg-zinc-900 border border-zinc-800 text-white px-3 py-2.5 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition-all">
+                                <option value="masculino">Masculino</option>
+                                <option value="femenino">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-semibold text-zinc-400">Objetivo Físico</label>
+                            <select id="macro-objetivo" class="w-full bg-zinc-900 border border-zinc-800 text-white px-3 py-2.5 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition-all">
+                                <option value="perder">Déficit (Definición)</option>
+                                <option value="mantener">Mantenimiento</option>
+                                <option value="ganar">Superávit (Volumen)</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1.5 col-span-2 sm:col-span-1">
+                            <label class="block text-xs font-semibold text-zinc-400">Factor Actividad</label>
+                            <select id="macro-actividad" class="w-full bg-zinc-900 border border-zinc-800 text-white px-3 py-2.5 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition-all">
+                                <option value="1.2">Sedentario</option>
+                                <option value="1.375">Act. Ligera (1-3 d/s)</option>
+                                <option value="1.55" selected>Act. Moderada (3-5 d/s)</option>
+                                <option value="1.725">Muy Activo (6-7 d/s)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onclick="calcularMacros()" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-3.5 rounded-xl transition-all duration-300 text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-brand-500/10">
+                        <span>Calcular Requerimientos</span>
+                        <i data-lucide="utensils" class="w-4 h-4"></i>
+                    </button>
+
+                    <div id="resultado-macros" class="hidden bg-zinc-900/50 border border-zinc-900 p-5 rounded-2xl animate-fadeIn"></div>
                 </div>
             </div>
         </div>
@@ -430,6 +531,116 @@
             }
         }
 
+        // Dataset de Programas y Rutinas de Simulación Científica
+        const rutinasSimuladas = {
+            fuerza: {
+                nombre: "Full Body Fuerza",
+                badge: "Fuerza / RPE 8.5",
+                ejercicios: [
+                    { name: "Sentadilla Trasera con Barra", desc: "4 series x 5 reps (Patrón de Rodilla)", rpe: "RPE 8.5" },
+                    { name: "Press de Banca Plano", desc: "4 series x 6 reps (Empuje Horizontal)", rpe: "RPE 8" },
+                    { name: "Peso Muerto Rumano", desc: "3 series x 8 reps (Bisagra de Cadera)", rpe: "RPE 7.5" },
+                    { name: "Dominadas Supinas", desc: "3 series x Al fallo técnico (Tracción Vertical)", rpe: "RPE 9" }
+                ]
+            },
+            estetica: {
+                nombre: "Hipertrofia Torso/Pierna",
+                badge: "Hipertrofia / RPE 7-9",
+                ejercicios: [
+                    { name: "Press Inclinado con Mancuernas", desc: "3 series x 10 reps (Pectoral Superior)", rpe: "RPE 8" },
+                    { name: "Remo con Barra Pendlay", desc: "3 series x 8 reps (Tracción Horizontal)", rpe: "RPE 8" },
+                    { name: "Prensa Inclinada a 45°", desc: "4 series x 12 reps (Cuádriceps/Glúteos)", rpe: "RPE 8.5" },
+                    { name: "Elevaciones Laterales", desc: "4 series x 15 reps (Deltoide Medial)", rpe: "RPE 9.5" }
+                ]
+            },
+            encasa: {
+                nombre: "Calistenia & Peso Corporal",
+                badge: "Sin Equipo / RPE 9",
+                ejercicios: [
+                    { name: "Flexiones de Brazos Expl.", desc: "4 series x 15-20 reps (Empuje)", rpe: "RPE 8.5" },
+                    { name: "Zancadas Búlgaras Unilat.", desc: "3 series x 12 reps/pierna (Fuerza Piernas)", rpe: "RPE 8" },
+                    { name: "Dominadas en Barra Fija", desc: "3 series x Máximas reps (Espalda)", rpe: "RPE 9" },
+                    { name: "Plancha Abdominal Activa", desc: "3 series x 45-60 seg (Core/Estabilidad)", rpe: "RPE 8.5" }
+                ]
+            }
+        };
+
+        // Estado para almacenar ejercicios marcados como completados por sesión
+        let ejerciciosCompletados = {};
+
+        // Inyectar y renderizar los ejercicios del simulador en el DOM
+        function cargarRutinaSimulada(tipo) {
+            // Actualizar estilo visual de las pestañas
+            const tabs = ['fuerza', 'estetica', 'encasa'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tipo) {
+                    btn.className = "py-2 px-1 rounded-lg text-center transition bg-brand-500 text-zinc-950 font-bold shadow-sm shadow-brand-500/20";
+                } else {
+                    btn.className = "py-2 px-1 rounded-lg text-center transition text-zinc-400 hover:text-white";
+                }
+            });
+
+            const rutina = rutinasSimuladas[tipo];
+            document.getElementById('rutina-nombre').innerText = rutina.nombre;
+            document.getElementById('rutina-badge').innerText = rutina.badge;
+
+            const container = document.getElementById('rutina-ejercicios-container');
+            container.classList.add('opacity-0'); // Efecto de transición suave
+
+            setTimeout(() => {
+                container.innerHTML = '';
+                rutina.ejercicios.forEach((ej, index) => {
+                    const uniqueId = `${tipo}-${index}`;
+                    const completado = ejerciciosCompletados[uniqueId] || false;
+
+                    const exDiv = document.createElement('div');
+                    exDiv.className = `flex items-center gap-4 p-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+                        completado 
+                            ? 'bg-brand-500/5 border-brand-500/30 opacity-70' 
+                            : 'bg-zinc-950/50 border-zinc-900 hover:border-zinc-800'
+                    }`;
+                    exDiv.onclick = () => toggleEjercicioCompleto(tipo, index);
+
+                    exDiv.innerHTML = `
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center font-bold transition-all duration-300 shrink-0 ${
+                            completado ? 'bg-brand-500 text-zinc-950' : 'bg-brand-500/10 text-brand-500'
+                        }">
+                            ${index + 1}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-semibold truncate transition-all duration-300 ${
+                                completado ? 'text-zinc-400 line-through' : 'text-white'
+                            }">${ej.name}</p>
+                            <p class="text-xs text-zinc-500 truncate">${ej.desc}</p>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <span class="text-[9px] font-black tracking-widest text-zinc-500 border border-zinc-800 px-1.5 py-0.5 rounded-md">${ej.rpe}</span>
+                            <i data-lucide="${completado ? 'check-circle' : 'circle'}" class="w-5 h-5 transition-colors duration-300 ${
+                                completado ? 'text-brand-500' : 'text-zinc-700'
+                            }"></i>
+                        </div>
+                    `;
+                    container.appendChild(exDiv);
+                });
+
+                lucide.createIcons();
+                container.classList.remove('opacity-0');
+            }, 150);
+        }
+
+        // Alternar el estado de completado de un ejercicio de la simulación
+        function toggleEjercicioCompleto(tipo, index) {
+            const uniqueId = `${tipo}-${index}`;
+            ejerciciosCompletados[uniqueId] = !ejerciciosCompletados[uniqueId];
+            cargarRutinaSimulada(tipo);
+        }
+
+        // Inicializar rutina predeterminada en carga inicial de la página
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarRutinaSimulada('fuerza');
+        });
+
         // Calculadora de 1RM con fórmula de Epley
         function calcular1RM() {
             const peso = parseFloat(document.getElementById('epley-peso').value);
@@ -453,6 +664,117 @@
             
             resultBox.classList.remove('hidden');
             resultBox.innerHTML = `💪 Tu repetición máxima estimada (1RM) es de <strong>${rm} KG</strong>.`;
+        }
+
+        // Calculadora Científica de Macronutrientes (Mifflin-St Jeor + Deportes de Fuerza)
+        function calcularMacros() {
+            const peso = parseFloat(document.getElementById('macro-peso').value);
+            const altura = parseFloat(document.getElementById('macro-altura').value);
+            const edad = parseInt(document.getElementById('macro-edad').value);
+            const genero = document.getElementById('macro-genero').value;
+            const actividad = parseFloat(document.getElementById('macro-actividad').value);
+            const objetivo = document.getElementById('macro-objetivo').value;
+            const resultBox = document.getElementById('resultado-macros');
+
+            if (isNaN(peso) || isNaN(altura) || isNaN(edad) || peso <= 0 || altura <= 0 || edad <= 0) {
+                resultBox.classList.remove('hidden');
+                resultBox.innerHTML = "❌ Por favor, introduce valores numéricos válidos superiores a cero.";
+                return;
+            }
+
+            // Ecuación de Mifflin-St Jeor para TMB (Tasa Metabólica Basal)
+            let tmb = 10 * peso + 6.25 * altura - 5 * edad;
+            if (genero === 'masculino') {
+                tmb += 5;
+            } else {
+                tmb -= 161;
+            }
+
+            // Gasto Energético Diario Total (TDEE)
+            const tdee = tmb * actividad;
+
+            // Ajuste por objetivos (Déficit del 20% o Superávit del 10-15%)
+            let calorias = tdee;
+            if (objetivo === 'perder') {
+                calorias = tdee * 0.80; // Déficit saludable del 20%
+            } else if (objetivo === 'ganar') {
+                calorias = tdee * 1.10; // Superávit controlado del 10%
+            }
+
+            // Mínimo metabólico seguro para evitar caídas hormonales
+            if (calorias < 1200) calorias = 1200;
+
+            // Distribución Deportiva de Macronutrientes (Atletas de Fuerza e Hipertrofia)
+            // 1. Proteínas: 2.2 gramos por cada kilogramo de peso corporal
+            let protGrams = peso * 2.2;
+            let protKcal = protGrams * 4;
+
+            // Seguridad: Si las proteínas superan el 45% del total de kcal, se limitan al 35%
+            if (protKcal > calorias * 0.45) {
+                protGrams = (calorias * 0.35) / 4;
+                protKcal = protGrams * 4;
+            }
+
+            // 2. Grasas: 1.0 gramos por cada kilogramo de peso corporal (Soporte hormonal esencial)
+            let fatGrams = peso * 1.0;
+            let fatKcal = fatGrams * 9;
+
+            // Seguridad: Asegurar rango seguro de grasas (entre 20% y 30% de la energía diaria)
+            if (fatKcal > calorias * 0.35) {
+                fatGrams = (calorias * 0.28) / 9;
+                fatKcal = fatGrams * 9;
+            } else if (fatKcal < calorias * 0.18) {
+                fatGrams = (calorias * 0.20) / 9;
+                fatKcal = fatGrams * 9;
+            }
+
+            // 3. Carbohidratos: Combustible principal (energía remanente)
+            let carbKcal = calorias - (protKcal + fatKcal);
+            let carbGrams = carbKcal / 4;
+
+            // Si los carbohidratos bajan del mínimo de rendimiento (50g), compensar disminuyendo grasas/proteínas levemente
+            if (carbGrams < 50) {
+                carbGrams = 50;
+                carbKcal = 50 * 4;
+                // El ajuste final recae sobre la grasa (manteniendo el objetivo calórico exacto)
+                fatGrams = Math.max(0.6 * peso, (calorias - (protKcal + carbKcal)) / 9);
+            }
+
+            // Redondeo final para entrega impecable
+            const finalCalorias = Math.round(calorias);
+            const finalProt = Math.round(protGrams);
+            const finalCarb = Math.round(carbGrams);
+            const finalFat = Math.round(fatGrams);
+
+            resultBox.classList.remove('hidden');
+            resultBox.innerHTML = `
+                <div class="space-y-4 animate-fadeIn">
+                    <div class="text-center pb-3 border-b border-zinc-800">
+                        <span class="text-zinc-500 text-xs uppercase font-bold tracking-wider block">Gasto Diario Recomendado</span>
+                        <span class="text-2xl font-black text-brand-400">${finalCalorias} <span class="text-sm font-normal text-zinc-300">Kcal / día</span></span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="bg-zinc-950 p-3.5 rounded-xl border border-brand-500/10 text-center">
+                            <span class="text-brand-400 text-base sm:text-lg font-extrabold block leading-none">${finalProt}g</span>
+                            <span class="text-[9px] text-zinc-400 uppercase tracking-widest font-bold block mt-1.5">Proteínas</span>
+                            <span class="text-[8px] text-zinc-600 block mt-1">${finalProt * 4} Kcal</span>
+                        </div>
+                        <div class="bg-zinc-950 p-3.5 rounded-xl border border-emerald-500/10 text-center">
+                            <span class="text-emerald-400 text-base sm:text-lg font-extrabold block leading-none">${finalCarb}g</span>
+                            <span class="text-[9px] text-zinc-400 uppercase tracking-widest font-bold block mt-1.5">Carbos</span>
+                            <span class="text-[8px] text-zinc-600 block mt-1">${finalCarb * 4} Kcal</span>
+                        </div>
+                        <div class="bg-zinc-950 p-3.5 rounded-xl border border-yellow-500/10 text-center">
+                            <span class="text-yellow-500 text-base sm:text-lg font-extrabold block leading-none">${finalFat}g</span>
+                            <span class="text-[9px] text-zinc-400 uppercase tracking-widest font-bold block mt-1.5">Grasas</span>
+                            <span class="text-[8px] text-zinc-600 block mt-1">${finalFat * 9} Kcal</span>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-brand-500/5 rounded-xl border border-brand-500/10 text-[10px] text-zinc-400 leading-relaxed text-center">
+                        💡 <strong>Distribución de Fuerza:</strong> Proteínas ajustadas a ~2.2g/kg para maximizar síntesis proteica y preservar masa muscular en el objetivo seleccionado.
+                    </div>
+                </div>
+            `;
         }
 
         // Control de Lightbox para Diplomas
