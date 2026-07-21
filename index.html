@@ -2,8 +2,8 @@
 <html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consola de Administración — Vital Core Trainer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Vital Core Trainer — Portal Oficial del Atleta y Planificación Científica</title>
     <!-- Tailwind CSS para diseño moderno -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons para iconos limpios -->
@@ -18,7 +18,7 @@
                         brand: {
                             50: '#eefef4',
                             100: '#d3fbe2',
-                            500: '#10b981', /* Esmeralda */
+                            500: '#10b981', /* Esmeralda Vital Core */
                             600: '#059669',
                             950: '#022c22',
                         }
@@ -28,6 +28,9 @@
         }
     </script>
     <style>
+        .glow-bg {
+            background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.12) 0%, rgba(9, 9, 11, 0) 75%);
+        }
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -41,258 +44,554 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #10b981;
         }
+        .math-wrapper {
+            overflow-x: auto;
+            max-width: 100%;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .math-wrapper::-webkit-scrollbar {
+            display: none;
+        }
     </style>
+    <!-- MathJax para renderizado de fórmulas LaTeX -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-<body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen pb-12">
+<body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen selection:bg-brand-500/30 selection:text-white pb-12 sm:pb-0">
 
-    <!-- PANTALLA DE BLOQUEO (SEGURIDAD DE ACCESO) -->
-    <div id="lock-screen" class="fixed inset-0 z-[200] bg-zinc-950 flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.08)_0%,rgba(9,9,11,0)_75%)] pointer-events-none"></div>
-        <div class="relative bg-zinc-900/90 border border-zinc-800 p-8 rounded-2xl w-full max-w-sm space-y-6 text-center shadow-2xl backdrop-blur-md">
+    <!-- PANTALLA DE INICIO DE SESIÓN (LOGIN) -->
+    <div id="login-screen" class="fixed inset-0 z-[110] bg-zinc-950 flex items-center justify-center p-4">
+        <div class="absolute inset-0 glow-bg opacity-30"></div>
+        <div class="relative bg-zinc-900/90 border border-zinc-800 p-6 sm:p-10 rounded-2xl w-full max-w-md space-y-6 text-center shadow-2xl backdrop-blur-md">
             <div class="flex flex-col items-center gap-3">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-brand-500/10">
-                    <i data-lucide="shield-alert" class="text-zinc-950 w-6 h-6"></i>
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-brand-500/10">
+                    <i data-lucide="dumbbell" class="text-zinc-950 w-7 h-7"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-black tracking-wider text-white uppercase">Acceso Restringido</h1>
-                    <span class="text-[9px] font-bold tracking-widest text-brand-500 uppercase">Consola de Entrenador</span>
+                    <h1 class="text-2xl font-black tracking-wider text-white uppercase">VITAL CORE</h1>
+                    <span class="text-[10px] font-bold tracking-widest text-brand-500 uppercase">Consola del Atleta</span>
                 </div>
+            </div>
+
+            <div class="space-y-2">
+                <h2 class="text-lg font-bold text-zinc-200">Acceso a tu Plan Personalizado</h2>
+                <p class="text-xs text-zinc-400">Ingresá el correo electrónico registrado para acceder a tu rutina e historial de cargas.</p>
             </div>
 
             <div class="space-y-4">
                 <div class="space-y-1.5 text-left">
-                    <label class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider">PIN de Seguridad de Vital Core</label>
-                    <input type="password" id="admin-pin" placeholder="••••••••" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 px-4 text-center text-sm font-mono focus:outline-none tracking-widest transition-all">
+                    <label class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Tu Correo Registrado</label>
+                    <div class="relative">
+                        <input type="email" id="login-email" placeholder="ejemplo@correo.com" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3.5 pl-10 pr-4 text-xs focus:outline-none transition-all">
+                        <i data-lucide="mail" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-600 w-4.5 h-4.5"></i>
+                    </div>
                 </div>
-                <div id="pin-error" class="hidden text-xs text-red-400 font-bold bg-red-500/10 p-2.5 rounded-xl border border-red-500/20"></div>
-                <button onclick="verificarAccesoAdmin()" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-3.5 rounded-xl transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-brand-500/10">
-                    <span>Desbloquear Consola</span>
-                    <i data-lucide="unlock" class="w-4 h-4"></i>
+
+                <div id="login-error-box" class="hidden bg-red-500/10 border border-red-500/20 p-3 rounded-xl text-center text-red-400 text-xs font-semibold"></div>
+
+                <button onclick="intentarIniciarSesion()" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-4 rounded-xl transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-brand-500/10 active:scale-98">
+                    <span>Acceder a la Plataforma</span>
+                    <i data-lucide="log-in" class="w-4 h-4"></i>
                 </button>
+            </div>
+
+            <div class="pt-2">
+                <a href="https://wa.me/5491165846235?text=Hola!%20Me%20gustar%C3%ADa%20que%20me%20registres%20en%20el%20sistema%20Vital%20Core." target="_blank" class="text-[11px] text-brand-400 font-bold hover:underline">¿No estás registrado? Solicitar acceso acá</a>
             </div>
         </div>
     </div>
 
-    <!-- CABECERA PRINCIPAL -->
-    <header class="border-b border-zinc-900 bg-zinc-950/80 sticky top-0 z-50 backdrop-blur-md">
+    <!-- BOTÓN FLOTANTE DE WHATSAPP -->
+    <a href="https://wa.me/5491165846235?text=Hola!%20Tengo%20una%20consulta%20sobre%20mi%20rutina%20de%20entrenamiento." 
+       target="_blank" 
+       class="fixed bottom-6 right-6 z-[99] flex items-center justify-center w-14 h-14 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-2xl shadow-emerald-500/40 transition-all duration-300 hover:scale-110 active:scale-95 group"
+       aria-label="Escribir por WhatsApp">
+        <span class="absolute -inset-1.5 rounded-full bg-[#25D366]/40 animate-ping opacity-75 group-hover:opacity-0 transition-opacity"></span>
+        <svg class="w-7 h-7 relative z-10" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.457h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
+
+    <!-- HEADER / NAVEGACIÓN -->
+    <header class="sticky top-0 z-50 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-900/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-9 h-9 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500 border border-brand-500/20">
-                    <i data-lucide="sliders" class="w-5 h-5"></i>
+            <a href="#" class="flex items-center gap-2 select-none active:scale-95 transition">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-brand-500/10">
+                    <i data-lucide="dumbbell" class="text-zinc-950 w-5 h-5 sm:w-6 sm:h-6"></i>
                 </div>
                 <div>
-                    <span class="text-sm font-black tracking-wider text-white uppercase block leading-none">VITAL CORE</span>
-                    <span class="text-[9px] font-bold tracking-widest text-brand-500 uppercase">Panel del Entrenador</span>
+                    <span class="text-lg sm:text-xl font-black tracking-wider text-white block leading-none">VITAL CORE</span>
+                    <span class="text-[9px] sm:text-[10px] font-bold tracking-widest text-brand-500">TRAINER</span>
                 </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <a href="index.html" target="_blank" class="text-xs bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 px-3.5 py-2 rounded-xl text-zinc-300 font-bold flex items-center gap-1.5 transition">
-                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                    <span>Ver Plataforma Web</span>
+            </a>
+
+            <!-- Navegación de Escritorio -->
+            <nav class="hidden md:flex items-center gap-6 lg:gap-8">
+                <a href="#rutina" class="text-sm font-semibold text-brand-500 hover:text-brand-400 transition flex items-center gap-1.5">
+                    <span class="inline-block w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+                    Mi Rutina
                 </a>
-                <button onclick="cerrarPanelAdmin()" class="p-2 text-zinc-500 hover:text-red-400 rounded-xl transition" title="Salir de Consola">
-                    <i data-lucide="power" class="w-5 h-5"></i>
+                <a href="#asesorias" class="text-sm font-medium text-zinc-400 hover:text-white transition">Asesorías</a>
+                <a href="#biblioteca" class="text-sm font-medium text-zinc-400 hover:text-white transition">Biblioteca</a>
+                <a href="#certificaciones" class="text-sm font-medium text-zinc-400 hover:text-white transition">Certificaciones</a>
+                <a href="#calculadora" class="text-sm font-medium text-zinc-400 hover:text-white transition">Calculadoras</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <span id="welcome-badge" class="hidden lg:flex items-center gap-2 bg-brand-500/10 border border-brand-500/20 px-3.5 py-1.5 rounded-xl text-brand-400 text-xs font-semibold">
+                    <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                    <span id="welcome-name">Atleta</span>
+                </span>
+                <button onclick="cerrarSesion()" class="p-2 text-zinc-400 hover:text-red-400 rounded-xl transition" title="Cerrar Sesión">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                </button>
+                <button onclick="toggleMobileMenu()" class="p-2.5 text-zinc-400 hover:text-white active:bg-zinc-900 rounded-xl transition md:hidden" aria-label="Abrir menú">
+                    <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
                 </button>
             </div>
+        </div>
+
+        <!-- Menú Móvil -->
+        <div id="mobile-menu" class="hidden border-t border-zinc-900 bg-zinc-950/98 backdrop-blur-lg px-4 py-6 flex flex-col gap-4 animate-fadeIn">
+            <a href="#rutina" onclick="toggleMobileMenu()" class="text-brand-500 font-semibold text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2">
+                <i data-lucide="dumbbell" class="w-4 h-4"></i> Mi Rutina Activa
+            </a>
+            <a href="#asesorias" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2"><i data-lucide="award" class="w-4 h-4 text-zinc-500"></i> Asesorías</a>
+            <a href="#biblioteca" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2"><i data-lucide="search" class="w-4 h-4 text-zinc-500"></i> Biblioteca de Ejercicios</a>
+            <a href="#certificaciones" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-zinc-500"></i> Certificaciones</a>
+            <a href="#calculadora" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 flex items-center gap-2"><i data-lucide="calculator" class="w-4 h-4 text-zinc-500"></i> Calculadoras</a>
         </div>
     </header>
 
-    <!-- CUERPO PRINCIPAL DEL PANEL -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        <!-- Navegación de la Consola -->
-        <div class="grid grid-cols-2 gap-2 max-w-md bg-zinc-900/60 p-1 rounded-xl border border-zinc-900">
-            <button id="tab-btn-atletas" onclick="cambiarSeccion('atletas')" class="py-3 rounded-lg text-xs font-bold text-center flex items-center justify-center gap-2 transition duration-200">
-                <i data-lucide="users" class="w-4 h-4"></i>
-                <span>Gestión de Atletas</span>
-            </button>
-            <button id="tab-btn-programador" onclick="cambiarSeccion('programador')" class="py-3 rounded-lg text-xs font-bold text-center flex items-center justify-center gap-2 transition duration-200">
-                <i data-lucide="dumbbell" class="w-4 h-4"></i>
-                <span>Programar Rutinas</span>
-            </button>
+    <!-- HERO SECTION -->
+    <section id="inicio" class="relative overflow-hidden pt-8 pb-12 md:pt-16 md:pb-20 glow-bg border-b border-zinc-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div class="space-y-3 max-w-2xl">
+                    <div class="inline-flex items-center gap-2 bg-brand-500/10 border border-brand-500/20 px-3 py-1.5 rounded-full text-brand-400 text-[10px] sm:text-xs font-semibold tracking-wider uppercase">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Sistema de Entrenamiento Científico
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                        ¡Bienvenido, <span id="hero-user-name" class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-emerald-400">Atleta</span>!
+                    </h1>
+                    <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed">
+                        Accede a tu planificación detallada. Registra tus cargas de entrenamiento semanal para hacer un seguimiento real de tu sobrecarga progresiva.
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                    <a href="#rutina" class="bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black px-6 py-3.5 rounded-xl shadow-lg shadow-brand-500/10 transition duration-150 flex items-center justify-center gap-2 text-xs uppercase tracking-wide w-full sm:w-auto">
+                        <i data-lucide="arrow-down-circle" class="w-4 h-4"></i>
+                        <span>Ver Mi Plan de Hoy</span>
+                    </a>
+                    <a href="#biblioteca" class="bg-zinc-900 border border-zinc-800 hover:bg-zinc-850 text-white font-bold px-6 py-3.5 rounded-xl transition duration-150 flex items-center justify-center gap-2 text-xs uppercase tracking-wide w-full sm:w-auto">
+                        <i data-lucide="search" class="w-4 h-4 text-brand-500"></i>
+                        <span>Buscador de IDs</span>
+                    </a>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <!-- NOTIFICACIONES DE FEEDBACK RÁPIDO -->
-        <div id="alert-toast" class="hidden bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold p-4 rounded-xl flex items-center gap-3 animate-fadeIn">
-            <i data-lucide="check-circle" class="w-5 h-5"></i>
-            <span id="toast-msg">Cambio guardado de manera exitosa.</span>
-        </div>
-
-        <!-- SECCIÓN 1: GESTIÓN DE ATLETAS (USUARIOS) -->
-        <section id="section-atletas" class="grid grid-cols-1 lg:grid-cols-12 gap-8 hidden">
-            <!-- Formulario de Registro -->
-            <div class="lg:col-span-4 bg-zinc-900/40 border border-zinc-900 p-6 rounded-2xl space-y-5">
-                <div class="space-y-1">
-                    <h3 class="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
-                        <i data-lucide="user-plus" class="text-brand-500 w-4 h-4"></i>
-                        <span>Registrar Nuevo Atleta</span>
-                    </h3>
-                    <p class="text-zinc-500 text-[11px]">Sincroniza y da de alta un alumno en tu base de datos de Supabase.</p>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="space-y-1">
-                        <label class="block text-[10px] font-bold text-zinc-400 uppercase">Nombre Completo</label>
-                        <input type="text" id="add-nombre" placeholder="Ej. Juan Pérez" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 px-4 text-xs focus:outline-none transition">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-[10px] font-bold text-zinc-400 uppercase">Correo Electrónico</label>
-                        <input type="email" id="add-email" placeholder="Ej. juanperez@gmail.com" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 px-4 text-xs focus:outline-none transition">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-[10px] font-bold text-zinc-400 uppercase">Tipo de Plan Base</label>
-                        <select id="add-plan" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 px-3 text-xs focus:outline-none transition cursor-pointer">
-                            <option value="fuerza">Fuerza Máxima (Fuerza)</option>
-                            <option value="hipertrofia">Hipertrofia Científica (Estética)</option>
-                            <option value="recomposicion">Recomposición Corporal</option>
-                        </select>
-                    </div>
-
-                    <div id="add-error" class="hidden text-xs text-red-400 font-bold bg-red-500/10 p-2.5 rounded-xl border border-red-500/20"></div>
-
-                    <button onclick="guardarNuevoAtleta()" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-3.5 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-2 active:scale-98">
-                        <span>Registrar Alumno</span>
-                        <i data-lucide="check" class="w-4 h-4"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Tabla de Alumnos Guardados -->
-            <div class="lg:col-span-8 bg-zinc-900/40 border border-zinc-900 p-6 rounded-2xl space-y-4">
-                <div class="flex items-center justify-between border-b border-zinc-900 pb-3">
-                    <div>
-                        <h3 class="text-sm font-black text-white uppercase tracking-wider">Atletas en tu Base de Datos</h3>
-                        <p class="text-zinc-500 text-[11px]">Listado total guardado en la tabla <span class="font-mono text-zinc-400 text-[10px]">usuarios_alumnos</span>.</p>
-                    </div>
-                    <span id="atletas-count" class="bg-zinc-950 border border-zinc-800 text-zinc-400 px-3 py-1 rounded-md text-[10px] font-bold">Cargando...</span>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-xs">
-                        <thead>
-                            <tr class="border-b border-zinc-900 text-zinc-500 font-bold">
-                                <th class="py-3 px-4">Nombre Atleta</th>
-                                <th class="py-3 px-4">Correo Registrado</th>
-                                <th class="py-3 px-4">Plan Actual</th>
-                                <th class="py-3 px-4 text-right">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="atletas-table-body" class="divide-y divide-zinc-900/60">
-                            <!-- Inyección dinámica -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN 2: PROGRAMADOR VISUAL DE RUTINAS -->
-        <section id="section-programador" class="grid grid-cols-1 lg:grid-cols-12 gap-8 hidden">
-            <!-- Barra Lateral: Selector de Atleta y Días de Entrenamiento -->
-            <div class="lg:col-span-4 space-y-6">
-                <!-- Selector de Alumno -->
-                <div class="bg-zinc-900/40 border border-zinc-900 p-5 rounded-2xl space-y-3.5">
-                    <div class="space-y-1">
-                        <label class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Seleccionar Alumno</label>
-                        <select id="prog-atleta-select" onchange="seleccionarAtleta(this.value)" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3 px-3 text-xs focus:outline-none transition cursor-pointer">
-                            <option value="">-- Elige un atleta registrado --</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Días de Entrenamiento del Alumno Seleccionado -->
-                <div id="prog-days-container" class="bg-zinc-900/40 border border-zinc-900 p-5 rounded-2xl space-y-4 hidden">
-                    <div class="flex items-center justify-between border-b border-zinc-900 pb-3">
-                        <div>
-                            <h4 class="text-xs font-black text-white uppercase tracking-wider">Días Programados</h4>
-                            <p class="text-zinc-500 text-[9px]">Días cargados en la nube.</p>
-                        </div>
-                        <button onclick="abrirCrearRutinaDia()" class="p-1.5 bg-brand-500/10 hover:bg-brand-500/20 text-brand-500 border border-brand-500/20 rounded-lg transition active:scale-95" title="Añadir Día de Rutina">
-                            <i data-lucide="plus" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-
-                    <!-- Lista de días de rutina guardados -->
-                    <div id="prog-days-list" class="space-y-2">
-                        <!-- Botones de días -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Diseñador Principal de Ejercicios -->
-            <div class="lg:col-span-8">
-                <div id="prog-rutina-editor" class="bg-zinc-900/40 border border-zinc-900 p-6 rounded-2xl space-y-6 hidden">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-900 pb-4">
-                        <div>
-                            <span class="text-brand-500 text-[9px] font-black uppercase tracking-widest block">Diseñador de Bloques Científicos</span>
-                            <h3 id="editor-dia-semana" class="text-base font-black text-white uppercase tracking-tight">Cargando...</h3>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="eliminarRutinaDia()" class="bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 text-[10px] font-bold uppercase tracking-wider px-3.5 py-2.5 rounded-xl transition flex items-center gap-1.5 active:scale-95">
-                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                                <span>Eliminar Día</span>
-                            </button>
-                            <button onclick="guardarRutinaActual()" class="bg-brand-500 hover:bg-brand-600 text-zinc-950 text-[10px] font-black uppercase tracking-wider px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-brand-500/10 active:scale-95">
-                                <i data-lucide="save" class="w-4 h-4"></i>
-                                <span>Guardar en la Nube</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Lista de Ejercicios del Día -->
-                    <div id="editor-ejercicios-container" class="space-y-4">
-                        <!-- Cajas de Ejercicio Dinámicas -->
-                    </div>
-
-                    <!-- Botón para añadir nuevo bloque de ejercicio -->
-                    <button onclick="añadirEjercicioAlEditor()" class="w-full border-2 border-dashed border-zinc-800 hover:border-brand-500/30 bg-zinc-950/20 hover:bg-brand-500/5 text-zinc-400 hover:text-brand-400 text-xs font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2">
-                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
-                        <span>Añadir Ejercicio al Entrenamiento</span>
-                    </button>
-                </div>
-
-                <!-- Estado Inicial: Seleccionar Alumno -->
-                <div id="prog-empty-state" class="bg-zinc-900/10 border border-dashed border-zinc-900 p-16 rounded-2xl text-center space-y-3">
-                    <i data-lucide="dumbbell" class="w-12 h-12 text-zinc-800 mx-auto animate-pulse"></i>
-                    <h4 class="text-zinc-400 font-bold text-sm uppercase">Consola de Programación</h4>
-                    <p class="text-zinc-600 text-xs max-w-xs mx-auto">Seleccioná un alumno registrado en el panel de la izquierda para empezar a maquetar y subir sus rutinas personalizadas.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- MODAL: HISTORIAL DE CARGAS DEL ATLETA -->
-    <div id="modal-cargas" class="hidden fixed inset-0 z-[150] bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-zinc-950 border border-zinc-850 w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh] relative">
+    <!-- SECCIÓN PRINCIPAL: DASHBOARD AMPLIO DE RUTINA -->
+    <section id="rutina" class="py-12 bg-zinc-950 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
             
-            <div class="p-6 border-b border-zinc-850 flex items-center justify-between bg-zinc-900/50">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-500">
-                        <i data-lucide="scale" class="w-5 h-5"></i>
+            <!-- Cabecera de la Planificación -->
+            <div class="bg-zinc-900/60 border border-zinc-900 p-6 sm:p-8 rounded-3xl space-y-6 relative overflow-hidden shadow-2xl backdrop-blur-md">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-brand-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 border-b border-zinc-850 pb-6">
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3">
+                            <span id="source-indicator-dot" class="inline-block w-3 h-3 rounded-full bg-brand-500 animate-pulse"></span>
+                            <span id="source-indicator-text" class="text-xs font-bold uppercase tracking-widest text-brand-500">Plan Asignado en la Nube</span>
+                        </div>
+                        <h2 id="rutina-nombre" class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">Cargando Planificación...</h2>
+                        <p class="text-zinc-400 text-xs">Selecciona el día de entrenamiento para ver los ejercicios y registrar tus kilos levantados.</p>
                     </div>
-                    <div>
-                        <h3 id="modal-cargas-atleta" class="text-lg font-black text-white uppercase tracking-tight">Historial de Cargas</h3>
-                        <p class="text-xs text-zinc-400">Seguimiento semanal de sobrecarga progresiva registrada por el atleta.</p>
+
+                    <!-- Métrica de Progreso del Día -->
+                    <div class="w-full lg:w-72 bg-zinc-950 border border-zinc-850 p-4 rounded-2xl space-y-2">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-zinc-400 font-bold uppercase">Progreso de la Sesión</span>
+                            <span id="progress-percent" class="text-brand-400 font-black">0%</span>
+                        </div>
+                        <div class="w-full bg-zinc-900 rounded-full h-2.5 overflow-hidden border border-zinc-850">
+                            <div id="progress-bar" class="bg-gradient-to-r from-brand-600 to-emerald-400 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
                     </div>
                 </div>
-                <button onclick="cerrarModalCargas()" class="p-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white rounded-full transition">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
 
-            <div class="p-6 overflow-y-auto space-y-4 flex-1">
-                <div id="modal-cargas-content" class="space-y-3">
-                    <!-- Se inyecta la lista o tabla de cargas registradas -->
+                <!-- Selector de Días de Entrenamiento -->
+                <div class="space-y-3">
+                    <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block">Seleccionar Día de Entrenamiento</span>
+                    <div id="tabs-selector-container" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 bg-zinc-950 p-1.5 rounded-2xl border border-zinc-850 text-xs font-bold">
+                        <!-- Pestañas inyectadas dinámicamente -->
+                    </div>
                 </div>
             </div>
 
-            <div class="p-4 border-t border-zinc-850 bg-zinc-900/30 text-right">
-                <button onclick="cerrarModalCargas()" class="bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition">
-                    Cerrar Ventana
-                </button>
+            <!-- CONTENEDOR DE TARJETAS AMPLIAS DE EJERCICIOS Y REGISTRO DE PESOS -->
+            <div id="rutina-ejercicios-container" class="space-y-6 min-h-[300px] transition-all duration-300">
+                <!-- Se inyectan las tarjetas estructuradas con el módulo de registro de peso -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN: BIBLIOTECA DE EJERCICIOS -->
+    <section id="biblioteca" class="py-16 bg-zinc-900/40 border-y border-zinc-900 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <span class="text-brand-500 font-bold text-xs uppercase tracking-widest block">Recursos Vital Core</span>
+                <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white uppercase">Buscador por Código ID</h2>
+                <p class="text-zinc-400 text-xs sm:text-sm">
+                    Ingresa el código ID de 4 dígitos que aparece en las tarjetas de tu rutina para acceder instantáneamente a la técnica completa de ejecución.
+                </p>
+            </div>
+
+            <div class="relative bg-zinc-950 border border-zinc-850 rounded-2xl overflow-hidden shadow-2xl">
+                <div class="bg-zinc-900 px-4 py-3 flex items-center justify-between border-b border-zinc-850">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block"></span>
+                        <span class="text-[10px] text-zinc-500 font-mono ml-4 hidden sm:inline-block">vitalcoretrainer/dataset/exercises</span>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <button onclick="reloadIframe()" class="p-1.5 text-zinc-500 hover:text-white transition active:scale-90" title="Recargar Biblioteca">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                        </button>
+                        <a href="exercises-dataset/index.html" target="_blank" class="text-[10px] text-brand-500 hover:text-brand-400 font-bold flex items-center gap-1 bg-brand-500/10 px-2.5 py-1.5 rounded-lg border border-brand-500/20 active:scale-95 transition">
+                            <span>Ver Completo</span>
+                            <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative h-[550px] bg-zinc-900">
+                    <iframe 
+                        id="exercises-iframe"
+                        src="exercises-dataset/index.html" 
+                        class="w-full h-full border-0"
+                        title="Buscador de Ejercicios Vital Core">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ASESORÍAS -->
+    <section id="asesorias" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <span class="text-brand-500 font-bold text-xs uppercase tracking-widest block">Asesoría de Entrenamiento</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white uppercase">Programas Adaptados</h2>
+                <p class="text-zinc-400 text-xs sm:text-sm">Sin plantillas genéricas. Programación científica de fuerza de acuerdo a tus objetivos.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Tarjeta 1: Fuerza -->
+                <div class="bg-zinc-900/40 border border-zinc-850 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-11 h-11 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
+                            <i data-lucide="zap" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-base font-black text-white uppercase tracking-tight">Full Body Fuerza</h3>
+                        <p class="text-zinc-400 text-xs leading-relaxed">3 días intensos enfocados en patrones compuestos y optimización de fuerza máxima.</p>
+                        <ul class="space-y-2 text-xs text-zinc-300 pt-1">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> 3 sesiones semanales</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Foco en básicos</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20Plan%20Full%20Body%20Fuerza." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
+                        Elegir Plan
+                    </a>
+                </div>
+
+                <!-- Tarjeta 2: Hipertrofia -->
+                <div class="bg-zinc-900/40 border border-zinc-850 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-11 h-11 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
+                            <i data-lucide="dumbbell" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-base font-black text-white uppercase tracking-tight">Hipertrofia Científica</h3>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Máxima tensión mecánica en divisiones torso/pierna o empujes con control de fatiga RPE.</p>
+                        <ul class="space-y-2 text-xs text-zinc-300 pt-1">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> 4 a 5 sesiones semanales</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Control estricto de RPE</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20Plan%20de%20Hipertrofia." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
+                        Elegir Plan
+                    </a>
+                </div>
+
+                <!-- Tarjeta 3: Asesoría VIP -->
+                <div class="bg-zinc-900 border-2 border-brand-500 rounded-2xl p-5 space-y-5 transition relative flex flex-col justify-between shadow-xl shadow-brand-500/10">
+                    <span class="absolute top-0 right-6 -translate-y-1/2 bg-brand-500 text-zinc-950 font-black text-[9px] uppercase tracking-widest px-3 py-1 rounded-full">Recomendado</span>
+                    <div class="space-y-4">
+                        <div class="w-11 h-11 rounded-xl bg-brand-500/20 flex items-center justify-center text-brand-500">
+                            <i data-lucide="crown" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-base font-black text-white uppercase tracking-tight">Asesoría VIP</h3>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Entrenamiento + Nutrición de precisión con soporte diario continuo.</p>
+                        <ul class="space-y-2 text-xs text-zinc-300 pt-1">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Plan integral</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Soporte por WhatsApp</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20interesa%20iniciar%20la%20Asesor%C3%ADa%20VIP%20contigo." target="_blank" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black rounded-xl text-center block transition text-xs uppercase tracking-wide shadow-lg shadow-brand-500/10 active:scale-98">
+                        Empezar Ahora
+                    </a>
+                </div>
+
+                <!-- Tarjeta 4: Recomposición -->
+                <div class="bg-zinc-900/40 border border-zinc-850 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-11 h-11 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
+                            <i data-lucide="scale" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-base font-black text-white uppercase tracking-tight">Recomposición</h3>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Pérdida de grasa conservando masa magra mediante partición calórica.</p>
+                        <ul class="space-y-2 text-xs text-zinc-300 pt-1">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Protocolo de recomposición</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Guía de macronutrientes</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20Plan%20de%20Recomposici%C3%B3n%20Corporal." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
+                        Elegir Plan
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: CERTIFICACIONES -->
+    <section id="certificaciones" class="py-16 bg-zinc-900/30 border-t border-zinc-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <span class="text-brand-500 font-bold text-xs uppercase tracking-widest block">Garantía Profesional</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white uppercase">Formación y Certificaciones</h2>
+                <p class="text-zinc-400 text-xs sm:text-sm">
+                    Tu entrenamiento está respaldado por preparación académica, ciencias del ejercicio y biomecánica aplicada.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Certificado 1 -->
+                <div onclick="openLightbox('diploma1.jpeg', 'Certificado de Preparación Física de Élite')" class="bg-zinc-950 border border-zinc-900 hover:border-brand-500/20 rounded-2xl overflow-hidden cursor-pointer group transition duration-200">
+                    <div class="aspect-[4/3] bg-zinc-900 relative overflow-hidden border-b border-zinc-900">
+                        <img src="diploma1.jpeg" alt="Diploma 1" class="w-full h-full object-cover group-hover:scale-102 transition duration-300" onerror="this.src='https://placehold.co/400x300/111827/ffffff?text=Certificado+1'">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                            <i data-lucide="maximize-2" class="text-brand-500 w-8 h-8"></i>
+                        </div>
+                    </div>
+                    <div class="p-5 space-y-1">
+                        <span class="text-[9px] text-brand-500 font-black uppercase tracking-wider">Acondicionamiento Físico</span>
+                        <h4 class="text-white font-bold text-sm">Preparación Física de Élite</h4>
+                    </div>
+                </div>
+
+                <!-- Certificado 2 -->
+                <div onclick="openLightbox('diploma2.jpeg', 'Certificado en Biomecánica y Entrenamiento')" class="bg-zinc-950 border border-zinc-900 hover:border-brand-500/20 rounded-2xl overflow-hidden cursor-pointer group transition duration-200">
+                    <div class="aspect-[4/3] bg-zinc-900 relative overflow-hidden border-b border-zinc-900">
+                        <img src="diploma2.jpeg" alt="Diploma 2" class="w-full h-full object-cover group-hover:scale-102 transition duration-300" onerror="this.src='https://placehold.co/400x300/111827/ffffff?text=Certificado+2'">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                            <i data-lucide="maximize-2" class="text-brand-500 w-8 h-8"></i>
+                        </div>
+                    </div>
+                    <div class="p-5 space-y-1">
+                        <span class="text-[9px] text-brand-500 font-black uppercase tracking-wider">Biomecánica</span>
+                        <h4 class="text-white font-bold text-sm">Especialista en Biomecánica Aplicada</h4>
+                    </div>
+                </div>
+
+                <!-- Certificado 3 -->
+                <div onclick="openLightbox('diploma3.jpeg', 'Certificado en Fisiología del Ejercicio')" class="bg-zinc-950 border border-zinc-900 hover:border-brand-500/20 rounded-2xl overflow-hidden cursor-pointer group transition duration-200 col-span-1 sm:col-span-2 lg:col-span-1">
+                    <div class="aspect-[4/3] bg-zinc-900 relative overflow-hidden border-b border-zinc-900">
+                        <img src="diploma3.jpeg" alt="Diploma 3" class="w-full h-full object-cover group-hover:scale-102 transition duration-300" onerror="this.src='https://placehold.co/400x300/111827/ffffff?text=Certificado+3'">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                            <i data-lucide="maximize-2" class="text-brand-500 w-8 h-8"></i>
+                        </div>
+                    </div>
+                    <div class="p-5 space-y-1">
+                        <span class="text-[9px] text-brand-500 font-black uppercase tracking-wider">Ciencias del Deporte</span>
+                        <h4 class="text-white font-bold text-sm">Fisiología del Ejercicio de Fuerza</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: CALCULADORAS CIENTÍFICAS -->
+    <section id="calculadora" class="py-20 bg-zinc-900/40 border-t border-zinc-900 relative overflow-hidden">
+        <div class="absolute inset-0 glow-bg opacity-20 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <span class="text-brand-500 font-bold text-xs uppercase tracking-widest block">Herramientas de Precisión</span>
+                <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white uppercase">Consola Científica de Rendimiento</h2>
+                <p class="text-zinc-400 text-xs sm:text-sm">
+                    Calculadoras para estimar tu 1RM de fuerza y requerimientos nutricionales diarios.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+                <!-- PANEL IZQUIERDO (1RM - Fuerza Máxima) -->
+                <div class="lg:col-span-5 bg-zinc-950 border border-zinc-900 rounded-2xl p-5 sm:p-7 space-y-5">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
+                            <i data-lucide="gauge" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm sm:text-base font-black text-white leading-tight uppercase">Estimador de Fuerza (1RM)</h3>
+                            <p class="text-[10px] text-zinc-500">Fórmula de Epley</p>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-zinc-900/40 border border-zinc-900 rounded-xl text-center select-all math-wrapper">
+                        <span class="text-brand-400 font-mono text-xs sm:text-sm leading-none">$$1\text{RM} = w \cdot \left(1 + \frac{r}{30}\right)$$</span>
+                    </div>
+
+                    <div class="space-y-3.5">
+                        <div class="space-y-1">
+                            <label class="block text-[10px] sm:text-xs font-bold text-zinc-400 uppercase tracking-wide">Peso Levantado (KG)</label>
+                            <input type="number" id="epley-peso" placeholder="ej. 80" class="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3.5 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[10px] sm:text-xs font-bold text-zinc-400 uppercase tracking-wide">Repeticiones Completadas</label>
+                            <input type="number" id="epley-reps" placeholder="ej. 5" class="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3.5 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition">
+                        </div>
+                    </div>
+
+                    <button onclick="calcular1RM()" class="w-full bg-zinc-900 border border-zinc-800 hover:border-brand-500/50 hover:bg-zinc-850 text-white font-bold py-3.5 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-2 active:scale-98">
+                        <span>Calcular Fuerza Máxima</span>
+                        <i data-lucide="calculator" class="w-4 h-4"></i>
+                    </button>
+
+                    <div id="resultado-1rm" class="hidden bg-brand-500/5 border border-brand-500/10 p-4 rounded-xl text-center text-brand-400 text-xs font-semibold animate-fadeIn"></div>
+                </div>
+
+                <!-- PANEL DERECHO (Nutrición y Macros) -->
+                <div class="lg:col-span-7 bg-zinc-950 border border-zinc-900 rounded-2xl p-5 sm:p-7 space-y-5">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                            <i data-lucide="activity" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm sm:text-base font-black text-white leading-tight uppercase">Distribución de Macronutrientes</h3>
+                            <p class="text-[10px] text-zinc-500">Mifflin-St Jeor</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                        <div class="space-y-1">
+                            <label class="block text-[10px] sm:text-xs font-bold text-zinc-400 uppercase">Peso (KG)</label>
+                            <input type="number" id="macro-peso" placeholder="ej. 75" class="w-full bg-zinc-900 border border-zinc-800 text-white px-3 py-3.5 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[10px] sm:text-xs font-bold text-zinc-400 uppercase">Estatura (CM)</label>
+                            <input type="number" id="macro-altura" placeholder="ej. 175" class="w-full bg-zinc-900 border border-zinc-800 text-white px-3 py-3.5 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[10px] sm:text-xs font-bold text-zinc-400 uppercase">Edad</label>
+                            <input type="number" id="macro-edad" placeholder="ej. 26" class="w-full bg-zinc-900 border border-zinc-800 text-white px-3 py-3.5 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[10px] sm:text-xs font-bold text-zinc-400 uppercase">Género</label>
+                            <select id="macro-genero" class="w-full bg-zinc-900 border border-zinc-800 text-white px-3 py-3.5 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition cursor-pointer">
+                                <option value="masculino">Masculino</option>
+                                <option value="femenino">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[10px] sm:text-xs font-bold text-zinc-400 uppercase">Objetivo</label>
+                            <select id="macro-objetivo" class="w-full bg-zinc-900 border border-zinc-800 text-white px-3 py-3.5 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition cursor-pointer">
+                                <option value="perder">Déficit (Definición)</option>
+                                <option value="mantener">Mantenimiento</option>
+                                <option value="ganar">Superávit (Volumen)</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[10px] sm:text-xs font-bold text-zinc-400 uppercase">Actividad</label>
+                            <select id="macro-actividad" class="w-full bg-zinc-900 border border-zinc-800 text-white px-3 py-3.5 focus:outline-none focus:border-brand-500 text-xs rounded-xl transition cursor-pointer">
+                                <option value="1.2">Sedentario</option>
+                                <option value="1.375">Act. Ligera (1-3 d/s)</option>
+                                <option value="1.55" selected>Act. Moderada (3-5 d/s)</option>
+                                <option value="1.725">Muy Activo (6-7 d/s)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onclick="calcularMacros()" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-3.5 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-brand-500/10 active:scale-98">
+                        <span>Calcular Macronutrientes</span>
+                        <i data-lucide="utensils" class="w-4 h-4"></i>
+                    </button>
+
+                    <div id="resultado-macros" class="hidden bg-zinc-900/50 border border-zinc-900 p-4 sm:p-5 rounded-xl animate-fadeIn"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-zinc-900 bg-zinc-950 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
+            <div class="flex items-center justify-center gap-2 select-none">
+                <div class="w-8 h-8 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-500">
+                    <i data-lucide="dumbbell" class="w-4 h-4"></i>
+                </div>
+                <span class="text-sm font-black text-white tracking-wider uppercase">VITAL CORE TRAINER</span>
+            </div>
+            <p class="text-xs text-zinc-400">
+                Contacto Asesorías: <a href="https://wa.me/5491165846235" target="_blank" class="text-brand-500 hover:underline font-bold">+54 9 11 6584-6235</a>
+            </p>
+            <p class="text-[11px] text-zinc-500 max-w-md mx-auto leading-relaxed">
+                © 2026 Vital Core Trainer. Todos los derechos reservados. Diseñado bajo estándares de ciencia deportiva y entrenamiento de fuerza.
+            </p>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX PARA VER DIPLOMAS -->
+    <div id="lightbox" class="hidden fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center p-4">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 p-2.5 bg-zinc-900/80 hover:bg-zinc-900 text-zinc-400 hover:text-white rounded-full transition active:scale-90" aria-label="Cerrar modal">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <div class="max-w-4xl max-h-[75vh] sm:max-h-[80vh] overflow-hidden rounded-2xl border border-zinc-850">
+            <img id="lightbox-img" src="" alt="Diploma Completo" class="w-full h-full object-contain">
+        </div>
+        <h3 id="lightbox-title" class="text-white font-bold text-base sm:text-lg mt-5 text-center"></h3>
+    </div>
+
+    <!-- MODAL DE TÉCNICA DE EJERCICIO (ID DIRECTO) -->
+    <div id="tech-modal" class="hidden fixed inset-0 z-[120] bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-zinc-950 border border-zinc-850 w-full max-w-xl rounded-3xl overflow-hidden shadow-2xl flex flex-col relative">
+            <button onclick="cerrarTechModal()" class="absolute top-4 right-4 z-20 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white p-2 rounded-full transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="p-6 space-y-4">
+                <div>
+                    <span id="tech-modal-id" class="text-[10px] font-mono text-brand-500 font-bold uppercase tracking-widest block">ID: 0000</span>
+                    <h3 id="tech-modal-title" class="text-xl font-black text-white uppercase">Cargando Ejercicio...</h3>
+                </div>
+
+                <div class="aspect-square bg-zinc-900 rounded-2xl overflow-hidden relative flex items-center justify-center border border-zinc-850">
+                    <!-- Rueda de carga mientras descarga el GIF 3D -->
+                    <div id="tech-loader" class="absolute inset-0 flex flex-col items-center justify-center text-zinc-500 gap-2 z-0">
+                        <i data-lucide="loader-2" class="w-8 h-8 animate-spin text-brand-500"></i>
+                        <span class="text-xs font-bold text-zinc-400">Cargando animación técnica 3D...</span>
+                    </div>
+
+                    <img id="tech-modal-gif" src="" alt="Demostración" class="w-full h-full object-cover relative z-10 opacity-0 transition-opacity duration-300">
+                </div>
+
+                <p id="tech-modal-desc" class="text-xs text-zinc-400 leading-relaxed"></p>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPTS DE INTERACCIÓN Y CONEXIÓN DIRECTA -->
+    <!-- SCRIPTS DE CONTROL -->
     <script>
         // CONFIGURACIÓN DE SUPABASE INTEGRADA Y LIMPIA
         const SUPABASE_URL = "https://kesbwmurxuncddirlbyt.supabase.co";
@@ -301,418 +600,121 @@
         const { createClient } = supabase;
         const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Estado del Panel
-        let sectionActiva = 'atletas';
-        let listaAtletas = [];
-        let listaRutinasAsignadas = [];
-        let atletaSeleccionado = null;
-        let rutinaSeleccionada = null; // Día en edición actual
-
-        // Clave maestra para acceder a la administración
-        const CLAVE_ADMIN_MASTER = "vitalcoreadmin";
-
-        // Inicialización de Lucide Icons
         lucide.createIcons();
 
-        // Control de Acceso del Administrador
-        function verificarAccesoAdmin() {
-            const inputPin = document.getElementById('admin-pin').value.trim();
-            const errBox = document.getElementById('pin-error');
-
-            if (inputPin === CLAVE_ADMIN_MASTER) {
-                sessionStorage.setItem('vitalcore_admin_logged', 'true');
-                document.getElementById('lock-screen').classList.add('hidden');
-                inicializarPanelCompleto();
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.setAttribute('data-lucide', 'x');
             } else {
-                errBox.innerText = "❌ PIN de Seguridad Incorrecto. Acceso Denegado.";
-                errBox.classList.remove('hidden');
+                menu.classList.add('hidden');
+                icon.setAttribute('data-lucide', 'menu');
             }
-        }
-
-        function cerrarPanelAdmin() {
-            sessionStorage.removeItem('vitalcore_admin_logged');
-            window.location.reload();
-        }
-
-        function cambiarSeccion(nuevaSec) {
-            sectionActiva = nuevaSec;
-            
-            const tabs = ['atletas', 'programador'];
-            tabs.forEach(sec => {
-                const btn = document.getElementById(`tab-btn-${sec}`);
-                const div = document.getElementById(`section-${sec}`);
-                if (sec === nuevaSec) {
-                    btn.className = "py-3 rounded-lg text-xs font-bold text-center flex items-center justify-center gap-2 bg-brand-500 text-zinc-950 shadow-sm shadow-brand-500/10";
-                    div.classList.remove('hidden');
-                } else {
-                    btn.className = "py-3 rounded-lg text-xs font-bold text-center flex items-center justify-center gap-2 text-zinc-400 hover:text-white hover:bg-zinc-950/40";
-                    div.classList.add('hidden');
-                }
-            });
-        }
-
-        async function inicializarPanelCompleto() {
-            cambiarSeccion('atletas');
-            await cargarAtletasDesdeNube();
-        }
-
-        function mostrarToast(mensaje) {
-            const toast = document.getElementById('alert-toast');
-            document.getElementById('toast-msg').innerText = mensaje;
-            toast.classList.remove('hidden');
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 3000);
-        }
-
-        // ================= GESTIÓN DE ATLETAS =================
-
-        async function cargarAtletasDesdeNube() {
-            const tbody = document.getElementById('atletas-table-body');
-            const countBadge = document.getElementById('atletas-count');
-            const selectProg = document.getElementById('prog-atleta-select');
-
-            try {
-                const { data, error } = await _supabase
-                    .from('usuarios_alumnos')
-                    .select('*')
-                    .order('nombre_completo', { ascending: true });
-
-                if (error) throw error;
-
-                listaAtletas = data || [];
-                countBadge.innerText = `${listaAtletas.length} Alumnos Activos`;
-
-                tbody.innerHTML = '';
-                selectProg.innerHTML = '<option value="">-- Elige un atleta registrado --</option>';
-
-                if (listaAtletas.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" class="py-10 text-center text-zinc-500">No hay atletas registrados aún en el sistema.</td></tr>';
-                    return;
-                }
-
-                listaAtletas.forEach(at => {
-                    const tr = document.createElement('tr');
-                    tr.className = "border-b border-zinc-900/40 hover:bg-zinc-900/20";
-                    
-                    const badgeClass = at.tipo_plan === 'hipertrofia' 
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
-                        : at.tipo_plan === 'recomposicion' 
-                        ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' 
-                        : 'bg-brand-500/10 text-brand-400 border-brand-500/20';
-
-                    tr.innerHTML = `
-                        <td class="py-3.5 px-4 font-bold text-white">${at.nombre_completo}</td>
-                        <td class="py-3.5 px-4 font-mono text-zinc-400 text-[11px]">${at.email}</td>
-                        <td class="py-3.5 px-4">
-                            <span class="border px-2.5 py-0.5 rounded-md font-black text-[9px] uppercase tracking-wider ${badgeClass}">
-                                ${at.tipo_plan}
-                            </span>
-                        </td>
-                        <td class="py-3.5 px-4 text-right flex items-center justify-end gap-2">
-                            <button onclick="verCargasAtleta('${at.id}', '${at.nombre_completo}')" class="px-2.5 py-1.5 bg-brand-500/10 hover:bg-brand-500/20 text-brand-400 border border-brand-500/20 rounded-lg text-[10px] font-bold transition flex items-center gap-1 active:scale-95" title="Ver Historial de Cargas">
-                                <i data-lucide="scale" class="w-3.5 h-3.5"></i>
-                                <span>Cargas</span>
-                            </button>
-                            <button onclick="intentarEliminarAtleta('${at.id}', '${at.nombre_completo}')" class="p-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/10 rounded-lg transition active:scale-95" title="Eliminar Alumno">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i>
-                            </button>
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
-
-                    const opt = document.createElement('option');
-                    opt.value = at.id;
-                    opt.innerText = `${at.nombre_completo} (${at.email})`;
-                    selectProg.appendChild(opt);
-                });
-
-                lucide.createIcons();
-
-            } catch (err) {
-                console.error("Error cargando atletas:", err);
-                alert("Error de Supabase cargando alumnos: " + err.message);
-            }
-        }
-
-        async function guardarNuevoAtleta() {
-            const nombre = document.getElementById('add-nombre').value.trim();
-            const email = document.getElementById('add-email').value.trim().toLowerCase();
-            const plan = document.getElementById('add-plan').value.trim();
-            const errBox = document.getElementById('add-error');
-
-            errBox.classList.add('hidden');
-
-            if (!nombre || !email || !plan) {
-                errBox.innerText = "❌ Por favor, completa todos los campos del formulario.";
-                errBox.classList.remove('hidden');
-                return;
-            }
-
-            try {
-                const { error } = await _supabase
-                    .from('usuarios_alumnos')
-                    .insert([
-                        { nombre_completo: nombre, email: email, tipo_plan: plan }
-                    ]);
-
-                if (error) {
-                    if (error.code === '23505') {
-                        throw new Error("El correo ingresado ya pertenece a un atleta registrado.");
-                    }
-                    throw error;
-                }
-
-                document.getElementById('add-nombre').value = '';
-                document.getElementById('add-email').value = '';
-                
-                mostrarToast(`Atleta "${nombre}" registrado de forma impecable.`);
-                await cargarAtletasDesdeNube();
-
-            } catch (err) {
-                console.error("Error guardando atleta:", err);
-                errBox.innerText = `❌ Error: ${err.message}`;
-                errBox.classList.remove('hidden');
-            }
-        }
-
-        async function intentarEliminarAtleta(id, nombre) {
-            const confirmar = confirm(`⚠️ ¿Estás seguro de eliminar al atleta "${nombre}"?\nSe borrarán sus rutinas y registros de cargas.`);
-            if (!confirmar) return;
-
-            try {
-                await _supabase.from('registros_cargas').delete().eq('alumno_id', id);
-                await _supabase.from('rutinas_asignadas').delete().eq('alumno_id', id);
-                
-                const { error } = await _supabase.from('usuarios_alumnos').delete().eq('id', id);
-                if (error) throw error;
-
-                mostrarToast(`Atleta "${nombre}" eliminado con éxito.`);
-                await cargarAtletasDesdeNube();
-
-            } catch (err) {
-                console.error("Error eliminando atleta:", err);
-                alert("Error al borrar atleta: " + err.message);
-            }
-        }
-
-        // ================= PROGRAMADOR DE RUTINAS =================
-
-        async function seleccionarAtleta(atletaId) {
-            const emptyState = document.getElementById('prog-empty-state');
-            const daysContainer = document.getElementById('prog-days-container');
-            const editor = document.getElementById('prog-rutina-editor');
-
-            editor.classList.add('hidden');
-
-            if (!atletaId) {
-                atletaSeleccionado = null;
-                emptyState.classList.remove('hidden');
-                daysContainer.classList.add('hidden');
-                return;
-            }
-
-            atletaSeleccionado = listaAtletas.find(a => a.id === atletaId);
-            emptyState.classList.add('hidden');
-            daysContainer.classList.remove('hidden');
-
-            await cargarRutinasDeAtleta(atletaId);
-        }
-
-        async function cargarRutinasDeAtleta(atletaId) {
-            const daysList = document.getElementById('prog-days-list');
-            daysList.innerHTML = '';
-
-            try {
-                const { data, error } = await _supabase
-                    .from('rutinas_asignadas')
-                    .select('*')
-                    .eq('alumno_id', atletaId)
-                    .order('dia_semana', { ascending: true });
-
-                if (error) throw error;
-
-                listaRutinasAsignadas = data || [];
-
-                if (listaRutinasAsignadas.length === 0) {
-                    daysList.innerHTML = '<p class="text-zinc-500 text-[11px] text-center py-4">No tiene entrenamientos creados aún.</p>';
-                    return;
-                }
-
-                listaRutinasAsignadas.forEach((r) => {
-                    const btn = document.createElement('button');
-                    btn.className = "w-full text-left py-2.5 px-3.5 rounded-xl border border-zinc-850 hover:border-brand-500/20 text-xs text-zinc-300 hover:text-white flex items-center justify-between transition-all group";
-                    btn.onclick = () => abrirEditorDeRutina(r);
-
-                    btn.innerHTML = `
-                        <span class="font-bold uppercase truncate">${r.dia_semana}</span>
-                        <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-500 group-hover:text-brand-500 transition-all"></i>
-                    `;
-                    daysList.appendChild(btn);
-                });
-
-                lucide.createIcons();
-
-            } catch (err) {
-                console.error("Error cargando rutinas:", err);
-                alert("Error: " + err.message);
-            }
-        }
-
-        function abrirCrearRutinaDia() {
-            if (!atletaSeleccionado) return;
-            const dia = prompt("Introduce el nombre del entrenamiento:\n(Ej. Lunes (Torso), Miércoles (Pierna))");
-            if (!dia || !dia.trim()) return;
-            crearNuevoDiaRutinaNube(dia.trim());
-        }
-
-        async function crearNuevoDiaRutinaNube(nombreDia) {
-            try {
-                const { data, error } = await _supabase
-                    .from('rutinas_asignadas')
-                    .insert([{ alumno_id: atletaSeleccionado.id, dia_semana: nombreDia, bloque_ejercicios: [] }])
-                    .select();
-
-                if (error) throw error;
-
-                mostrarToast(`Día "${nombreDia}" creado de forma exitosa.`);
-                await cargarRutinasDeAtleta(atletaSeleccionado.id);
-                if (data && data.length > 0) abrirEditorDeRutina(data[0]);
-
-            } catch (err) {
-                console.error("Error creando día:", err);
-                alert("Error de Supabase: " + err.message);
-            }
-        }
-
-        function abrirEditorDeRutina(rutina) {
-            rutinaSeleccionada = rutina;
-            document.getElementById('prog-rutina-editor').classList.remove('hidden');
-            document.getElementById('editor-dia-semana').innerText = `Entrenamiento: ${rutina.dia_semana}`;
-            renderizarEjerciciosEnEditor();
-        }
-
-        function renderizarEjerciciosEnEditor() {
-            const container = document.getElementById('editor-ejercicios-container');
-            container.innerHTML = '';
-            const ejercicios = rutinaSeleccionada.bloque_ejercicios || [];
-
-            if (ejercicios.length === 0) {
-                container.innerHTML = '<p class="text-zinc-500 text-xs text-center py-8 border border-dashed border-zinc-900 rounded-xl">No hay ejercicios cargados en este día. Hacé clic abajo para añadir tu primer movimiento.</p>';
-                return;
-            }
-
-            ejercicios.forEach((ej, idx) => {
-                const exCard = document.createElement('div');
-                exCard.className = "bg-zinc-950 border border-zinc-900 p-4 rounded-xl space-y-4 relative group hover:border-zinc-800 transition-all";
-                
-                exCard.innerHTML = `
-                    <div class="flex justify-between items-center border-b border-zinc-900/60 pb-2">
-                        <span class="text-brand-500 font-extrabold text-[11px] uppercase tracking-wider">Ejercicio #${idx + 1}</span>
-                        <button onclick="eliminarEjercicioDeRutina(${idx})" class="text-red-400 hover:text-red-300 text-[10px] font-bold flex items-center gap-1 bg-red-500/5 px-2 py-1 rounded border border-red-500/10 active:scale-95 transition">
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Eliminar
-                        </button>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3.5">
-                        <div class="sm:col-span-8 space-y-1">
-                            <label class="text-[9px] font-bold text-zinc-500 uppercase block">Nombre del Ejercicio</label>
-                            <input type="text" value="${ej.name || ej.nombre || ''}" onchange="actualizarDatoEjercicio(${idx}, 'name', this.value)" class="w-full bg-zinc-900 border border-zinc-850 text-white rounded-lg py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500 transition">
-                        </div>
-                        <div class="sm:col-span-4 space-y-1">
-                            <label class="text-[9px] font-bold text-zinc-500 uppercase block">ID Biblioteca (4 dígitos)</label>
-                            <input type="text" value="${ej.id_ejercicio || ''}" onchange="actualizarDatoEjercicio(${idx}, 'id_ejercicio', this.value)" placeholder="Ej. 0025" class="w-full bg-zinc-900 border border-zinc-850 text-white rounded-lg py-2.5 px-3 text-xs font-mono text-center focus:outline-none focus:border-brand-500 transition">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div class="space-y-1">
-                            <label class="text-[9px] font-bold text-zinc-500 uppercase block">Carga / RPE / Series</label>
-                            <input type="text" value="${ej.rpe || ''}" onchange="actualizarDatoEjercicio(${idx}, 'rpe', this.value)" placeholder="Ej. 4 series x 6 reps / RPE 8.5" class="w-full bg-zinc-900 border border-zinc-850 text-white rounded-lg py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500 transition">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[9px] font-bold text-zinc-500 uppercase block">Enfoque / Instrucción</label>
-                            <input type="text" value="${ej.desc || ej.descripcion || ''}" onchange="actualizarDatoEjercicio(${idx}, 'desc', this.value)" placeholder="Ej. Pectoral Superior" class="w-full bg-zinc-900 border border-zinc-850 text-white rounded-lg py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500 transition">
-                        </div>
-                    </div>
-                `;
-                container.appendChild(exCard);
-            });
-
             lucide.createIcons();
         }
 
-        function añadirEjercicioAlEditor() {
-            if (!rutinaSeleccionada) return;
-            if (!rutinaSeleccionada.bloque_ejercicios) rutinaSeleccionada.bloque_ejercicios = [];
-
-            rutinaSeleccionada.bloque_ejercicios.push({
-                name: "Nuevo Ejercicio",
-                desc: "Enfoque Biomecánico",
-                rpe: "3 series x 10 reps / RPE 8",
-                id_ejercicio: "0000"
-            });
-            renderizarEjerciciosEnEditor();
+        function reloadIframe() {
+            const iframe = document.getElementById('exercises-iframe');
+            if (iframe) iframe.src = iframe.src;
         }
 
-        function actualizarDatoEjercicio(index, propiedad, valor) {
-            rutinaSeleccionada.bloque_ejercicios[index][propiedad] = valor.trim();
-        }
+        // Rutinas de Simulación Científica (Fallback)
+        const rutinasSimuladas = [
+            {
+                dia_semana: "Lunes (Torso Fuerza)",
+                bloque_ejercicios: [
+                    { name: "Press de Banca Plano con Barra", desc: "Enfoque: Pectoral Mayor & Deltoides Ant.", rpe: "4 series x 5 reps / RPE 8.5", descanso: "3 min", id_ejercicio: "0025" },
+                    { name: "Remo Pendlay con Barra", desc: "Enfoque: Dorsal Ancho & Trapecio", rpe: "4 series x 6 reps / RPE 8", descanso: "2.5 min", id_ejercicio: "0092" },
+                    { name: "Press Inclinado con Mancuernas", desc: "Enfoque: Pectoral Clavicular", rpe: "3 series x 8 reps / RPE 8.5", descanso: "2 min", id_ejercicio: "0256" },
+                    { name: "Vuelos Laterales con Mancuernas", desc: "Enfoque: Deltoides Lateral", rpe: "4 series x 12 reps / RPE 9", descanso: "1.5 min", id_ejercicio: "0334" }
+                ]
+            },
+            {
+                dia_semana: "Miércoles (Pierna / Cadena Posterior)",
+                bloque_ejercicios: [
+                    { name: "Sentadilla Trasera con Barra", desc: "Enfoque: Cuádriceps & Glúteos", rpe: "4 series x 5 reps / RPE 8.5", descanso: "3 min", id_ejercicio: "0043" },
+                    { name: "Peso Muerto Rumano con Mancuernas", desc: "Enfoque: Isquiotibiales & Glúteos", rpe: "3 series x 8 reps / RPE 8", descanso: "2.5 min", id_ejercicio: "0312" },
+                    { name: "Prensa Inclinada a 45°", desc: "Enfoque: Cuádriceps (Énfasis Extensión)", rpe: "3 series x 10 reps / RPE 8.5", descanso: "2 min", id_ejercicio: "0412" },
+                    { name: "Elevación de Gemelos de Pie", desc: "Enfoque: Gastrocnemio (Sostener 1s arriba)", rpe: "4 series x 15 reps / RPE 9", descanso: "1.5 min", id_ejercicio: "0524" }
+                ]
+            }
+        ];
 
-        function eliminarEjercicioDeRutina(index) {
-            rutinaSeleccionada.bloque_ejercicios.splice(index, 1);
-            renderizarEjerciciosEnEditor();
-        }
+        let ejerciciosCompletados = {};
+        window.rutinasReales = null;
+        let usuarioActual = null;
+        let diaActivoIdx = 0;
+        let historialCargas = []; // Almacena las cargas registradas desde Supabase
 
-        async function guardarRutinaActual() {
-            if (!rutinaSeleccionada) return;
+        // Pre-carga en memoria de la base de datos de ejercicios para la renderización instantánea de GIFs
+        let datasetEjercicios = [];
 
+        async function cargarDatasetEjercicios() {
             try {
-                const { error } = await _supabase
-                    .from('rutinas_asignadas')
-                    .update({ bloque_ejercicios: rutinaSeleccionada.bloque_ejercicios })
-                    .eq('id', rutinaSeleccionada.id);
-
-                if (error) throw error;
-
-                mostrarToast(`Rutina de "${rutinaSeleccionada.dia_semana}" guardada en la nube.`);
-                await cargarRutinasDeAtleta(atletaSeleccionado.id);
-
-            } catch (err) {
-                console.error("Error guardando rutina:", err);
-                alert("Error al guardar: " + err.message);
+                const resp = await fetch('https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/data/exercises.json');
+                if (resp.ok) {
+                    datasetEjercicios = await resp.json();
+                }
+            } catch (e) {
+                console.warn("No se pudo pre-cargar biblioteca de ejercicios:", e);
             }
         }
 
-        async function eliminarRutinaDia() {
-            if (!rutinaSeleccionada) return;
-            if (!confirm(`⚠️ ¿Eliminar el día "${rutinaSeleccionada.dia_semana}"?`)) return;
+        // Autenticación con Supabase
+        async function intentarIniciarSesion() {
+            const emailInput = document.getElementById('login-email').value.trim().toLowerCase();
+            const errorBox = document.getElementById('login-error-box');
+
+            if (!emailInput) {
+                mostrarError("Por favor, ingresá un correo válido.");
+                return;
+            }
+
+            errorBox.classList.add('hidden');
 
             try {
-                const { error } = await _supabase.from('rutinas_asignadas').delete().eq('id', rutinaSeleccionada.id);
+                const { data, error } = await _supabase
+                    .from('usuarios_alumnos')
+                    .select('*')
+                    .eq('email', emailInput)
+                    .maybeSingle();
+
                 if (error) throw error;
 
-                document.getElementById('prog-rutina-editor').classList.add('hidden');
-                mostrarToast("Día de entrenamiento eliminado.");
-                await cargarRutinasDeAtleta(atletaSeleccionado.id);
+                if (!data) {
+                    mostrarError("El correo ingresado no se encuentra registrado. Solicita acceso por WhatsApp.");
+                    return;
+                }
+
+                localStorage.setItem('vitalcore_logged_in_user', JSON.stringify(data));
+                ejecutarAccesoUsuario(data);
 
             } catch (err) {
-                console.error("Error eliminando día:", err);
-                alert("Error: " + err.message);
+                console.error("Error de login:", err);
+                mostrarError("Error al conectar: " + err.message);
             }
         }
 
-        // ================= HISTORIAL DE CARGAS DEL ATLETA =================
+        function mostrarError(msg) {
+            const errorBox = document.getElementById('login-error-box');
+            errorBox.innerText = msg;
+            errorBox.classList.remove('hidden');
+        }
 
-        async function verCargasAtleta(alumnoId, nombreAlumno) {
-            const modal = document.getElementById('modal-cargas');
-            const title = document.getElementById('modal-cargas-atleta');
-            const content = document.getElementById('modal-cargas-content');
+        function ejecutarAccesoUsuario(usuario) {
+            usuarioActual = usuario;
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('welcome-name').innerText = usuario.nombre_completo;
+            document.getElementById('hero-user-name').innerText = usuario.nombre_completo;
 
-            title.innerText = `Historial: ${nombreAlumno}`;
-            content.innerHTML = '<p class="text-zinc-500 text-xs text-center py-8">Cargando registros de pesos de la nube...</p>';
-            modal.classList.remove('hidden');
+            cargarCargasDeUsuario(usuario.id);
+            cargarRutinasDesdeServidor(usuario.id, usuario.tipo_plan);
+        }
 
+        // Cargar registros de pesos guardados del usuario
+        async function cargarCargasDeUsuario(alumnoId) {
             try {
                 const { data, error } = await _supabase
                     .from('registros_cargas')
@@ -721,95 +723,492 @@
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
+                historialCargas = data || [];
+            } catch (err) {
+                console.error("Error cargando historial de cargas:", err);
+                historialCargas = [];
+            }
+        }
 
-                if (!data || data.length === 0) {
-                    content.innerHTML = `
-                        <div class="text-center py-10 space-y-2 border border-dashed border-zinc-850 rounded-2xl">
-                            <i data-lucide="scale" class="w-8 h-8 text-zinc-700 mx-auto"></i>
-                            <p class="text-zinc-500 text-xs font-semibold">Este atleta todavía no ha registrado cargas en sus sesiones.</p>
+        async function cargarRutinasDesdeServidor(alumnoId, tipoPlanDefault) {
+            const indicatorText = document.getElementById('source-indicator-text');
+            const indicatorDot = document.getElementById('source-indicator-dot');
+
+            try {
+                const { data, error } = await _supabase
+                    .from('rutinas_asignadas')
+                    .select('*')
+                    .eq('alumno_id', alumnoId)
+                    .order('dia_semana', { ascending: true });
+
+                if (error) throw error;
+
+                if (data && data.length > 0) {
+                    window.rutinasReales = data;
+                    indicatorText.innerText = "Plan Personalizado Sincronizado";
+                    indicatorDot.className = "inline-block w-3 h-3 rounded-full bg-emerald-400 shadow-lg shadow-emerald-500/50 animate-pulse";
+                    
+                    renderizarPestañasYRutina(data);
+                } else {
+                    window.rutinasReales = rutinasSimuladas;
+                    indicatorText.innerText = "Plan Adaptado (Modo Muestra)";
+                    indicatorDot.className = "inline-block w-3 h-3 rounded-full bg-yellow-500 animate-pulse";
+                    
+                    renderizarPestañasYRutina(rutinasSimuladas);
+                }
+            } catch (err) {
+                console.error("Error cargando rutinas reales:", err);
+                window.rutinasReales = rutinasSimuladas;
+                indicatorText.innerText = "Plan Adaptado (Modo Seguro)";
+                indicatorDot.className = "inline-block w-3 h-3 rounded-full bg-yellow-500 animate-pulse";
+                
+                renderizarPestañasYRutina(rutinasSimuladas);
+            }
+        }
+
+        function renderizarPestañasYRutina(rutinas) {
+            const containerTabs = document.getElementById('tabs-selector-container');
+            containerTabs.innerHTML = '';
+
+            rutinas.forEach((r, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `tab-btn-${idx}`;
+                btn.className = "py-3 px-2 rounded-xl text-center transition duration-150 text-zinc-400 hover:text-white truncate";
+                btn.innerText = r.dia_semana;
+                btn.onclick = () => cambiarDiaRutina(idx);
+                containerTabs.appendChild(btn);
+            });
+
+            cambiarDiaRutina(0);
+        }
+
+        function cambiarDiaRutina(idx) {
+            const rutinas = window.rutinasReales || rutinasSimuladas;
+            if (!rutinas || !rutinas[idx]) return;
+
+            diaActivoIdx = idx;
+
+            rutinas.forEach((_, i) => {
+                const btn = document.getElementById(`tab-btn-${i}`);
+                if (btn) {
+                    if (i === idx) {
+                        btn.className = "py-3 px-2 rounded-xl text-center transition duration-150 bg-brand-500 text-zinc-950 font-black shadow-lg shadow-brand-500/10 truncate";
+                    } else {
+                        btn.className = "py-3 px-2 rounded-xl text-center transition duration-150 text-zinc-400 hover:text-white truncate";
+                    }
+                }
+            });
+
+            const rutina = rutinas[idx];
+            document.getElementById('rutina-nombre').innerText = rutina.dia_semana;
+
+            renderizarTarjetasAmpliasEjercicios(rutina);
+        }
+
+        // Renderizado Amplio de Ejercicios con Módulo de Carga de Peso
+        function renderizarTarjetasAmpliasEjercicios(rutina) {
+            const container = document.getElementById('rutina-ejercicios-container');
+            container.classList.add('opacity-0');
+
+            setTimeout(() => {
+                container.innerHTML = '';
+                const ejercicios = rutina.bloque_ejercicios || [];
+
+                if (!Array.isArray(ejercicios) || ejercicios.length === 0) {
+                    container.innerHTML = `
+                        <div class="bg-zinc-900/20 border border-dashed border-zinc-900 p-12 rounded-3xl text-center space-y-2">
+                            <i data-lucide="dumbbell" class="w-10 h-10 text-zinc-700 mx-auto"></i>
+                            <p class="text-zinc-500 text-xs">No hay ejercicios asignados en este día de entrenamiento.</p>
                         </div>
                     `;
-                    lucide.createIcons();
+                    container.classList.remove('opacity-0');
+                    calcularProgresoDia(0, 0);
                     return;
                 }
 
-                // Generar tabla organizada de registros
-                let html = `
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-xs">
-                            <thead>
-                                <tr class="border-b border-zinc-850 text-zinc-500 font-bold uppercase text-[9px] tracking-wider">
-                                    <th class="py-3 px-3">Fecha</th>
-                                    <th class="py-3 px-3">Día</th>
-                                    <th class="py-3 px-3">Ejercicio</th>
-                                    <th class="py-3 px-3 text-center">Semana</th>
-                                    <th class="py-3 px-3 text-center">Peso</th>
-                                    <th class="py-3 px-3 text-center">Reps Logradas</th>
-                                    <th class="py-3 px-3 text-right">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-zinc-900">
-                `;
+                let completadosCount = 0;
 
-                data.forEach(reg => {
-                    const fecha = new Date(reg.created_at).toLocaleDateString('es-AR', {
-                        day: '2-digit', month: '2-digit', year: '2-digit'
-                    });
+                ejercicios.forEach((ej, index) => {
+                    const uniqueId = `ex-${rutina.id || 'sim'}-${diaActivoIdx}-${index}`;
+                    const completado = ejerciciosCompletados[uniqueId] || false;
+                    if (completado) completadosCount++;
 
-                    html += `
-                        <tr class="hover:bg-zinc-900/40 transition">
-                            <td class="py-3 px-3 font-mono text-[10px] text-zinc-500">${fecha}</td>
-                            <td class="py-3 px-3 text-zinc-300 font-bold">${reg.dia_semana || '-'}</td>
-                            <td class="py-3 px-3 text-white font-bold uppercase">${reg.ejercicio_nombre}</td>
-                            <td class="py-3 px-3 text-center">
-                                <span class="bg-zinc-900 border border-zinc-800 text-brand-400 font-bold px-2 py-0.5 rounded text-[10px]">
-                                    Sem ${reg.semana_num || 1}
+                    const idTag = ej.id_ejercicio ? ej.id_ejercicio : '0000';
+                    const descansoTexto = ej.descanso || '2 - 3 min';
+                    const nombreEj = ej.name || ej.nombre || 'Ejercicio';
+
+                    // Filtrar cargas registradas previas para este ejercicio
+                    const cargasDeEsteEj = historialCargas.filter(c => 
+                        (c.ejercicio_nombre && c.ejercicio_nombre.toLowerCase() === nombreEj.toLowerCase()) || 
+                        (c.ejercicio_id && c.ejercicio_id === idTag)
+                    );
+
+                    // Construir historial previo visual
+                    let historialHtml = '';
+                    if (cargasDeEsteEj.length > 0) {
+                        const ultimas = cargasDeEsteEj.slice(0, 4); // Mostrar máximo 4
+                        historialHtml = `
+                            <div class="pt-3 border-t border-zinc-850 space-y-2">
+                                <span class="text-[9px] font-bold text-brand-400 uppercase tracking-widest block flex items-center gap-1.5">
+                                    <i data-lucide="history" class="w-3 h-3"></i> Tu Historial de Cargas
                                 </span>
-                            </td>
-                            <td class="py-3 px-3 text-center font-black text-brand-400 text-sm">${reg.peso_kg} KG</td>
-                            <td class="py-3 px-3 text-center font-bold text-zinc-200">${reg.reps_realizadas || 0} reps</td>
-                            <td class="py-3 px-3 text-right">
-                                <button onclick="eliminarRegistroCarga('${reg.id}', '${alumnoId}', '${nombreAlumno}')" class="p-1 text-zinc-600 hover:text-red-400 transition" title="Borrar registro erróneo">
-                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                    ${ultimas.map(c => `
+                                        <div class="bg-zinc-950 border border-brand-500/20 p-2 rounded-xl text-center">
+                                            <span class="text-[8px] text-zinc-500 font-bold uppercase block">Semana ${c.semana_num || 1}</span>
+                                            <span class="text-xs font-black text-brand-400 block">${c.peso_kg} KG</span>
+                                            <span class="text-[9px] text-zinc-400 font-bold block">${c.reps_realizadas || 0} reps</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = `bg-zinc-900/60 border rounded-3xl p-6 sm:p-8 space-y-6 transition-all duration-300 relative overflow-hidden group ${
+                        completado 
+                            ? 'border-brand-500/30 bg-brand-500/5 opacity-80' 
+                            : 'border-zinc-850 hover:border-brand-500/20'
+                    }`;
+
+                    card.innerHTML = `
+                        <!-- Cabecera de Ejercicio -->
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-850 pb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${
+                                    completado ? 'bg-brand-500 text-zinc-950' : 'bg-brand-500/10 text-brand-500 border border-brand-500/20'
+                                }">
+                                    ${index + 1}
+                                </div>
+                                <div>
+                                    <h3 class="text-base sm:text-lg font-black text-white uppercase tracking-tight ${completado ? 'line-through text-zinc-400' : ''}">
+                                        ${nombreEj}
+                                    </h3>
+                                    <span class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider block">
+                                        ${ej.desc || ej.descripcion || 'Enfoque Biomecánico'}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <button onclick="abrirTechModal('${idTag}', '${nombreEj}', '${ej.desc || ej.descripcion || ''}')" class="bg-zinc-950 hover:bg-zinc-850 border border-zinc-800 text-brand-400 text-[10px] font-bold uppercase tracking-wider px-3 py-2 rounded-xl transition flex items-center gap-1.5 active:scale-95">
+                                    <i data-lucide="play-circle" class="w-3.5 h-3.5 text-brand-500"></i>
+                                    <span>Ver Técnica (ID: ${idTag})</span>
                                 </button>
-                            </td>
-                        </tr>
+                                <button onclick="toggleCompletarEjercicio('${uniqueId}')" class="p-2 rounded-xl transition ${
+                                    completado ? 'bg-brand-500 text-zinc-950' : 'bg-zinc-950 border border-zinc-800 text-zinc-500 hover:text-brand-500'
+                                }" title="Marcar completado">
+                                    <i data-lucide="${completado ? 'check-circle-2' : 'circle'}" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Grilla Amplia de Parámetros de Carga -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="bg-zinc-950/80 border border-zinc-850 p-4 rounded-2xl space-y-1">
+                                <span class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest block">Series × Repeticiones / RPE</span>
+                                <span class="text-xs sm:text-sm font-black text-white block leading-tight">${ej.rpe || '3 series x 10 reps'}</span>
+                            </div>
+                            <div class="bg-zinc-950/80 border border-zinc-850 p-4 rounded-2xl space-y-1">
+                                <span class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest block">Descanso Recomendado</span>
+                                <div class="flex items-center gap-1.5 text-brand-400 font-bold text-xs sm:text-sm">
+                                    <i data-lucide="clock" class="w-4 h-4 text-brand-500"></i>
+                                    <span>${descansoTexto}</span>
+                                </div>
+                            </div>
+                            <div class="bg-zinc-950/80 border border-zinc-850 p-4 rounded-2xl space-y-1">
+                                <span class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest block">Código Identificador</span>
+                                <span class="text-xs sm:text-sm font-mono font-bold text-zinc-300 block">ID: ${idTag}</span>
+                            </div>
+                        </div>
+
+                        <!-- MÓDULO DE REGISTRO DE CARGA (KILOS / REPS POR SEMANA) -->
+                        <div class="bg-zinc-950/60 border border-zinc-850 p-4 sm:p-5 rounded-2xl space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
+                                    <i data-lucide="scale" class="w-4 h-4 text-brand-500"></i>
+                                    <span>Anotar Carga de la Sesión</span>
+                                </span>
+                                <span class="text-[9px] text-zinc-500 font-mono">Sobrecarga Progresiva</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-bold text-zinc-400 uppercase block">Semana</label>
+                                    <select id="sem-input-${index}" class="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500 cursor-pointer">
+                                        <option value="1">Semana 1</option>
+                                        <option value="2">Semana 2</option>
+                                        <option value="3">Semana 3</option>
+                                        <option value="4">Semana 4</option>
+                                    </select>
+                                </div>
+
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-bold text-zinc-400 uppercase block">Peso (KG)</label>
+                                    <input type="number" id="peso-input-${index}" step="0.5" placeholder="ej. 80" class="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500">
+                                </div>
+
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-bold text-zinc-400 uppercase block">Reps Logradas</label>
+                                    <input type="number" id="reps-input-${index}" placeholder="ej. 10" class="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500">
+                                </div>
+
+                                <button onclick="guardarRegistroCarga('${nombreEj}', '${idTag}', ${index})" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-2.5 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md shadow-brand-500/10 active:scale-95">
+                                    <i data-lucide="save" class="w-4 h-4"></i>
+                                    <span>Guardar Peso</span>
+                                </button>
+                            </div>
+
+                            <!-- Historial renderizado -->
+                            ${historialHtml}
+                        </div>
                     `;
+                    container.appendChild(card);
                 });
 
-                html += `</tbody></table></div>`;
-                content.innerHTML = html;
                 lucide.createIcons();
+                container.classList.remove('opacity-0');
 
-            } catch (err) {
-                console.error("Error cargando historial de cargas:", err);
-                content.innerHTML = `<p class="text-red-400 text-xs text-center">Error: ${err.message}</p>`;
-            }
+                calcularProgresoDia(completadosCount, ejercicios.length);
+
+            }, 150);
         }
 
-        async function eliminarRegistroCarga(registroId, alumnoId, nombreAlumno) {
-            if (!confirm("¿Eliminar este registro de peso?")) return;
+        // Guardar Carga en Supabase
+        async function guardarRegistroCarga(ejercicioNombre, ejercicioId, index) {
+            if (!usuarioActual) {
+                alert("Debes estar autenticado para registrar pesos.");
+                return;
+            }
+
+            const semana = parseInt(document.getElementById(`sem-input-${index}`).value);
+            const peso = parseFloat(document.getElementById(`peso-input-${index}`).value);
+            const reps = parseInt(document.getElementById(`reps-input-${index}`).value);
+
+            if (isNaN(peso) || peso <= 0) {
+                alert("Por favor ingresa un peso en KG válido.");
+                return;
+            }
+
+            const rutinaActiva = window.rutinasReales ? window.rutinasReales[diaActivoIdx] : rutinasSimuladas[diaActivoIdx];
 
             try {
-                const { error } = await _supabase.from('registros_cargas').delete().eq('id', registroId);
+                const { error } = await _supabase
+                    .from('registros_cargas')
+                    .insert([
+                        {
+                            alumno_id: usuarioActual.id,
+                            dia_semana: rutinaActiva.dia_semana,
+                            ejercicio_nombre: ejercicioNombre,
+                            ejercicio_id: ejercicioId,
+                            semana_num: semana,
+                            peso_kg: peso,
+                            reps_realizadas: isNaN(reps) ? 0 : reps
+                        }
+                    ]);
+
                 if (error) throw error;
 
-                mostrarToast("Registro de peso eliminado.");
-                await verCargasAtleta(alumnoId, nombreAlumno);
+                // Limpiar inputs
+                document.getElementById(`peso-input-${index}`).value = '';
+                document.getElementById(`reps-input-${index}`).value = '';
+
+                // Volver a cargar el historial y refrescar interfaz
+                await cargarCargasDeUsuario(usuarioActual.id);
+                cambiarDiaRutina(diaActivoIdx);
+
             } catch (err) {
-                alert("Error al borrar registro: " + err.message);
+                console.error("Error guardando peso:", err);
+                alert("Error al registrar carga en la nube: " + err.message);
             }
         }
 
-        function cerrarModalCargas() {
-            document.getElementById('modal-cargas').classList.add('hidden');
+        function toggleCompletarEjercicio(uniqueId) {
+            ejerciciosCompletados[uniqueId] = !ejerciciosCompletados[uniqueId];
+            cambiarDiaRutina(diaActivoIdx);
+        }
+
+        function calcularProgresoDia(completados, total) {
+            const bar = document.getElementById('progress-bar');
+            const percentText = document.getElementById('progress-percent');
+
+            if (total === 0) {
+                bar.style.width = '0%';
+                percentText.innerText = '0%';
+                return;
+            }
+
+            const pct = Math.round((completados / total) * 100);
+            bar.style.width = `${pct}%`;
+            percentText.innerText = `${pct}%`;
+        }
+
+        // Modal de Técnica Directa
+        async function abrirTechModal(id, nombre, desc) {
+            const modal = document.getElementById('tech-modal');
+            const img = document.getElementById('tech-modal-gif');
+            const loader = document.getElementById('tech-loader');
+            const idPadded = String(id).padStart(4, '0');
+
+            document.getElementById('tech-modal-id').innerText = `ID: ${idPadded}`;
+            document.getElementById('tech-modal-title').innerText = nombre;
+            document.getElementById('tech-modal-desc').innerText = desc || "Visualización técnica oficial de Vital Core Trainer.";
+
+            if (loader) loader.classList.remove('hidden');
+            img.classList.add('opacity-0');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            try {
+                // Si la biblioteca de ejercicios no está cargada aún, la descargamos
+                if (!datasetEjercicios || datasetEjercicios.length === 0) {
+                    await cargarDatasetEjercicios();
+                }
+
+                // Buscar ejercicio por ID de 4 dígitos
+                let ex = datasetEjercicios.find(item => String(item.id).padStart(4, '0') === idPadded);
+                
+                // Si no coincide por ID, buscar coincidencia inteligente por nombre del ejercicio
+                if (!ex && nombre) {
+                    const nameLower = nombre.toLowerCase().trim();
+                    ex = datasetEjercicios.find(item => item.name && item.name.toLowerCase().includes(nameLower));
+                }
+
+                if (ex && ex.media_id) {
+                    // Cargar el GIF animado 3D exacto usando su media_id real de la base de datos
+                    img.src = `https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/${ex.id}-${ex.media_id}.gif`;
+                } else {
+                    // Imagen de respaldo de demostración en caso de no existir
+                    img.src = 'https://placehold.co/400x400/09090b/10b981?text=Demostración+Técnica';
+                }
+            } catch (err) {
+                console.error("Error cargando GIF 3D:", err);
+                img.src = 'https://placehold.co/400x400/09090b/10b981?text=Demostración+Técnica';
+            }
+
+            img.onload = () => {
+                if (loader) loader.classList.add('hidden');
+                img.classList.remove('opacity-0');
+            };
+
+            img.onerror = () => {
+                if (loader) loader.classList.add('hidden');
+                img.src = 'https://placehold.co/400x400/09090b/10b981?text=Demostración+Técnica';
+                img.classList.remove('opacity-0');
+            };
+        }
+
+        function cerrarTechModal() {
+            document.getElementById('tech-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function cerrarSesion() {
+            localStorage.removeItem('vitalcore_logged_in_user');
+            usuarioActual = null;
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-error-box').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+        }
+
+        function calcular1RM() {
+            const peso = parseFloat(document.getElementById('epley-peso').value);
+            const reps = parseInt(document.getElementById('epley-reps').value);
+            const resultBox = document.getElementById('resultado-1rm');
+
+            if (isNaN(peso) || isNaN(reps) || peso <= 0 || reps <= 0) {
+                resultBox.classList.remove('hidden');
+                resultBox.className = "bg-red-500/5 border border-red-500/10 p-4 rounded-xl text-center text-red-400 text-xs font-semibold";
+                resultBox.innerHTML = "❌ Introduce valores numéricos válidos superiores a cero.";
+                return;
+            }
+
+            const rm = reps === 1 ? peso : Math.round(peso * (1 + (reps / 30)));
+            resultBox.classList.remove('hidden');
+            resultBox.className = "bg-brand-500/5 border border-brand-500/10 p-4 rounded-xl text-center text-brand-400 text-xs font-semibold";
+            resultBox.innerHTML = `💪 Tu repetición máxima estimada (1RM) es de <strong>${rm} KG</strong>.`;
+        }
+
+        function calcularMacros() {
+            const peso = parseFloat(document.getElementById('macro-peso').value);
+            const altura = parseFloat(document.getElementById('macro-altura').value);
+            const edad = parseInt(document.getElementById('macro-edad').value);
+            const genero = document.getElementById('macro-genero').value;
+            const actividad = parseFloat(document.getElementById('macro-actividad').value);
+            const objetivo = document.getElementById('macro-objetivo').value;
+            const resultBox = document.getElementById('resultado-macros');
+
+            if (isNaN(peso) || isNaN(altura) || isNaN(edad) || peso <= 0 || altura <= 0 || edad <= 0) {
+                resultBox.classList.remove('hidden');
+                resultBox.innerHTML = "<p class='text-red-400 text-xs text-center font-semibold'>❌ Introduce valores numéricos válidos.</p>";
+                return;
+            }
+
+            let tmb = 10 * peso + 6.25 * altura - 5 * edad;
+            tmb += (genero === 'masculino' ? 5 : -161);
+
+            let calorias = tmb * actividad;
+            if (objetivo === 'perder') calorias *= 0.80;
+            if (objetivo === 'ganar') calorias *= 1.10;
+
+            const finalCalorias = Math.round(calorias);
+            const finalProt = Math.round(peso * 2.2);
+            const finalFat = Math.round(peso * 1.0);
+            const finalCarb = Math.round((finalCalorias - (finalProt * 4 + finalFat * 9)) / 4);
+
+            resultBox.classList.remove('hidden');
+            resultBox.innerHTML = `
+                <div class="space-y-4 animate-fadeIn">
+                    <div class="text-center pb-3 border-b border-zinc-800">
+                        <span class="text-zinc-500 text-[10px] uppercase font-bold block">Gasto Diario Recomendado</span>
+                        <span class="text-xl sm:text-2xl font-black text-brand-400">${finalCalorias} <span class="text-xs font-normal text-zinc-300">Kcal / día</span></span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2.5">
+                        <div class="bg-zinc-950 p-3 rounded-xl text-center border border-brand-500/10">
+                            <span class="text-brand-400 text-sm font-extrabold block leading-none">${finalProt}g</span>
+                            <span class="text-[8px] text-zinc-400 uppercase font-bold block mt-1">Proteínas</span>
+                        </div>
+                        <div class="bg-zinc-950 p-3 rounded-xl text-center border border-emerald-500/10">
+                            <span class="text-emerald-400 text-sm font-extrabold block leading-none">${finalCarb}g</span>
+                            <span class="text-[8px] text-zinc-400 uppercase font-bold block mt-1">Carbos</span>
+                        </div>
+                        <div class="bg-zinc-950 p-3 rounded-xl text-center border border-yellow-500/10">
+                            <span class="text-yellow-500 text-sm font-extrabold block leading-none">${finalFat}g</span>
+                            <span class="text-[8px] text-zinc-400 uppercase font-bold block mt-1">Grasas</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openLightbox(src, title) {
+            const lightbox = document.getElementById('lightbox');
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox-title').innerText = title;
+            lightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+            document.body.style.overflow = 'auto';
         }
 
         window.addEventListener("DOMContentLoaded", () => {
-            const yaAccedido = sessionStorage.getItem('vitalcore_admin_logged');
-            if (yaAccedido === 'true') {
-                document.getElementById('lock-screen').classList.add('hidden');
-                inicializarPanelCompleto();
+            // Iniciar precarga de animaciones 3D de ejercicios
+            cargarDatasetEjercicios();
+
+            const cachedUser = localStorage.getItem('vitalcore_logged_in_user');
+            if (cachedUser) {
+                try {
+                    const parsed = JSON.parse(cachedUser);
+                    ejecutarAccesoUsuario(parsed);
+                } catch(e) {
+                    cerrarSesion();
+                }
+            } else {
+                document.getElementById('login-screen').classList.remove('hidden');
             }
         });
     </script>
