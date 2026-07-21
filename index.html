@@ -75,7 +75,7 @@
 
             <div class="space-y-2">
                 <h2 class="text-lg font-bold text-zinc-200">Acceso a tu Plan Personalizado</h2>
-                <p class="text-xs text-zinc-400">Ingresá el correo electrónico registrado para acceder a tu rutina en vivo e instrucciones técnicas.</p>
+                <p class="text-xs text-zinc-400">Ingresá el correo electrónico registrado para acceder a tu rutina e historial de cargas.</p>
             </div>
 
             <div class="space-y-4">
@@ -175,7 +175,7 @@
                         ¡Bienvenido, <span id="hero-user-name" class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-emerald-400">Atleta</span>!
                     </h1>
                     <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed">
-                        Accede a la planificación ampliada de tus entrenamientos. Consulta series, repeticiones, cargas de esfuerzo (RPE) e instrucciones de ejecución biomecánica directa.
+                        Accede a tu planificación detallada. Registra tus cargas de entrenamiento semanal para hacer un seguimiento real de tu sobrecarga progresiva.
                     </p>
                 </div>
 
@@ -208,7 +208,7 @@
                             <span id="source-indicator-text" class="text-xs font-bold uppercase tracking-widest text-brand-500">Plan Asignado en la Nube</span>
                         </div>
                         <h2 id="rutina-nombre" class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">Cargando Planificación...</h2>
-                        <p class="text-zinc-400 text-xs">Selecciona el día de entrenamiento en la barra inferior para ver el desglose completo de cargas.</p>
+                        <p class="text-zinc-400 text-xs">Selecciona el día de entrenamiento para ver los ejercicios y registrar tus kilos levantados.</p>
                     </div>
 
                     <!-- Métrica de Progreso del Día -->
@@ -223,7 +223,7 @@
                     </div>
                 </div>
 
-                <!-- Selector de Días de Entrenamiento (Pestañas Amplias) -->
+                <!-- Selector de Días de Entrenamiento -->
                 <div class="space-y-3">
                     <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block">Seleccionar Día de Entrenamiento</span>
                     <div id="tabs-selector-container" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 bg-zinc-950 p-1.5 rounded-2xl border border-zinc-850 text-xs font-bold">
@@ -232,9 +232,9 @@
                 </div>
             </div>
 
-            <!-- CONTENEDOR DE TARJETAS AMPLIAS DE EJERCICIOS -->
+            <!-- CONTENEDOR DE TARJETAS AMPLIAS DE EJERCICIOS Y REGISTRO DE PESOS -->
             <div id="rutina-ejercicios-container" class="space-y-6 min-h-[300px] transition-all duration-300">
-                <!-- Se inyectan las tarjetas estructuradas -->
+                <!-- Se inyectan las tarjetas estructuradas con el módulo de registro de peso -->
             </div>
 
         </div>
@@ -636,7 +636,9 @@
 
         let ejerciciosCompletados = {};
         window.rutinasReales = null;
+        let usuarioActual = null;
         let diaActivoIdx = 0;
+        let historialCargas = []; // Almacena las cargas registradas desde Supabase
 
         // Autenticación con Supabase
         async function intentarIniciarSesion() {
@@ -680,11 +682,30 @@
         }
 
         function ejecutarAccesoUsuario(usuario) {
+            usuarioActual = usuario;
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('welcome-name').innerText = usuario.nombre_completo;
             document.getElementById('hero-user-name').innerText = usuario.nombre_completo;
 
+            cargarCargasDeUsuario(usuario.id);
             cargarRutinasDesdeServidor(usuario.id, usuario.tipo_plan);
+        }
+
+        // Cargar registros de pesos guardados del usuario
+        async function cargarCargasDeUsuario(alumnoId) {
+            try {
+                const { data, error } = await _supabase
+                    .from('registros_cargas')
+                    .select('*')
+                    .eq('alumno_id', alumnoId)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                historialCargas = data || [];
+            } catch (err) {
+                console.error("Error cargando historial de cargas:", err);
+                historialCargas = [];
+            }
         }
 
         async function cargarRutinasDesdeServidor(alumnoId, tipoPlanDefault) {
@@ -762,7 +783,7 @@
             renderizarTarjetasAmpliasEjercicios(rutina);
         }
 
-        // Renderizado Amplio y Espacioso de Ejercicios
+        // Renderizado Amplio de Ejercicios con Módulo de Carga de Peso
         function renderizarTarjetasAmpliasEjercicios(rutina) {
             const container = document.getElementById('rutina-ejercicios-container');
             container.classList.add('opacity-0');
@@ -792,6 +813,35 @@
 
                     const idTag = ej.id_ejercicio ? ej.id_ejercicio : '0000';
                     const descansoTexto = ej.descanso || '2 - 3 min';
+                    const nombreEj = ej.name || ej.nombre || 'Ejercicio';
+
+                    // Filtrar cargas registradas previas para este ejercicio
+                    const cargasDeEsteEj = historialCargas.filter(c => 
+                        (c.ejercicio_nombre && c.ejercicio_nombre.toLowerCase() === nombreEj.toLowerCase()) || 
+                        (c.ejercicio_id && c.ejercicio_id === idTag)
+                    );
+
+                    // Construir historial previo visual
+                    let historialHtml = '';
+                    if (cargasDeEsteEj.length > 0) {
+                        const ultimas = cargasDeEsteEj.slice(0, 4); // Mostrar máximo 4
+                        historialHtml = `
+                            <div class="pt-3 border-t border-zinc-850 space-y-2">
+                                <span class="text-[9px] font-bold text-brand-400 uppercase tracking-widest block flex items-center gap-1.5">
+                                    <i data-lucide="history" class="w-3 h-3"></i> Tu Historial de Cargas
+                                </span>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                    ${ultimas.map(c => `
+                                        <div class="bg-zinc-950 border border-brand-500/20 p-2 rounded-xl text-center">
+                                            <span class="text-[8px] text-zinc-500 font-bold uppercase block">Semana ${c.semana_num || 1}</span>
+                                            <span class="text-xs font-black text-brand-400 block">${c.peso_kg} KG</span>
+                                            <span class="text-[9px] text-zinc-400 font-bold block">${c.reps_realizadas || 0} reps</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }
 
                     const card = document.createElement('div');
                     card.className = `bg-zinc-900/60 border rounded-3xl p-6 sm:p-8 space-y-6 transition-all duration-300 relative overflow-hidden group ${
@@ -801,6 +851,7 @@
                     }`;
 
                     card.innerHTML = `
+                        <!-- Cabecera de Ejercicio -->
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-850 pb-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${
@@ -810,7 +861,7 @@
                                 </div>
                                 <div>
                                     <h3 class="text-base sm:text-lg font-black text-white uppercase tracking-tight ${completado ? 'line-through text-zinc-400' : ''}">
-                                        ${ej.name || ej.nombre || 'Ejercicio'}
+                                        ${nombreEj}
                                     </h3>
                                     <span class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider block">
                                         ${ej.desc || ej.descripcion || 'Enfoque Biomecánico'}
@@ -819,7 +870,7 @@
                             </div>
 
                             <div class="flex items-center gap-2">
-                                <button onclick="abrirTechModal('${idTag}', '${ej.name || ej.nombre}', '${ej.desc || ej.descripcion || ''}')" class="bg-zinc-950 hover:bg-zinc-850 border border-zinc-800 text-brand-400 text-[10px] font-bold uppercase tracking-wider px-3 py-2 rounded-xl transition flex items-center gap-1.5">
+                                <button onclick="abrirTechModal('${idTag}', '${nombreEj}', '${ej.desc || ej.descripcion || ''}')" class="bg-zinc-950 hover:bg-zinc-850 border border-zinc-800 text-brand-400 text-[10px] font-bold uppercase tracking-wider px-3 py-2 rounded-xl transition flex items-center gap-1.5">
                                     <i data-lucide="play-circle" class="w-3.5 h-3.5 text-brand-500"></i>
                                     <span>Ver Técnica (ID: ${idTag})</span>
                                 </button>
@@ -849,6 +900,47 @@
                                 <span class="text-xs sm:text-sm font-mono font-bold text-zinc-300 block">ID: ${idTag}</span>
                             </div>
                         </div>
+
+                        <!-- MÓDULO DE REGISTRO DE CARGA (KILOS / REPS POR SEMANA) -->
+                        <div class="bg-zinc-950/60 border border-zinc-850 p-4 sm:p-5 rounded-2xl space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
+                                    <i data-lucide="scale" class="w-4 h-4 text-brand-500"></i>
+                                    <span>Anotar Carga de la Sesión</span>
+                                </span>
+                                <span class="text-[9px] text-zinc-500 font-mono">Sobrecarga Progresiva</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-bold text-zinc-400 uppercase block">Semana</label>
+                                    <select id="sem-input-${index}" class="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500 cursor-pointer">
+                                        <option value="1">Semana 1</option>
+                                        <option value="2">Semana 2</option>
+                                        <option value="3">Semana 3</option>
+                                        <option value="4">Semana 4</option>
+                                    </select>
+                                </div>
+
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-bold text-zinc-400 uppercase block">Peso (KG)</label>
+                                    <input type="number" id="peso-input-${index}" step="0.5" placeholder="ej. 80" class="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500">
+                                </div>
+
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-bold text-zinc-400 uppercase block">Reps Logradas</label>
+                                    <input type="number" id="reps-input-${index}" placeholder="ej. 10" class="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500">
+                                </div>
+
+                                <button onclick="guardarRegistroCarga('${nombreEj}', '${idTag}', ${index})" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-2.5 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md shadow-brand-500/10 active:scale-95">
+                                    <i data-lucide="save" class="w-4 h-4"></i>
+                                    <span>Guardar Peso</span>
+                                </button>
+                            </div>
+
+                            <!-- Historial renderizado -->
+                            ${historialHtml}
+                        </div>
                     `;
                     container.appendChild(card);
                 });
@@ -859,6 +951,55 @@
                 calcularProgresoDia(completadosCount, ejercicios.length);
 
             }, 150);
+        }
+
+        // Guardar Carga en Supabase
+        async function guardarRegistroCarga(ejercicioNombre, ejercicioId, index) {
+            if (!usuarioActual) {
+                alert("Debes estar autenticado para registrar pesos.");
+                return;
+            }
+
+            const semana = parseInt(document.getElementById(`sem-input-${index}`).value);
+            const peso = parseFloat(document.getElementById(`peso-input-${index}`).value);
+            const reps = parseInt(document.getElementById(`reps-input-${index}`).value);
+
+            if (isNaN(peso) || peso <= 0) {
+                alert("Por favor ingresa un peso en KG válido.");
+                return;
+            }
+
+            const rutinaActiva = window.rutinasReales ? window.rutinasReales[diaActivoIdx] : rutinasSimuladas[diaActivoIdx];
+
+            try {
+                const { error } = await _supabase
+                    .from('registros_cargas')
+                    .insert([
+                        {
+                            alumno_id: usuarioActual.id,
+                            dia_semana: rutinaActiva.dia_semana,
+                            ejercicio_nombre: ejercicioNombre,
+                            ejercicio_id: ejercicioId,
+                            semana_num: semana,
+                            peso_kg: peso,
+                            reps_realizadas: isNaN(reps) ? 0 : reps
+                        }
+                    ]);
+
+                if (error) throw error;
+
+                // Limpiar inputs
+                document.getElementById(`peso-input-${index}`).value = '';
+                document.getElementById(`reps-input-${index}`).value = '';
+
+                // Volver a cargar el historial y refrescar interfaz
+                await cargarCargasDeUsuario(usuarioActual.id);
+                cambiarDiaRutina(diaActivoIdx);
+
+            } catch (err) {
+                console.error("Error guardando peso:", err);
+                alert("Error al registrar carga en la nube: " + err.message);
+            }
         }
 
         function toggleCompletarEjercicio(uniqueId) {
@@ -907,6 +1048,7 @@
 
         function cerrarSesion() {
             localStorage.removeItem('vitalcore_logged_in_user');
+            usuarioActual = null;
             document.getElementById('login-email').value = '';
             document.getElementById('login-error-box').classList.add('hidden');
             document.getElementById('login-screen').classList.remove('hidden');
