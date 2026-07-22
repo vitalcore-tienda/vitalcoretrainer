@@ -564,29 +564,55 @@
         <h3 id="lightbox-title" class="text-white font-bold text-base sm:text-lg mt-5 text-center"></h3>
     </div>
 
-    <!-- MODAL DE TÉCNICA DE EJERCICIO (ID DIRECTO) -->
+    <!-- MODAL DE TÉCNICA DE EJERCICIO (ID DIRECTO CON PASO A PASO) -->
     <div id="tech-modal" class="hidden fixed inset-0 z-[120] bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-zinc-950 border border-zinc-850 w-full max-w-xl rounded-3xl overflow-hidden shadow-2xl flex flex-col relative">
+        <div class="bg-zinc-950 border border-zinc-850 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl flex flex-col relative max-h-[90vh]">
             <button onclick="cerrarTechModal()" class="absolute top-4 right-4 z-20 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white p-2 rounded-full transition">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
-            <div class="p-6 space-y-4">
-                <div>
-                    <span id="tech-modal-id" class="text-[10px] font-mono text-brand-500 font-bold uppercase tracking-widest block">ID: 0000</span>
+            
+            <div class="p-6 space-y-5 overflow-y-auto custom-scrollbar">
+                <!-- Cabecera e Identificadores -->
+                <div class="space-y-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span id="tech-modal-id" class="text-[10px] font-mono text-brand-500 font-bold uppercase tracking-widest block">ID: 0000</span>
+                        <span id="tech-modal-category" class="hidden bg-brand-500/10 text-brand-400 border border-brand-500/20 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md"></span>
+                        <span id="tech-modal-equipment" class="hidden bg-zinc-900 text-zinc-300 border border-zinc-800 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md"></span>
+                    </div>
                     <h3 id="tech-modal-title" class="text-xl font-black text-white uppercase">Cargando Ejercicio...</h3>
                 </div>
 
-                <div class="aspect-square bg-zinc-900 rounded-2xl overflow-hidden relative flex items-center justify-center border border-zinc-850">
-                    <!-- Rueda de carga mientras descarga el GIF 3D -->
-                    <div id="tech-loader" class="absolute inset-0 flex flex-col items-center justify-center text-zinc-500 gap-2 z-0">
-                        <i data-lucide="loader-2" class="w-8 h-8 animate-spin text-brand-500"></i>
-                        <span class="text-xs font-bold text-zinc-400">Cargando animación técnica 3D...</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 items-start">
+                    <!-- Animación 3D GIF -->
+                    <div class="aspect-square bg-zinc-900 rounded-2xl overflow-hidden relative flex items-center justify-center border border-zinc-850">
+                        <div id="tech-loader" class="absolute inset-0 flex flex-col items-center justify-center text-zinc-500 gap-2 z-0 p-4 text-center">
+                            <i data-lucide="loader-2" class="w-8 h-8 animate-spin text-brand-500"></i>
+                            <span class="text-xs font-bold text-zinc-400">Cargando animación técnica 3D...</span>
+                        </div>
+                        <img id="tech-modal-gif" src="" alt="Demostración" class="w-full h-full object-cover relative z-10 opacity-0 transition-opacity duration-300">
                     </div>
 
-                    <img id="tech-modal-gif" src="" alt="Demostración" class="w-full h-full object-cover relative z-10 opacity-0 transition-opacity duration-300">
-                </div>
+                    <!-- Información de Músculos y Pasos de Ejecución -->
+                    <div class="space-y-4">
+                        <div id="tech-modal-target-box" class="bg-zinc-900/60 border border-zinc-850 p-3 rounded-xl hidden space-y-1">
+                            <span class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest block">Músculo Objetivo</span>
+                            <span id="tech-modal-target" class="text-xs font-bold text-white uppercase block"></span>
+                        </div>
 
-                <p id="tech-modal-desc" class="text-xs text-zinc-400 leading-relaxed"></p>
+                        <p id="tech-modal-desc" class="text-xs text-zinc-400 leading-relaxed"></p>
+
+                        <!-- Lista de Pasos -->
+                        <div id="tech-modal-steps-container" class="space-y-2 border-t border-zinc-850 pt-3">
+                            <span class="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5">
+                                <i data-lucide="book-open" class="w-4 h-4 text-brand-500"></i>
+                                <span>Ejecución Paso a Paso</span>
+                            </span>
+                            <ol id="tech-modal-steps" class="space-y-2 text-xs text-zinc-400 list-decimal pl-4 leading-relaxed">
+                                <!-- Pasos inyectados por JavaScript -->
+                            </ol>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1044,16 +1070,37 @@
             percentText.innerText = `${pct}%`;
         }
 
-        // Modal de Técnica Directa
+        // Traductores Rápidos para el Modal
+        const dictTraduccion = {
+            "chest": "Pecho", "back": "Espalda", "shoulders": "Hombros", "upper arms": "Brazos",
+            "waist": "Abdomen / Core", "upper legs": "Piernas", "lower legs": "Pantorrillas",
+            "dumbbell": "Mancuernas", "barbell": "Barra", "cable": "Poleas", "body weight": "Peso Corporal"
+        };
+
+        function tradVal(v) {
+            if (!v) return "";
+            return dictTraduccion[v.toLowerCase().trim()] || v;
+        }
+
+        // Modal de Técnica Directa Enriquecido
         async function abrirTechModal(id, nombre, desc) {
             const modal = document.getElementById('tech-modal');
             const img = document.getElementById('tech-modal-gif');
             const loader = document.getElementById('tech-loader');
+            const catBadge = document.getElementById('tech-modal-category');
+            const eqBadge = document.getElementById('tech-modal-equipment');
+            const targetBox = document.getElementById('tech-modal-target-box');
+            const targetText = document.getElementById('tech-modal-target');
+            const stepsList = document.getElementById('tech-modal-steps');
             const idPadded = String(id).padStart(4, '0');
 
             document.getElementById('tech-modal-id').innerText = `ID: ${idPadded}`;
             document.getElementById('tech-modal-title').innerText = nombre;
             document.getElementById('tech-modal-desc').innerText = desc || "Visualización técnica oficial de Vital Core Trainer.";
+            stepsList.innerHTML = '';
+            catBadge.classList.add('hidden');
+            eqBadge.classList.add('hidden');
+            targetBox.classList.add('hidden');
 
             if (loader) loader.classList.remove('hidden');
             img.classList.add('opacity-0');
@@ -1061,30 +1108,68 @@
             document.body.style.overflow = 'hidden';
 
             try {
-                // Si la biblioteca de ejercicios no está cargada aún, la descargamos
+                // Descargar el dataset si aún no está en memoria
                 if (!datasetEjercicios || datasetEjercicios.length === 0) {
                     await cargarDatasetEjercicios();
                 }
 
-                // Buscar ejercicio por ID de 4 dígitos
+                // Buscar ejercicio por ID de 4 dígitos o por nombre
                 let ex = datasetEjercicios.find(item => String(item.id).padStart(4, '0') === idPadded);
                 
-                // Si no coincide por ID, buscar coincidencia inteligente por nombre del ejercicio
                 if (!ex && nombre) {
                     const nameLower = nombre.toLowerCase().trim();
                     ex = datasetEjercicios.find(item => item.name && item.name.toLowerCase().includes(nameLower));
                 }
 
-                if (ex && ex.media_id) {
-                    // Cargar el GIF animado 3D exacto usando su media_id real de la base de datos
-                    img.src = `https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/${ex.id}-${ex.media_id}.gif`;
+                if (ex) {
+                    // Cargar categoría y equipamiento
+                    if (ex.category) {
+                        catBadge.innerText = tradVal(ex.category);
+                        catBadge.classList.remove('hidden');
+                    }
+                    if (ex.equipment) {
+                        eqBadge.innerText = tradVal(ex.equipment);
+                        eqBadge.classList.remove('hidden');
+                    }
+                    if (ex.target) {
+                        targetText.innerText = ex.target;
+                        targetBox.classList.remove('hidden');
+                    }
+
+                    // Extraer los pasos en español o en inglés
+                    let pasos = [];
+                    if (ex.instruction_steps && ex.instruction_steps.es && ex.instruction_steps.es.length > 0) {
+                        pasos = ex.instruction_steps.es;
+                    } else if (ex.instructions && ex.instructions.es) {
+                        pasos = ex.instructions.es.split('.').map(p => p.trim()).filter(p => p.length > 0);
+                    } else if (ex.instruction_steps && ex.instruction_steps.en) {
+                        pasos = ex.instruction_steps.en;
+                    }
+
+                    if (pasos.length > 0) {
+                        pasos.forEach(p => {
+                            const li = document.createElement('li');
+                            li.innerText = p;
+                            stepsList.appendChild(li);
+                        });
+                    } else {
+                        stepsList.innerHTML = '<li class="text-zinc-500 italic">Sigue las indicaciones de la animación 3D y las claves atencionales proporcionadas por tu entrenador.</li>';
+                    }
+
+                    // Cargar animación GIF
+                    if (ex.media_id) {
+                        img.src = `https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/${ex.id}-${ex.media_id}.gif`;
+                    } else {
+                        img.src = 'https://placehold.co/400x400/09090b/10b981?text=Demostración+Técnica';
+                    }
                 } else {
-                    // Imagen de respaldo de demostración en caso de no existir
                     img.src = 'https://placehold.co/400x400/09090b/10b981?text=Demostración+Técnica';
+                    stepsList.innerHTML = '<li class="text-zinc-500 italic">Consulte con su entrenador para recibir detalles biomecánicos adicionales de este ejercicio.</li>';
                 }
             } catch (err) {
-                console.error("Error cargando GIF 3D:", err);
+                console.error("Error cargando detalles técnicos:", err);
                 img.src = 'https://placehold.co/400x400/09090b/10b981?text=Demostración+Técnica';
+                stepsList.innerHTML = '<li class="text-zinc-500 italic">Sigue la animación de muestra para la correcta ejecución del movimiento.</li>';
             }
 
             img.onload = () => {
@@ -1097,6 +1182,8 @@
                 img.src = 'https://placehold.co/400x400/09090b/10b981?text=Demostración+Técnica';
                 img.classList.remove('opacity-0');
             };
+
+            lucide.createIcons();
         }
 
         function cerrarTechModal() {
