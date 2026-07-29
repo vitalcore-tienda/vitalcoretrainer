@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca de Ejercicios — Vital Core Trainer</title>
     <!-- Tailwind CSS para diseño moderno -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <!-- Lucide Icons para iconos limpios -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@1.27.0/dist/umd/lucide.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -275,7 +275,7 @@
 
         // Traducir nombres de ejercicios de manera amigable
         function traducirNombreEjercicio(nombre) {
-            let traducido = nombre.toLowerCase();
+            let traducido = String(nombre || 'Ejercicio').toLowerCase();
             Object.entries(traducciones.ejerciciosComunes).forEach(([en, es]) => {
                 traducido = traducido.replace(new RegExp(en, 'g'), es);
             });
@@ -416,26 +416,35 @@
                     <div class="space-y-3">
                         <!-- Imagen/Miniatura -->
                         <div class="bg-zinc-950 aspect-square rounded-xl overflow-hidden flex items-center justify-center relative border border-zinc-900">
-                            <img src="${imgSrc}" alt="${ex.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/180x180/09090b/10b981?text=VitalCore'">
+                            <img data-field="imagen" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         </div>
                         
                         <!-- Categoría y Equipamiento -->
                         <div class="flex flex-wrap gap-1">
-                            <span class="bg-brand-500/10 text-brand-400 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md">${t('categorias', ex.category)}</span>
-                            <span class="bg-zinc-900 text-zinc-400 text-[9px] font-bold px-2 py-0.5 rounded-md">${t('equipos', ex.equipment)}</span>
+                            <span data-field="categoria" class="bg-brand-500/10 text-brand-400 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md"></span>
+                            <span data-field="equipo" class="bg-zinc-900 text-zinc-400 text-[9px] font-bold px-2 py-0.5 rounded-md"></span>
                         </div>
 
                         <!-- Nombre -->
-                        <h4 class="text-white font-bold text-xs sm:text-sm leading-snug tracking-tight group-hover:text-brand-400 transition-colors duration-200 line-clamp-2 uppercase">
-                            ${traducirNombreEjercicio(ex.name)}
-                        </h4>
+                        <h4 data-field="nombre" class="text-white font-bold text-xs sm:text-sm leading-snug tracking-tight group-hover:text-brand-400 transition-colors duration-200 line-clamp-2 uppercase"></h4>
                     </div>
 
                     <div class="pt-3 border-t border-zinc-900/55 flex justify-between items-center text-[10px] text-zinc-500 font-medium">
-                        <span>Foco: ${t('musculos', ex.target)}</span>
+                        <span data-field="foco"></span>
                         <i data-lucide="arrow-up-right" class="w-4 h-4 text-zinc-600 group-hover:text-brand-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
                     </div>
                 `;
+
+                const imagen = card.querySelector('[data-field="imagen"]');
+                imagen.src = imgSrc;
+                imagen.alt = String(ex.name || 'Ejercicio');
+                imagen.addEventListener('error', () => {
+                    imagen.src = 'https://placehold.co/180x180/09090b/10b981?text=VitalCore';
+                }, { once: true });
+                card.querySelector('[data-field="categoria"]').textContent = t('categorias', ex.category);
+                card.querySelector('[data-field="equipo"]').textContent = t('equipos', ex.equipment);
+                card.querySelector('[data-field="nombre"]').textContent = traducirNombreEjercicio(ex.name);
+                card.querySelector('[data-field="foco"]').textContent = `Foco: ${t('musculos', ex.target)}`;
                 grid.appendChild(card);
             }
 
