@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Vital Core Trainer — Portal Oficial del Atleta y Planificación Científica</title>
+    <title>Vital Core Trainer — Entrenamiento personalizado</title>
+    <meta name="description" content="Entrenamiento personalizado de fuerza, hipertrofia y recomposición corporal. Conocé los planes de Vital Core Trainer y consultá por WhatsApp.">
     <!-- Tailwind CSS para diseño moderno -->
-    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons para iconos limpios -->
-    <script src="https://unpkg.com/lucide@1.27.0/dist/umd/lucide.min.js"></script>
-    <!-- SDK oficial de Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.9"></script>
-    <script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+<script>
         tailwind.config = {
             theme: {
                 extend: {
@@ -55,55 +54,13 @@
         }
     </style>
     <!-- MathJax para renderizado de fórmulas LaTeX -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen selection:bg-brand-500/30 selection:text-white pb-12 sm:pb-0">
 
-    <!-- PANTALLA DE INICIO DE SESIÓN (LOGIN) -->
-    <div id="login-screen" class="fixed inset-0 z-[110] bg-zinc-950 flex items-center justify-center p-4">
-        <div class="absolute inset-0 glow-bg opacity-30"></div>
-        <div class="relative bg-zinc-900/90 border border-zinc-800 p-6 sm:p-10 rounded-2xl w-full max-w-md space-y-6 text-center shadow-2xl backdrop-blur-md">
-            <div class="flex flex-col items-center gap-3">
-                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-brand-500/10">
-                    <i data-lucide="dumbbell" class="text-zinc-950 w-7 h-7"></i>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-black tracking-wider text-white uppercase">VITAL CORE</h1>
-                    <span class="text-[10px] font-bold tracking-widest text-brand-500 uppercase">Consola del Atleta</span>
-                </div>
-            </div>
-
-            <div class="space-y-2">
-                <h2 class="text-lg font-bold text-zinc-200">Acceso a tu Plan Personalizado</h2>
-                <p class="text-xs text-zinc-400">Ingresá el correo electrónico registrado para acceder a tu rutina e historial de cargas.</p>
-            </div>
-
-            <form id="athlete-login-form" class="space-y-4">
-                <div class="space-y-1.5 text-left">
-                    <label for="login-email" class="block text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Tu Correo Registrado</label>
-                    <div class="relative">
-                        <input type="email" id="login-email" autocomplete="email" required placeholder="ejemplo@correo.com" class="w-full bg-zinc-950 border border-zinc-800 focus:border-brand-500 text-white rounded-xl py-3.5 pl-10 pr-4 text-xs focus:outline-none transition-all">
-                        <i data-lucide="mail" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-600 w-4.5 h-4.5"></i>
-                    </div>
-                </div>
-
-                <div id="login-error-box" role="status" class="hidden bg-red-500/10 border border-red-500/20 p-3 rounded-xl text-center text-red-400 text-xs font-semibold"></div>
-
-                <button id="athlete-login-button" type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-4 rounded-xl transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-brand-500/10 active:scale-95 disabled:opacity-60 disabled:cursor-wait">
-                    <span>Recibir enlace seguro</span>
-                    <i data-lucide="log-in" class="w-4 h-4"></i>
-                </button>
-            </form>
-
-            <div class="pt-2">
-                <a href="https://wa.me/5491165846235?text=Hola!%20Me%20gustar%C3%ADa%20que%20me%20registres%20en%20el%20sistema%20Vital%20Core." target="_blank" rel="noopener noreferrer" class="text-[11px] text-brand-400 font-bold hover:underline">¿No estás registrado? Solicitar acceso acá</a>
-            </div>
-        </div>
-    </div>
-
     <!-- BOTÓN FLOTANTE DE WHATSAPP -->
-    <a href="https://wa.me/5491165846235?text=Hola!%20Tengo%20una%20consulta%20sobre%20mi%20rutina%20de%20entrenamiento." 
-       target="_blank" rel="noopener noreferrer" 
+    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20informaci%C3%B3n%20sobre%20los%20planes%20de%20entrenamiento." 
+       target="_blank" 
        class="fixed bottom-6 right-6 z-[99] flex items-center justify-center w-14 h-14 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-2xl shadow-emerald-500/40 transition-all duration-300 hover:scale-110 active:scale-95 group"
        aria-label="Escribir por WhatsApp">
         <span class="absolute -inset-1.5 rounded-full bg-[#25D366]/40 animate-ping opacity-75 group-hover:opacity-0 transition-opacity"></span>
@@ -127,24 +84,15 @@
 
             <!-- Navegación de Escritorio -->
             <nav class="hidden md:flex items-center gap-6 lg:gap-8">
-                <a href="#rutina" class="text-sm font-semibold text-brand-500 hover:text-brand-400 transition flex items-center gap-1.5">
-                    <span class="inline-block w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
-                    Mi Rutina
-                </a>
+                <a href="#asesorias" class="text-sm font-semibold text-brand-500 hover:text-white">Ver planes</a>
                 <a href="#asesorias" class="text-sm font-medium text-zinc-400 hover:text-white transition">Asesorías</a>
-                <a href="#biblioteca" class="text-sm font-medium text-zinc-400 hover:text-white transition">Biblioteca</a>
+                
                 <a href="#certificaciones" class="text-sm font-medium text-zinc-400 hover:text-white transition">Certificaciones</a>
                 <a href="#calculadora" class="text-sm font-medium text-zinc-400 hover:text-white transition">Calculadoras</a>
             </nav>
 
             <div class="flex items-center gap-3">
-                <span id="welcome-badge" class="hidden lg:flex items-center gap-2 bg-brand-500/10 border border-brand-500/20 px-3.5 py-1.5 rounded-xl text-brand-400 text-xs font-semibold">
-                    <i data-lucide="user" class="w-3.5 h-3.5"></i>
-                    <span id="welcome-name">Atleta</span>
-                </span>
-                <button onclick="cerrarSesion()" class="p-2 text-zinc-400 hover:text-red-400 rounded-xl transition" title="Cerrar Sesión">
-                    <i data-lucide="log-out" class="w-5 h-5"></i>
-                </button>
+                <a href="alumnos.html" class="text-xs sm:text-sm font-semibold text-zinc-200 border border-zinc-700 hover:border-brand-500 px-3 py-2.5 rounded-xl">Acceso alumnos</a>
                 <button onclick="toggleMobileMenu()" class="p-2.5 text-zinc-400 hover:text-white active:bg-zinc-900 rounded-xl transition md:hidden" aria-label="Abrir menú">
                     <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
                 </button>
@@ -153,16 +101,15 @@
 
         <!-- Menú Móvil -->
         <div id="mobile-menu" class="hidden border-t border-zinc-900 bg-zinc-950/98 backdrop-blur-lg px-4 py-6 flex flex-col gap-4 animate-fadeIn">
-            <a href="#rutina" onclick="toggleMobileMenu()" class="text-brand-500 font-semibold text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2">
-                <i data-lucide="dumbbell" class="w-4 h-4"></i> Mi Rutina Activa
-            </a>
+            <a href="#asesorias" class="text-sm font-semibold text-brand-500 hover:text-white">Ver planes</a>
             <a href="#asesorias" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2"><i data-lucide="award" class="w-4 h-4 text-zinc-500"></i> Asesorías</a>
-            <a href="#biblioteca" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2"><i data-lucide="search" class="w-4 h-4 text-zinc-500"></i> Biblioteca de Ejercicios</a>
+            
             <a href="#certificaciones" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-zinc-500"></i> Certificaciones</a>
             <a href="#calculadora" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 flex items-center gap-2"><i data-lucide="calculator" class="w-4 h-4 text-zinc-500"></i> Calculadoras</a>
         </div>
     </header>
 
+    <main>
     <!-- HERO SECTION -->
     <section id="inicio" class="relative overflow-hidden pt-8 pb-12 md:pt-16 md:pb-20 glow-bg border-b border-zinc-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -172,118 +119,22 @@
                         <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Sistema de Entrenamiento Científico
                     </div>
                     <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
-                        ¡Bienvenido, <span id="hero-user-name" class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-emerald-400">Atleta</span>!
+                        Entrená con un plan.<br><span class="text-brand-500">Avanzá hacia tu objetivo.</span>
                     </h1>
                     <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed">
-                        Accede a tu planificación detallada. Registra tus cargas de entrenamiento semanal para hacer un seguimiento real de tu sobrecarga progresiva.
+                        Asesorías personalizadas de fuerza, hipertrofia y recomposición corporal. Conocé los planes y encontrá el acompañamiento para tu entrenamiento.
                     </p>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-                    <a href="#rutina" class="bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black px-6 py-3.5 rounded-xl shadow-lg shadow-brand-500/10 transition duration-150 flex items-center justify-center gap-2 text-xs uppercase tracking-wide w-full sm:w-auto">
-                        <i data-lucide="arrow-down-circle" class="w-4 h-4"></i>
-                        <span>Ver Mi Plan de Hoy</span>
-                    </a>
-                    <a href="#biblioteca" class="bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-white font-bold px-6 py-3.5 rounded-xl transition duration-150 flex items-center justify-center gap-2 text-xs uppercase tracking-wide w-full sm:w-auto">
-                        <i data-lucide="search" class="w-4 h-4 text-brand-500"></i>
-                        <span>Buscador de IDs</span>
-                    </a>
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20consultar%20por%20un%20plan%20de%20entrenamiento%20personalizado." target="_blank" rel="noopener noreferrer" class="bg-brand-500 hover:bg-brand-600 text-zinc-950 font-bold px-6 py-4 rounded-xl w-full sm:w-auto text-center">Consultar por WhatsApp</a>
+                    <a href="#asesorias" class="border border-zinc-700 hover:border-brand-500 px-6 py-4 rounded-xl w-full sm:w-auto text-center font-semibold">Conocer los planes</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SECCIÓN PRINCIPAL: DASHBOARD AMPLIO DE RUTINA -->
-    <section id="rutina" class="py-12 bg-zinc-950 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            
-            <!-- Cabecera de la Planificación -->
-            <div class="bg-zinc-900/60 border border-zinc-900 p-6 sm:p-8 rounded-3xl space-y-6 relative overflow-hidden shadow-2xl backdrop-blur-md">
-                <div class="absolute top-0 right-0 w-96 h-96 bg-brand-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
-                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 border-b border-zinc-800 pb-6">
-                    <div class="space-y-2">
-                        <div class="flex items-center gap-3">
-                            <span id="source-indicator-dot" class="inline-block w-3 h-3 rounded-full bg-brand-500 animate-pulse"></span>
-                            <span id="source-indicator-text" class="text-xs font-bold uppercase tracking-widest text-brand-500">Plan Asignado en la Nube</span>
-                        </div>
-                        <h2 id="rutina-nombre" class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">Cargando Planificación...</h2>
-                        <p class="text-zinc-400 text-xs">Selecciona el día de entrenamiento para ver los ejercicios y registrar tus kilos levantados.</p>
-                    </div>
-
-                    <!-- Métrica de Progreso del Día -->
-                    <div class="w-full lg:w-72 bg-zinc-950 border border-zinc-800 p-4 rounded-2xl space-y-2">
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="text-zinc-400 font-bold uppercase">Progreso de la Sesión</span>
-                            <span id="progress-percent" class="text-brand-400 font-black">0%</span>
-                        </div>
-                        <div class="w-full bg-zinc-900 rounded-full h-2.5 overflow-hidden border border-zinc-800">
-                            <div id="progress-bar" class="bg-gradient-to-r from-brand-600 to-emerald-400 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Selector de Días de Entrenamiento -->
-                <div class="space-y-3">
-                    <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest block">Seleccionar Día de Entrenamiento</span>
-                    <div id="tabs-selector-container" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 bg-zinc-950 p-1.5 rounded-2xl border border-zinc-800 text-xs font-bold">
-                        <!-- Pestañas inyectadas dinámicamente -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- CONTENEDOR DE TARJETAS AMPLIAS DE EJERCICIOS Y REGISTRO DE PESOS -->
-            <div id="rutina-ejercicios-container" class="space-y-6 min-h-[300px] transition-all duration-300">
-                <!-- Se inyectan las tarjetas estructuradas con el módulo de registro de peso -->
-            </div>
-
-        </div>
-    </section>
-
-    <!-- SECCIÓN: BIBLIOTECA DE EJERCICIOS -->
-    <section id="biblioteca" class="py-16 bg-zinc-900/40 border-y border-zinc-900 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            <div class="text-center max-w-2xl mx-auto space-y-3">
-                <span class="text-brand-500 font-bold text-xs uppercase tracking-widest block">Recursos Vital Core</span>
-                <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white uppercase">Buscador por Código ID</h2>
-                <p class="text-zinc-400 text-xs sm:text-sm">
-                    Ingresa el código ID de 4 dígitos que aparece en las tarjetas de tu rutina para acceder instantáneamente a la técnica completa de ejecución.
-                </p>
-            </div>
-
-            <div class="relative bg-zinc-950 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl">
-                <div class="bg-zinc-900 px-4 py-3 flex items-center justify-between border-b border-zinc-800">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block"></span>
-                        <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block"></span>
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block"></span>
-                        <span class="text-[10px] text-zinc-500 font-mono ml-4 hidden sm:inline-block">vitalcoretrainer/dataset/exercises</span>
-                    </div>
-                    <div class="flex items-center gap-2.5">
-                        <button onclick="reloadIframe()" class="p-1.5 text-zinc-500 hover:text-white transition active:scale-90" title="Recargar Biblioteca">
-                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-                        </button>
-                        <a href="exercises-dataset/index.html" target="_blank" rel="noopener noreferrer" class="text-[10px] text-brand-500 hover:text-brand-400 font-bold flex items-center gap-1 bg-brand-500/10 px-2.5 py-1.5 rounded-lg border border-brand-500/20 active:scale-95 transition">
-                            <span>Ver Completo</span>
-                            <i data-lucide="external-link" class="w-3 h-3"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="relative h-[550px] bg-zinc-900">
-                    <iframe 
-                        id="exercises-iframe"
-                        src="exercises-dataset/index.html"
-                        sandbox="allow-scripts allow-popups"
-                        referrerpolicy="no-referrer"
-                        loading="lazy"
-                        class="w-full h-full border-0"
-                        title="Buscador de Ejercicios Vital Core">
-                    </iframe>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- ASESORÍAS -->
     <section id="asesorias" class="py-20">
@@ -296,7 +147,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Tarjeta 1: Fuerza -->
-                <div class="bg-zinc-900/40 border border-zinc-800 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
+                <div class="bg-zinc-900/40 border border-zinc-850 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
                     <div class="space-y-4">
                         <div class="w-11 h-11 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
                             <i data-lucide="zap" class="w-5 h-5"></i>
@@ -312,13 +163,13 @@
                             <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Foco en básicos</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20Plan%20Full%20Body%20Fuerza." target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-95">
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20Plan%20Full%20Body%20Fuerza." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
                         Elegir Plan
                     </a>
                 </div>
 
                 <!-- Tarjeta 2: Hipertrofia -->
-                <div class="bg-zinc-900/40 border border-zinc-800 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
+                <div class="bg-zinc-900/40 border border-zinc-850 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
                     <div class="space-y-4">
                         <div class="w-11 h-11 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
                             <i data-lucide="dumbbell" class="w-5 h-5"></i>
@@ -334,7 +185,7 @@
                             <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Control estricto de RPE</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20Plan%20de%20Hipertrofia." target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-95">
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20Plan%20de%20Hipertrofia." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
                         Elegir Plan
                     </a>
                 </div>
@@ -357,13 +208,13 @@
                             <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Soporte por WhatsApp</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20interesa%20iniciar%20la%20Asesor%C3%ADa%20VIP%20contigo." target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black rounded-xl text-center block transition text-xs uppercase tracking-wide shadow-lg shadow-brand-500/10 active:scale-95">
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Me%20interesa%20iniciar%20la%20Asesor%C3%ADa%20VIP%20contigo." target="_blank" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black rounded-xl text-center block transition text-xs uppercase tracking-wide shadow-lg shadow-brand-500/10 active:scale-98">
                         Empezar Ahora
                     </a>
                 </div>
 
                 <!-- Tarjeta 4: Recomposición -->
-                <div class="bg-zinc-900/40 border border-zinc-800 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
+                <div class="bg-zinc-900/40 border border-zinc-850 hover:border-brand-500/20 rounded-2xl p-5 space-y-5 transition flex flex-col justify-between">
                     <div class="space-y-4">
                         <div class="w-11 h-11 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
                             <i data-lucide="scale" class="w-5 h-5"></i>
@@ -379,7 +230,7 @@
                             <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-500 shrink-0"></i> Guía de macronutrientes</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20Plan%20de%20Recomposici%C3%B3n%20Corporal." target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-95">
+                    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20Plan%20de%20Recomposici%C3%B3n%20Corporal." target="_blank" class="w-full py-3 bg-zinc-800 hover:bg-zinc-750 text-white text-xs font-bold rounded-xl text-center block transition uppercase tracking-wide active:scale-98">
                         Elegir Plan
                     </a>
                 </div>
@@ -400,9 +251,9 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Certificado 1 -->
-                <div onclick="openLightbox('diploma1.jpeg', 'Certificado de Preparación Física de Élite')" class="bg-zinc-950 border border-zinc-900 hover:border-brand-500/20 rounded-2xl overflow-hidden cursor-pointer group transition duration-200">
+                <div onclick="openLightbox('diploma1.JPEG.jpeg', 'Certificado de Preparación Física de Élite')" class="bg-zinc-950 border border-zinc-900 hover:border-brand-500/20 rounded-2xl overflow-hidden cursor-pointer group transition duration-200">
                     <div class="aspect-[4/3] bg-zinc-900 relative overflow-hidden border-b border-zinc-900">
-                        <img src="diploma1.jpeg" alt="Diploma 1" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='https://placehold.co/400x300/111827/ffffff?text=Certificado+1'">
+                        <img src="diploma1.JPEG.jpeg" alt="Diploma 1" class="w-full h-full object-cover group-hover:scale-102 transition duration-300" onerror="this.src='https://placehold.co/400x300/111827/ffffff?text=Certificado+1'">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                             <i data-lucide="maximize-2" class="text-brand-500 w-8 h-8"></i>
                         </div>
@@ -414,9 +265,9 @@
                 </div>
 
                 <!-- Certificado 2 -->
-                <div onclick="openLightbox('diploma2.jpeg', 'Certificado en Biomecánica y Entrenamiento')" class="bg-zinc-950 border border-zinc-900 hover:border-brand-500/20 rounded-2xl overflow-hidden cursor-pointer group transition duration-200">
+                <div onclick="openLightbox('diploma2.jpeg.jpeg', 'Certificado en Biomecánica y Entrenamiento')" class="bg-zinc-950 border border-zinc-900 hover:border-brand-500/20 rounded-2xl overflow-hidden cursor-pointer group transition duration-200">
                     <div class="aspect-[4/3] bg-zinc-900 relative overflow-hidden border-b border-zinc-900">
-                        <img src="diploma2.jpeg" alt="Diploma 2" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='https://placehold.co/400x300/111827/ffffff?text=Certificado+2'">
+                        <img src="diploma2.jpeg.jpeg" alt="Diploma 2" class="w-full h-full object-cover group-hover:scale-102 transition duration-300" onerror="this.src='https://placehold.co/400x300/111827/ffffff?text=Certificado+2'">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                             <i data-lucide="maximize-2" class="text-brand-500 w-8 h-8"></i>
                         </div>
@@ -428,9 +279,9 @@
                 </div>
 
                 <!-- Certificado 3 -->
-                <div onclick="openLightbox('diploma3.jpeg', 'Certificado en Fisiología del Ejercicio')" class="bg-zinc-950 border border-zinc-900 hover:border-brand-500/20 rounded-2xl overflow-hidden cursor-pointer group transition duration-200 col-span-1 sm:col-span-2 lg:col-span-1">
+                <div onclick="openLightbox('diploma3.jpeg.jpeg', 'Certificado en Fisiología del Ejercicio')" class="bg-zinc-950 border border-zinc-900 hover:border-brand-500/20 rounded-2xl overflow-hidden cursor-pointer group transition duration-200 col-span-1 sm:col-span-2 lg:col-span-1">
                     <div class="aspect-[4/3] bg-zinc-900 relative overflow-hidden border-b border-zinc-900">
-                        <img src="diploma3.jpeg" alt="Diploma 3" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='https://placehold.co/400x300/111827/ffffff?text=Certificado+3'">
+                        <img src="diploma3.jpeg.jpeg" alt="Diploma 3" class="w-full h-full object-cover group-hover:scale-102 transition duration-300" onerror="this.src='https://placehold.co/400x300/111827/ffffff?text=Certificado+3'">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                             <i data-lucide="maximize-2" class="text-brand-500 w-8 h-8"></i>
                         </div>
@@ -484,7 +335,7 @@
                         </div>
                     </div>
 
-                    <button onclick="calcular1RM()" class="w-full bg-zinc-900 border border-zinc-800 hover:border-brand-500/50 hover:bg-zinc-800 text-white font-bold py-3.5 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-2 active:scale-95">
+                    <button onclick="calcular1RM()" class="w-full bg-zinc-900 border border-zinc-800 hover:border-brand-500/50 hover:bg-zinc-850 text-white font-bold py-3.5 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-2 active:scale-98">
                         <span>Calcular Fuerza Máxima</span>
                         <i data-lucide="calculator" class="w-4 h-4"></i>
                     </button>
@@ -543,7 +394,7 @@
                         </div>
                     </div>
 
-                    <button onclick="calcularMacros()" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-3.5 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-brand-500/10 active:scale-95">
+                    <button onclick="calcularMacros()" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-3.5 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-brand-500/10 active:scale-98">
                         <span>Calcular Macronutrientes</span>
                         <i data-lucide="utensils" class="w-4 h-4"></i>
                     </button>
@@ -554,6 +405,7 @@
         </div>
     </section>
 
+    </main>
     <!-- FOOTER -->
     <footer class="border-t border-zinc-900 bg-zinc-950 py-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
@@ -564,7 +416,7 @@
                 <span class="text-sm font-black text-white tracking-wider uppercase">VITAL CORE TRAINER</span>
             </div>
             <p class="text-xs text-zinc-400">
-                Contacto Asesorías: <a href="https://wa.me/5491165846235" target="_blank" rel="noopener noreferrer" class="text-brand-500 hover:underline font-bold">+54 9 11 6584-6235</a>
+                Contacto Asesorías: <a href="https://wa.me/5491165846235" target="_blank" class="text-brand-500 hover:underline font-bold">+54 9 11 6584-6235</a>
             </p>
             <p class="text-[11px] text-zinc-500 max-w-md mx-auto leading-relaxed">
                 © 2026 Vital Core Trainer. Todos los derechos reservados. Diseñado bajo estándares de ciencia deportiva y entrenamiento de fuerza.
@@ -577,86 +429,13 @@
         <button onclick="closeLightbox()" class="absolute top-6 right-6 p-2.5 bg-zinc-900/80 hover:bg-zinc-900 text-zinc-400 hover:text-white rounded-full transition active:scale-90" aria-label="Cerrar modal">
             <i data-lucide="x" class="w-6 h-6"></i>
         </button>
-        <div class="max-w-4xl max-h-[75vh] sm:max-h-[80vh] overflow-hidden rounded-2xl border border-zinc-800">
+        <div class="max-w-4xl max-h-[75vh] sm:max-h-[80vh] overflow-hidden rounded-2xl border border-zinc-850">
             <img id="lightbox-img" src="" alt="Diploma Completo" class="w-full h-full object-contain">
         </div>
         <h3 id="lightbox-title" class="text-white font-bold text-base sm:text-lg mt-5 text-center"></h3>
     </div>
 
-    <!-- MODAL DE TÉCNICA DE EJERCICIO (ID DIRECTO CON PASO A PASO) -->
-    <div id="tech-modal" class="hidden fixed inset-0 z-[120] bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-zinc-950 border border-zinc-800 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl flex flex-col relative max-h-[90vh]">
-            <button onclick="cerrarTechModal()" class="absolute top-4 right-4 z-20 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white p-2 rounded-full transition">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-            
-            <div class="p-6 space-y-5 overflow-y-auto custom-scrollbar">
-                <!-- Cabecera e Identificadores -->
-                <div class="space-y-1">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span id="tech-modal-id" class="text-[10px] font-mono text-brand-500 font-bold uppercase tracking-widest block">ID: 0000</span>
-                        <span id="tech-modal-category" class="hidden bg-brand-500/10 text-brand-400 border border-brand-500/20 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md"></span>
-                        <span id="tech-modal-equipment" class="hidden bg-zinc-900 text-zinc-300 border border-zinc-800 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md"></span>
-                    </div>
-                    <h3 id="tech-modal-title" class="text-xl font-black text-white uppercase">Cargando Ejercicio...</h3>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 items-start">
-                    <!-- Animación 3D GIF -->
-                    <div class="aspect-square bg-zinc-900 rounded-2xl overflow-hidden relative flex items-center justify-center border border-zinc-800">
-                        <div id="tech-loader" class="absolute inset-0 flex flex-col items-center justify-center text-zinc-500 gap-2 z-0 p-4 text-center">
-                            <i data-lucide="loader-2" class="w-8 h-8 animate-spin text-brand-500"></i>
-                            <span class="text-xs font-bold text-zinc-400">Cargando animación técnica 3D...</span>
-                        </div>
-                        <img id="tech-modal-gif" src="" alt="Demostración" class="w-full h-full object-cover relative z-10 opacity-0 transition-opacity duration-300">
-                    </div>
-
-                    <!-- Información de Músculos y Pasos de Ejecución -->
-                    <div class="space-y-4">
-                        <div id="tech-modal-target-box" class="bg-zinc-900/60 border border-zinc-800 p-3 rounded-xl hidden space-y-1">
-                            <span class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest block">Músculo Objetivo</span>
-                            <span id="tech-modal-target" class="text-xs font-bold text-white uppercase block"></span>
-                        </div>
-
-                        <p id="tech-modal-desc" class="text-xs text-zinc-400 leading-relaxed"></p>
-
-                        <!-- Lista de Pasos -->
-                        <div id="tech-modal-steps-container" class="space-y-2 border-t border-zinc-800 pt-3">
-                            <span class="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5">
-                                <i data-lucide="book-open" class="w-4 h-4 text-brand-500"></i>
-                                <span>Ejecución Paso a Paso</span>
-                            </span>
-                            <ol id="tech-modal-steps" class="space-y-2 text-xs text-zinc-400 list-decimal pl-4 leading-relaxed">
-                                <!-- Pasos inyectados por JavaScript -->
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SCRIPTS DE CONTROL -->
     <script>
-        // Cliente público: la autorización real se aplica con Supabase Auth + RLS.
-        const SUPABASE_URL = "https://kesbwmurxuncddirlbyt.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtlc2J3bXVyeHVuY2RkaXJsYnl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjY1MDcsImV4cCI6MjA5OTg0MjUwN30.GYC9LEOTG1mb9JjY4qHx1oZXg3451albuUhBwVi3ZJc";
-
-        const { createClient } = supabase;
-        const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        function escaparHTML(valor) {
-            return String(valor ?? '').replace(/[&<>"']/g, caracter => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            })[caracter]);
-        }
-
-        lucide.createIcons();
-
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             const icon = document.getElementById('menu-icon');
@@ -669,654 +448,6 @@
             }
             lucide.createIcons();
         }
-
-        function reloadIframe() {
-            const iframe = document.getElementById('exercises-iframe');
-            if (iframe) iframe.src = iframe.src;
-        }
-
-        // Rutinas de Simulación Científica (Fallback)
-        const rutinasSimuladas = [
-            {
-                dia_semana: "Lunes (Torso Fuerza)",
-                bloque_ejercicios: [
-                    { name: "Press de Banca Plano con Barra", desc: "Enfoque: Pectoral Mayor & Deltoides Ant.", rpe: "4 series x 5 reps / RPE 8.5", descanso: "3 min", id_ejercicio: "0025" },
-                    { name: "Remo Pendlay con Barra", desc: "Enfoque: Dorsal Ancho & Trapecio", rpe: "4 series x 6 reps / RPE 8", descanso: "2.5 min", id_ejercicio: "0092" },
-                    { name: "Press Inclinado con Mancuernas", desc: "Enfoque: Pectoral Clavicular", rpe: "3 series x 8 reps / RPE 8.5", descanso: "2 min", id_ejercicio: "0256" },
-                    { name: "Vuelos Laterales con Mancuernas", desc: "Enfoque: Deltoides Lateral", rpe: "4 series x 12 reps / RPE 9", descanso: "1.5 min", id_ejercicio: "0334" }
-                ]
-            },
-            {
-                dia_semana: "Miércoles (Pierna / Cadena Posterior)",
-                bloque_ejercicios: [
-                    { name: "Sentadilla Trasera con Barra", desc: "Enfoque: Cuádriceps & Glúteos", rpe: "4 series x 5 reps / RPE 8.5", descanso: "3 min", id_ejercicio: "0043" },
-                    { name: "Peso Muerto Rumano con Mancuernas", desc: "Enfoque: Isquiotibiales & Glúteos", rpe: "3 series x 8 reps / RPE 8", descanso: "2.5 min", id_ejercicio: "0312" },
-                    { name: "Prensa Inclinada a 45°", desc: "Enfoque: Cuádriceps (Énfasis Extensión)", rpe: "3 series x 10 reps / RPE 8.5", descanso: "2 min", id_ejercicio: "0412" },
-                    { name: "Elevación de Gemelos de Pie", desc: "Enfoque: Gastrocnemio (Sostener 1s arriba)", rpe: "4 series x 15 reps / RPE 9", descanso: "1.5 min", id_ejercicio: "0524" }
-                ]
-            }
-        ];
-
-        const rutinasSimuladasPorPlan = {
-            fuerza: rutinasSimuladas,
-            hipertrofia: [
-                {
-                    dia_semana: "Día A (Torso Hipertrofia)",
-                    bloque_ejercicios: [
-                        { name: "Press Inclinado con Mancuernas", desc: "Pectoral clavicular", rpe: "4 series x 8-10 reps / RPE 8", descanso: "2 min", id_ejercicio: "0256" },
-                        { name: "Remo con Apoyo de Pecho", desc: "Dorsal y romboides", rpe: "4 series x 10-12 reps / RPE 8", descanso: "2 min", id_ejercicio: "0092" },
-                        { name: "Vuelos Laterales con Mancuernas", desc: "Deltoides lateral", rpe: "4 series x 12-15 reps / RPE 9", descanso: "1.5 min", id_ejercicio: "0334" }
-                    ]
-                },
-                {
-                    dia_semana: "Día B (Piernas Hipertrofia)",
-                    bloque_ejercicios: [
-                        { name: "Prensa Inclinada a 45°", desc: "Cuádriceps y glúteos", rpe: "4 series x 10-12 reps / RPE 8", descanso: "2 min", id_ejercicio: "0412" },
-                        { name: "Peso Muerto Rumano con Mancuernas", desc: "Isquiotibiales y glúteos", rpe: "4 series x 8-10 reps / RPE 8", descanso: "2.5 min", id_ejercicio: "0312" },
-                        { name: "Elevación de Gemelos de Pie", desc: "Gastrocnemio", rpe: "4 series x 12-15 reps / RPE 9", descanso: "1.5 min", id_ejercicio: "0524" }
-                    ]
-                }
-            ],
-            recomposicion: [
-                {
-                    dia_semana: "Día A (Full Body)",
-                    bloque_ejercicios: [
-                        { name: "Sentadilla Trasera con Barra", desc: "Patrón dominante de rodilla", rpe: "3 series x 6-8 reps / RPE 7.5", descanso: "2.5 min", id_ejercicio: "0043" },
-                        { name: "Press de Banca Plano con Barra", desc: "Empuje horizontal", rpe: "3 series x 8 reps / RPE 8", descanso: "2 min", id_ejercicio: "0025" },
-                        { name: "Remo Pendlay con Barra", desc: "Tracción horizontal", rpe: "3 series x 8 reps / RPE 8", descanso: "2 min", id_ejercicio: "0092" }
-                    ]
-                },
-                {
-                    dia_semana: "Día B (Full Body)",
-                    bloque_ejercicios: [
-                        { name: "Peso Muerto Rumano con Mancuernas", desc: "Cadena posterior", rpe: "3 series x 8-10 reps / RPE 8", descanso: "2.5 min", id_ejercicio: "0312" },
-                        { name: "Press Inclinado con Mancuernas", desc: "Empuje inclinado", rpe: "3 series x 10 reps / RPE 8", descanso: "2 min", id_ejercicio: "0256" },
-                        { name: "Vuelos Laterales con Mancuernas", desc: "Deltoides lateral", rpe: "3 series x 12-15 reps / RPE 8", descanso: "1.5 min", id_ejercicio: "0334" }
-                    ]
-                }
-            ]
-        };
-
-        function obtenerRutinaFallback(tipoPlan) {
-            return rutinasSimuladasPorPlan[tipoPlan] || rutinasSimuladasPorPlan.fuerza;
-        }
-
-        let ejerciciosCompletados = {};
-        window.rutinasReales = null;
-        let usuarioActual = null;
-        let diaActivoIdx = 0;
-        let historialCargas = []; // Almacena las cargas registradas desde Supabase
-
-        // Pre-carga en memoria de la base de datos de ejercicios para la renderización instantánea de GIFs
-        let datasetEjercicios = [];
-
-        async function cargarDatasetEjercicios() {
-            try {
-                const resp = await fetch('https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/data/exercises.json');
-                if (resp.ok) {
-                    datasetEjercicios = await resp.json();
-                }
-            } catch (e) {
-                console.warn("No se pudo pre-cargar biblioteca de ejercicios:", e);
-            }
-        }
-
-        function establecerCargaLogin(cargando) {
-            const button = document.getElementById('athlete-login-button');
-            button.disabled = cargando;
-            button.querySelector('span').textContent = cargando
-                ? 'Enviando enlace…'
-                : 'Recibir enlace seguro';
-        }
-
-        function mostrarMensajeLogin(mensaje, tipo = 'error') {
-            const box = document.getElementById('login-error-box');
-            box.textContent = mensaje;
-            box.className = tipo === 'success'
-                ? 'bg-brand-500/10 border border-brand-500/20 p-3 rounded-xl text-center text-brand-400 text-xs font-semibold'
-                : 'bg-red-500/10 border border-red-500/20 p-3 rounded-xl text-center text-red-400 text-xs font-semibold';
-        }
-
-        // Supabase envía un enlace de un solo uso al correo del atleta.
-        async function intentarIniciarSesion(event) {
-            event?.preventDefault();
-            const emailInput = document.getElementById('login-email').value.trim().toLowerCase();
-
-            if (!emailInput) {
-                mostrarError("Por favor, ingresá un correo válido.");
-                return;
-            }
-
-            document.getElementById('login-error-box').classList.add('hidden');
-            establecerCargaLogin(true);
-
-            try {
-                const redirectUrl = new URL('index.html', window.location.href).href;
-                const { error } = await _supabase.auth.signInWithOtp({
-                    email: emailInput,
-                    options: {
-                        emailRedirectTo: redirectUrl,
-                        shouldCreateUser: true
-                    }
-                });
-
-                if (error) throw error;
-                mostrarMensajeLogin('✅ Revisá tu correo: te enviamos un enlace seguro de acceso.', 'success');
-
-            } catch (err) {
-                console.error("Error de login:", err);
-                mostrarError("No pudimos enviar el enlace. Revisá el correo e intentá nuevamente.");
-            } finally {
-                establecerCargaLogin(false);
-            }
-        }
-
-        function mostrarError(msg) {
-            const errorBox = document.getElementById('login-error-box');
-            errorBox.innerText = msg;
-            errorBox.classList.remove('hidden');
-        }
-
-        async function cargarAtletaDeSesion(session) {
-            const { data, error } = await _supabase
-                .from('usuarios_alumnos')
-                .select('*')
-                .eq('auth_user_id', session.user.id)
-                .maybeSingle();
-
-            if (error) throw error;
-            if (!data) {
-                await _supabase.auth.signOut();
-                throw new Error('Tu cuenta no está asociada a un atleta registrado.');
-            }
-            return data;
-        }
-
-        async function ejecutarAccesoUsuario(usuario) {
-            usuarioActual = usuario;
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('welcome-name').innerText = usuario.nombre_completo;
-            document.getElementById('hero-user-name').innerText = usuario.nombre_completo;
-
-            // El historial debe existir antes de renderizar las tarjetas.
-            await cargarCargasDeUsuario(usuario.id);
-            await cargarRutinasDesdeServidor(usuario.id, usuario.tipo_plan);
-        }
-
-        // Cargar registros de pesos guardados del usuario
-        async function cargarCargasDeUsuario(alumnoId) {
-            try {
-                const { data, error } = await _supabase
-                    .from('registros_cargas')
-                    .select('*')
-                    .eq('alumno_id', alumnoId)
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-                historialCargas = data || [];
-            } catch (err) {
-                console.error("Error cargando historial de cargas:", err);
-                historialCargas = [];
-            }
-        }
-
-        async function cargarRutinasDesdeServidor(alumnoId, tipoPlanDefault) {
-            const indicatorText = document.getElementById('source-indicator-text');
-            const indicatorDot = document.getElementById('source-indicator-dot');
-
-            try {
-                const { data, error } = await _supabase
-                    .from('rutinas_asignadas')
-                    .select('*')
-                    .eq('alumno_id', alumnoId)
-                    .order('dia_semana', { ascending: true });
-
-                if (error) throw error;
-
-                if (data && data.length > 0) {
-                    window.rutinasReales = data;
-                    indicatorText.innerText = "Plan Personalizado Sincronizado";
-                    indicatorDot.className = "inline-block w-3 h-3 rounded-full bg-emerald-400 shadow-lg shadow-emerald-500/50 animate-pulse";
-                    
-                    renderizarPestañasYRutina(data);
-                } else {
-                    const rutinaFallback = obtenerRutinaFallback(tipoPlanDefault);
-                    window.rutinasReales = rutinaFallback;
-                    indicatorText.innerText = "Plan Adaptado (Modo Muestra)";
-                    indicatorDot.className = "inline-block w-3 h-3 rounded-full bg-yellow-500 animate-pulse";
-                    
-                    renderizarPestañasYRutina(rutinaFallback);
-                }
-            } catch (err) {
-                console.error("Error cargando rutinas reales:", err);
-                const rutinaFallback = obtenerRutinaFallback(tipoPlanDefault);
-                window.rutinasReales = rutinaFallback;
-                indicatorText.innerText = "Plan Adaptado (Modo Seguro)";
-                indicatorDot.className = "inline-block w-3 h-3 rounded-full bg-yellow-500 animate-pulse";
-                
-                renderizarPestañasYRutina(rutinaFallback);
-            }
-        }
-
-        function renderizarPestañasYRutina(rutinas) {
-            const containerTabs = document.getElementById('tabs-selector-container');
-            containerTabs.innerHTML = '';
-
-            rutinas.forEach((r, idx) => {
-                const btn = document.createElement('button');
-                btn.id = `tab-btn-${idx}`;
-                btn.className = "py-3 px-2 rounded-xl text-center transition duration-150 text-zinc-400 hover:text-white truncate";
-                btn.innerText = r.dia_semana;
-                btn.onclick = () => cambiarDiaRutina(idx);
-                containerTabs.appendChild(btn);
-            });
-
-            cambiarDiaRutina(0);
-        }
-
-        function cambiarDiaRutina(idx) {
-            const rutinas = window.rutinasReales || rutinasSimuladas;
-            if (!rutinas || !rutinas[idx]) return;
-
-            diaActivoIdx = idx;
-
-            rutinas.forEach((_, i) => {
-                const btn = document.getElementById(`tab-btn-${i}`);
-                if (btn) {
-                    if (i === idx) {
-                        btn.className = "py-3 px-2 rounded-xl text-center transition duration-150 bg-brand-500 text-zinc-950 font-black shadow-lg shadow-brand-500/10 truncate";
-                    } else {
-                        btn.className = "py-3 px-2 rounded-xl text-center transition duration-150 text-zinc-400 hover:text-white truncate";
-                    }
-                }
-            });
-
-            const rutina = rutinas[idx];
-            document.getElementById('rutina-nombre').innerText = rutina.dia_semana;
-
-            renderizarTarjetasAmpliasEjercicios(rutina);
-        }
-
-        // Renderizado Amplio de Ejercicios con Módulo de Carga de Peso
-        function renderizarTarjetasAmpliasEjercicios(rutina) {
-            const container = document.getElementById('rutina-ejercicios-container');
-            container.classList.add('opacity-0');
-
-            setTimeout(() => {
-                container.innerHTML = '';
-                const ejercicios = rutina.bloque_ejercicios || [];
-
-                if (!Array.isArray(ejercicios) || ejercicios.length === 0) {
-                    container.innerHTML = `
-                        <div class="bg-zinc-900/20 border border-dashed border-zinc-900 p-12 rounded-3xl text-center space-y-2">
-                            <i data-lucide="dumbbell" class="w-10 h-10 text-zinc-700 mx-auto"></i>
-                            <p class="text-zinc-500 text-xs">No hay ejercicios asignados en este día de entrenamiento.</p>
-                        </div>
-                    `;
-                    container.classList.remove('opacity-0');
-                    calcularProgresoDia(0, 0);
-                    return;
-                }
-
-                let completadosCount = 0;
-
-                ejercicios.forEach((ej, index) => {
-                    const uniqueId = `ex-${rutina.id || 'sim'}-${diaActivoIdx}-${index}`;
-                    const completado = ejerciciosCompletados[uniqueId] || false;
-                    if (completado) completadosCount++;
-
-                    const idTag = ej.id_ejercicio ? ej.id_ejercicio : '0000';
-                    const descansoTexto = ej.descanso || '2 - 3 min';
-                    const nombreEj = ej.name || ej.nombre || 'Ejercicio';
-
-                    // Filtrar cargas registradas previas para este ejercicio
-                    const cargasDeEsteEj = historialCargas.filter(c => 
-                        (c.ejercicio_nombre && c.ejercicio_nombre.toLowerCase() === nombreEj.toLowerCase()) || 
-                        (c.ejercicio_id && c.ejercicio_id === idTag)
-                    );
-
-                    // Construir historial previo visual
-                    let historialHtml = '';
-                    if (cargasDeEsteEj.length > 0) {
-                        const ultimas = cargasDeEsteEj.slice(0, 4); // Mostrar máximo 4
-                        historialHtml = `
-                            <div class="pt-3 border-t border-zinc-800 space-y-2">
-                                <span class="text-[9px] font-bold text-brand-400 uppercase tracking-widest block flex items-center gap-1.5">
-                                    <i data-lucide="history" class="w-3 h-3"></i> Tu Historial de Cargas
-                                </span>
-                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                    ${ultimas.map(c => `
-                                        <div class="bg-zinc-950 border border-brand-500/20 p-2 rounded-xl text-center">
-                                            <span class="text-[8px] text-zinc-500 font-bold uppercase block">Semana ${escaparHTML(c.semana_num || 1)}</span>
-                                            <span class="text-xs font-black text-brand-400 block">${escaparHTML(c.peso_kg)} KG</span>
-                                            <span class="text-[9px] text-zinc-400 font-bold block">${escaparHTML(c.reps_realizadas || 0)} reps</span>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        `;
-                    }
-
-                    const card = document.createElement('div');
-                    card.className = `bg-zinc-900/60 border rounded-3xl p-6 sm:p-8 space-y-6 transition-all duration-300 relative overflow-hidden group ${
-                        completado 
-                            ? 'border-brand-500/30 bg-brand-500/5 opacity-80' 
-                            : 'border-zinc-800 hover:border-brand-500/20'
-                    }`;
-
-                    card.innerHTML = `
-                        <!-- Cabecera de Ejercicio -->
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-800 pb-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${
-                                    completado ? 'bg-brand-500 text-zinc-950' : 'bg-brand-500/10 text-brand-500 border border-brand-500/20'
-                                }">
-                                    ${index + 1}
-                                </div>
-                                <div>
-                                    <h3 class="text-base sm:text-lg font-black text-white uppercase tracking-tight ${completado ? 'line-through text-zinc-400' : ''}">
-                                        ${escaparHTML(nombreEj)}
-                                    </h3>
-                                    <span class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider block">
-                                        ${escaparHTML(ej.desc || ej.descripcion || 'Enfoque Biomecánico')}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center gap-2">
-                                <button type="button" data-action="tecnica" class="bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 text-brand-400 text-[10px] font-bold uppercase tracking-wider px-3 py-2 rounded-xl transition flex items-center gap-1.5 active:scale-95">
-                                    <i data-lucide="play-circle" class="w-3.5 h-3.5 text-brand-500"></i>
-                                    <span>Ver Técnica (ID: ${escaparHTML(idTag)})</span>
-                                </button>
-                                <button type="button" data-action="completar" class="p-2 rounded-xl transition ${
-                                    completado ? 'bg-brand-500 text-zinc-950' : 'bg-zinc-950 border border-zinc-800 text-zinc-500 hover:text-brand-500'
-                                }" title="Marcar completado">
-                                    <i data-lucide="${completado ? 'check-circle-2' : 'circle'}" class="w-5 h-5"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Grilla Amplia de Parámetros de Carga -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-2xl space-y-1">
-                                <span class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest block">Series × Repeticiones / RPE</span>
-                                <span class="text-xs sm:text-sm font-black text-white block leading-tight">${escaparHTML(ej.rpe || '3 series x 10 reps')}</span>
-                            </div>
-                            <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-2xl space-y-1">
-                                <span class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest block">Descanso Recomendado</span>
-                                <div class="flex items-center gap-1.5 text-brand-400 font-bold text-xs sm:text-sm">
-                                    <i data-lucide="clock" class="w-4 h-4 text-brand-500"></i>
-                                    <span>${escaparHTML(descansoTexto)}</span>
-                                </div>
-                            </div>
-                            <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-2xl space-y-1">
-                                <span class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest block">Código Identificador</span>
-                                <span class="text-xs sm:text-sm font-mono font-bold text-zinc-300 block">ID: ${escaparHTML(idTag)}</span>
-                            </div>
-                        </div>
-
-                        <!-- MÓDULO DE REGISTRO DE CARGA (KILOS / REPS POR SEMANA) -->
-                        <div class="bg-zinc-950/60 border border-zinc-800 p-4 sm:p-5 rounded-2xl space-y-4">
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
-                                    <i data-lucide="scale" class="w-4 h-4 text-brand-500"></i>
-                                    <span>Anotar Carga de la Sesión</span>
-                                </span>
-                                <span class="text-[9px] text-zinc-500 font-mono">Sobrecarga Progresiva</span>
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
-                                <div class="space-y-1">
-                                    <label class="text-[9px] font-bold text-zinc-400 uppercase block">Semana</label>
-                                    <select id="sem-input-${index}" class="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500 cursor-pointer">
-                                        <option value="1">Semana 1</option>
-                                        <option value="2">Semana 2</option>
-                                        <option value="3">Semana 3</option>
-                                        <option value="4">Semana 4</option>
-                                    </select>
-                                </div>
-
-                                <div class="space-y-1">
-                                    <label class="text-[9px] font-bold text-zinc-400 uppercase block">Peso (KG)</label>
-                                    <input type="number" id="peso-input-${index}" step="0.5" placeholder="ej. 80" class="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500">
-                                </div>
-
-                                <div class="space-y-1">
-                                    <label class="text-[9px] font-bold text-zinc-400 uppercase block">Reps Logradas</label>
-                                    <input type="number" id="reps-input-${index}" placeholder="ej. 10" class="w-full bg-zinc-900 border border-zinc-800 text-white rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-brand-500">
-                                </div>
-
-                                <button type="button" data-action="guardar-carga" class="w-full bg-brand-500 hover:bg-brand-600 text-zinc-950 font-black py-2.5 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md shadow-brand-500/10 active:scale-95">
-                                    <i data-lucide="save" class="w-4 h-4"></i>
-                                    <span>Guardar Peso</span>
-                                </button>
-                            </div>
-
-                            <!-- Historial renderizado -->
-                            ${historialHtml}
-                        </div>
-                    `;
-
-                    card.querySelector('[data-action="tecnica"]').addEventListener('click', () => {
-                        abrirTechModal(idTag, nombreEj, ej.desc || ej.descripcion || '');
-                    });
-                    card.querySelector('[data-action="completar"]').addEventListener('click', () => {
-                        toggleCompletarEjercicio(uniqueId);
-                    });
-                    card.querySelector('[data-action="guardar-carga"]').addEventListener('click', () => {
-                        guardarRegistroCarga(nombreEj, idTag, index);
-                    });
-                    container.appendChild(card);
-                });
-
-                lucide.createIcons();
-                container.classList.remove('opacity-0');
-
-                calcularProgresoDia(completadosCount, ejercicios.length);
-
-            }, 150);
-        }
-
-        // Guardar Carga en Supabase
-        async function guardarRegistroCarga(ejercicioNombre, ejercicioId, index) {
-            if (!usuarioActual) {
-                alert("Debes estar autenticado para registrar pesos.");
-                return;
-            }
-
-            const semana = parseInt(document.getElementById(`sem-input-${index}`).value);
-            const peso = parseFloat(document.getElementById(`peso-input-${index}`).value);
-            const reps = parseInt(document.getElementById(`reps-input-${index}`).value);
-
-            if (isNaN(peso) || peso <= 0) {
-                alert("Por favor ingresa un peso en KG válido.");
-                return;
-            }
-
-            const rutinaActiva = window.rutinasReales ? window.rutinasReales[diaActivoIdx] : rutinasSimuladas[diaActivoIdx];
-
-            try {
-                const { error } = await _supabase
-                    .from('registros_cargas')
-                    .insert([
-                        {
-                            alumno_id: usuarioActual.id,
-                            dia_semana: rutinaActiva.dia_semana,
-                            ejercicio_nombre: ejercicioNombre,
-                            ejercicio_id: ejercicioId,
-                            semana_num: semana,
-                            peso_kg: peso,
-                            reps_realizadas: isNaN(reps) ? 0 : reps
-                        }
-                    ]);
-
-                if (error) throw error;
-
-                // Limpiar inputs
-                document.getElementById(`peso-input-${index}`).value = '';
-                document.getElementById(`reps-input-${index}`).value = '';
-
-                // Volver a cargar el historial y refrescar interfaz
-                await cargarCargasDeUsuario(usuarioActual.id);
-                cambiarDiaRutina(diaActivoIdx);
-
-            } catch (err) {
-                console.error("Error guardando peso:", err);
-                alert("Error al registrar carga en la nube: " + err.message);
-            }
-        }
-
-        function toggleCompletarEjercicio(uniqueId) {
-            ejerciciosCompletados[uniqueId] = !ejerciciosCompletados[uniqueId];
-            cambiarDiaRutina(diaActivoIdx);
-        }
-
-        function calcularProgresoDia(completados, total) {
-            const bar = document.getElementById('progress-bar');
-            const percentText = document.getElementById('progress-percent');
-
-            if (total === 0) {
-                bar.style.width = '0%';
-                percentText.innerText = '0%';
-                return;
-            }
-
-            const pct = Math.round((completados / total) * 100);
-            bar.style.width = `${pct}%`;
-            percentText.innerText = `${pct}%`;
-        }
-
-        // Traductores Rápidos para el Modal
-        const dictTraduccion = {
-            "chest": "Pecho", "back": "Espalda", "shoulders": "Hombros", "upper arms": "Brazos",
-            "waist": "Abdomen / Core", "upper legs": "Piernas", "lower legs": "Pantorrillas",
-            "dumbbell": "Mancuernas", "barbell": "Barra", "cable": "Poleas", "body weight": "Peso Corporal"
-        };
-
-        function tradVal(v) {
-            if (!v) return "";
-            return dictTraduccion[v.toLowerCase().trim()] || v;
-        }
-
-        // Modal de Técnica Directa Enriquecido
-        async function abrirTechModal(id, nombre, desc) {
-            const modal = document.getElementById('tech-modal');
-            const img = document.getElementById('tech-modal-gif');
-            const loader = document.getElementById('tech-loader');
-            const catBadge = document.getElementById('tech-modal-category');
-            const eqBadge = document.getElementById('tech-modal-equipment');
-            const targetBox = document.getElementById('tech-modal-target-box');
-            const targetText = document.getElementById('tech-modal-target');
-            const stepsList = document.getElementById('tech-modal-steps');
-            const idPadded = String(id).padStart(4, '0');
-
-            document.getElementById('tech-modal-id').innerText = `ID: ${idPadded}`;
-            document.getElementById('tech-modal-title').innerText = nombre;
-            document.getElementById('tech-modal-desc').innerText = desc || "Visualización técnica oficial de Vital Core Trainer.";
-            stepsList.innerHTML = '';
-            catBadge.classList.add('hidden');
-            eqBadge.classList.add('hidden');
-            targetBox.classList.add('hidden');
-
-            if (loader) loader.classList.remove('hidden');
-            img.classList.add('opacity-0');
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-
-            try {
-                // Descargar el dataset si aún no está en memoria
-                if (!datasetEjercicios || datasetEjercicios.length === 0) {
-                    await cargarDatasetEjercicios();
-                }
-
-                // Buscar ejercicio por ID de 4 dígitos o por nombre
-                let ex = datasetEjercicios.find(item => String(item.id).padStart(4, '0') === idPadded);
-                
-                if (!ex && nombre) {
-                    const nameLower = nombre.toLowerCase().trim();
-                    ex = datasetEjercicios.find(item => item.name && item.name.toLowerCase().includes(nameLower));
-                }
-
-                if (ex) {
-                    // Cargar categoría y equipamiento
-                    if (ex.category) {
-                        catBadge.innerText = tradVal(ex.category);
-                        catBadge.classList.remove('hidden');
-                    }
-                    if (ex.equipment) {
-                        eqBadge.innerText = tradVal(ex.equipment);
-                        eqBadge.classList.remove('hidden');
-                    }
-                    if (ex.target) {
-                        targetText.innerText = ex.target;
-                        targetBox.classList.remove('hidden');
-                    }
-
-                    // Extraer los pasos en español o en inglés
-                    let pasos = [];
-                    if (ex.instruction_steps && ex.instruction_steps.es && ex.instruction_steps.es.length > 0) {
-                        pasos = ex.instruction_steps.es;
-                    } else if (ex.instructions && ex.instructions.es) {
-                        pasos = ex.instructions.es.split('.').map(p => p.trim()).filter(p => p.length > 0);
-                    } else if (ex.instruction_steps && ex.instruction_steps.en) {
-                        pasos = ex.instruction_steps.en;
-                    }
-
-                    if (pasos.length > 0) {
-                        pasos.forEach(p => {
-                            const li = document.createElement('li');
-                            li.innerText = p;
-                            stepsList.appendChild(li);
-                        });
-                    } else {
-                        stepsList.innerHTML = '<li class="text-zinc-500 italic">Sigue las indicaciones de la animación 3D y las claves atencionales proporcionadas por tu entrenador.</li>';
-                    }
-
-                    // Cargar animación GIF
-                    if (ex.media_id) {
-                        img.src = `https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/${ex.id}-${ex.media_id}.gif`;
-                    } else {
-                        img.src = 'https://placehold.co/400x400/09090b/10b981?text=Demostración+Técnica';
-                    }
-                } else {
-                    img.src = 'https://placehold.co/400x400/09090b/10b981?text=Demostración+Técnica';
-                    stepsList.innerHTML = '<li class="text-zinc-500 italic">Consulte con su entrenador para recibir detalles biomecánicos adicionales de este ejercicio.</li>';
-                }
-            } catch (err) {
-                console.error("Error cargando detalles técnicos:", err);
-                img.src = 'https://placehold.co/400x400/09090b/10b981?text=Demostración+Técnica';
-                stepsList.innerHTML = '<li class="text-zinc-500 italic">Sigue la animación de muestra para la correcta ejecución del movimiento.</li>';
-            }
-
-            img.onload = () => {
-                if (loader) loader.classList.add('hidden');
-                img.classList.remove('opacity-0');
-            };
-
-            img.onerror = () => {
-                if (loader) loader.classList.add('hidden');
-                img.src = 'https://placehold.co/400x400/09090b/10b981?text=Demostración+Técnica';
-                img.classList.remove('opacity-0');
-            };
-
-            lucide.createIcons();
-        }
-
-        function cerrarTechModal() {
-            document.getElementById('tech-modal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        async function cerrarSesion() {
-            await _supabase.auth.signOut();
-            usuarioActual = null;
-            historialCargas = [];
-            window.rutinasReales = null;
-            document.getElementById('login-email').value = '';
-            document.getElementById('login-error-box').classList.add('hidden');
-            document.getElementById('login-screen').classList.remove('hidden');
-        }
-
         function calcular1RM() {
             const peso = parseFloat(document.getElementById('epley-peso').value);
             const reps = parseInt(document.getElementById('epley-reps').value);
@@ -1400,28 +531,8 @@
             document.body.style.overflow = 'auto';
         }
 
-        window.addEventListener("DOMContentLoaded", async () => {
-            // Iniciar precarga de animaciones 3D de ejercicios
-            cargarDatasetEjercicios();
-            document.getElementById('athlete-login-form').addEventListener('submit', intentarIniciarSesion);
 
-            try {
-                const { data: { session }, error } = await _supabase.auth.getSession();
-                if (error) throw error;
-
-                if (!session) {
-                    document.getElementById('login-screen').classList.remove('hidden');
-                    return;
-                }
-
-                const atleta = await cargarAtletaDeSesion(session);
-                await ejecutarAccesoUsuario(atleta);
-            } catch (error) {
-                console.error('No se pudo restaurar la sesión:', error);
-                mostrarError(error.message || 'No se pudo verificar tu acceso.');
-                document.getElementById('login-screen').classList.remove('hidden');
-            }
-        });
+        if (window.lucide) lucide.createIcons();
     </script>
 </body>
 </html>
