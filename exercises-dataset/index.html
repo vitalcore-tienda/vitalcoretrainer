@@ -4,27 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca de Ejercicios — Vital Core Trainer</title>
+    <link rel="canonical" href="https://vitalcore-tienda.github.io/vitalcoretrainer/exercises-dataset/index.html">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="Biblioteca de ejercicios de Vital Core Trainer. Buscá movimientos y consultá sus demostraciones para acompañar tu entrenamiento.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://vitalcore-tienda.github.io/vitalcoretrainer/assets/vitalcore.jpg">
+    <meta property="og:image:alt" content="VitalCore">
+    <meta name="twitter:image" content="https://vitalcore-tienda.github.io/vitalcoretrainer/assets/vitalcore.jpg">
+    <meta property="og:locale" content="es_AR">
+    <meta property="og:site_name" content="Vital Core Trainer">
+    <meta property="og:url" content="https://vitalcore-tienda.github.io/vitalcoretrainer/exercises-dataset/index.html">
+    <meta property="og:title" content="Biblioteca de Ejercicios — Vital Core Trainer">
+    <meta property="og:description" content="Biblioteca de ejercicios de Vital Core Trainer. Buscá movimientos y consultá sus demostraciones para acompañar tu entrenamiento.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Biblioteca de Ejercicios — Vital Core Trainer">
+    <meta name="twitter:description" content="Biblioteca de ejercicios de Vital Core Trainer. Buscá movimientos y consultá sus demostraciones para acompañar tu entrenamiento.">
     <!-- Tailwind CSS para diseño moderno -->
-    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <link rel="stylesheet" href="../assets/trainer.css">
     <!-- Lucide Icons para iconos limpios -->
     <script src="https://unpkg.com/lucide@1.27.0/dist/umd/lucide.min.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#eefef4',
-                            100: '#d3fbe2',
-                            500: '#10b981', /* Esmeralda de Vital Core */
-                            600: '#059669',
-                            950: '#022c22',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+
     <style>
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
@@ -61,7 +60,7 @@
 
         <!-- SECCIÓN DE BÚSQUEDA Y FILTROS -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
-            
+
             <!-- Barra Lateral de Filtros -->
             <div class="md:col-span-1 bg-zinc-900/40 border border-zinc-900 rounded-2xl p-5 space-y-6">
                 <h3 class="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
@@ -306,17 +305,17 @@
                 const urlDeOrigen = resolverRutaDatos();
                 const response = await fetch(urlDeOrigen);
                 if (!response.ok) throw new Error("No se pudo leer el origen de datos");
-                
+
                 bibliotecaCompleta = await response.json();
                 ejerciciosFiltrados = [...bibliotecaCompleta];
-                
+
                 // Configurar opciones de filtros dinámicamente
                 cargarFiltrosSelect();
-                
+
                 // Mostrar datos
                 actualizarEstadisticas();
                 renderizarGrilla();
-                
+
             } catch (err) {
                 console.error("Error al inicializar:", err);
                 mostrarMensajeError();
@@ -327,7 +326,7 @@
         function cargarFiltrosSelect() {
             const categoriasUnicas = new Set();
             const equiposUnicos = new Set();
-            
+
             bibliotecaCompleta.forEach(ex => {
                 if (ex.category) categoriasUnicas.add(ex.category.trim());
                 if (ex.equipment) equiposUnicos.add(ex.equipment.trim());
@@ -357,12 +356,12 @@
             const eqSelected = document.getElementById('filter-equipment').value;
 
             ejerciciosFiltrados = bibliotecaCompleta.filter(ex => {
-                const matchSearch = !query || 
-                    ex.name.toLowerCase().includes(query) || 
-                    (ex.id && ex.id.toLowerCase().includes(query)) || 
+                const matchSearch = !query ||
+                    ex.name.toLowerCase().includes(query) ||
+                    (ex.id && ex.id.toLowerCase().includes(query)) ||
                     (ex.target && ex.target.toLowerCase().includes(query)) ||
                     (ex.instructions && ex.instructions.es && ex.instructions.es.toLowerCase().includes(query));
-                
+
                 const matchCat = !catSelected || ex.category === catSelected;
                 const matchEq = !eqSelected || ex.equipment === eqSelected;
 
@@ -388,7 +387,7 @@
                 grid.classList.add('hidden');
                 stateMsg.classList.remove('hidden');
                 btnMore.classList.add('hidden');
-                
+
                 document.getElementById('message-content').innerHTML = `
                     <i data-lucide="search-code" class="w-12 h-12 text-zinc-600 mx-auto"></i>
                     <p class="text-zinc-400 text-sm font-semibold">No encontramos ejercicios que coincidan con tus filtros.</p>
@@ -418,7 +417,7 @@
                         <div class="bg-zinc-950 aspect-square rounded-xl overflow-hidden flex items-center justify-center relative border border-zinc-900">
                             <img data-field="imagen" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         </div>
-                        
+
                         <!-- Categoría y Equipamiento -->
                         <div class="flex flex-wrap gap-1">
                             <span data-field="categoria" class="bg-brand-500/10 text-brand-400 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md"></span>
@@ -557,7 +556,7 @@
         document.getElementById('filter-equipment').addEventListener('change', aplicarFiltros);
         document.getElementById('btn-reset').addEventListener('click', resetearFiltros);
         document.getElementById('btn-close-modal').addEventListener('click', cerrarModal);
-        
+
         document.getElementById('btn-load-more').addEventListener('click', () => {
             paginaActual++;
             renderizarGrilla();

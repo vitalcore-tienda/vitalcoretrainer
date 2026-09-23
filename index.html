@@ -4,28 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Vital Core Trainer — Entrenamiento personalizado</title>
+    <link rel="canonical" href="https://vitalcore-tienda.github.io/vitalcoretrainer/">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://vitalcore-tienda.github.io/vitalcoretrainer/assets/vitalcore.jpg">
+    <meta property="og:image:alt" content="VitalCore">
+    <meta name="twitter:image" content="https://vitalcore-tienda.github.io/vitalcoretrainer/assets/vitalcore.jpg">
+    <meta property="og:locale" content="es_AR">
+    <meta property="og:site_name" content="Vital Core Trainer">
+    <meta property="og:url" content="https://vitalcore-tienda.github.io/vitalcoretrainer/">
+    <meta property="og:title" content="Vital Core Trainer — Entrenamiento personalizado">
+    <meta property="og:description" content="Entrenamiento personalizado de fuerza, hipertrofia y recomposición corporal. Conocé los planes de Vital Core Trainer y consultá por WhatsApp.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Vital Core Trainer — Entrenamiento personalizado">
+    <meta name="twitter:description" content="Entrenamiento personalizado de fuerza, hipertrofia y recomposición corporal. Conocé los planes de Vital Core Trainer y consultá por WhatsApp.">
     <meta name="description" content="Entrenamiento personalizado de fuerza, hipertrofia y recomposición corporal. Conocé los planes de Vital Core Trainer y consultá por WhatsApp.">
     <!-- Tailwind CSS para diseño moderno -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/trainer.css">
     <!-- Lucide Icons para iconos limpios -->
     <script src="https://unpkg.com/lucide@latest"></script>
-<script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#eefef4',
-                            100: '#d3fbe2',
-                            500: '#10b981', /* Esmeralda Vital Core */
-                            600: '#059669',
-                            950: '#022c22',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+
     <style>
         .glow-bg {
             background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.12) 0%, rgba(9, 9, 11, 0) 75%);
@@ -59,8 +57,8 @@
 <body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen selection:bg-brand-500/30 selection:text-white pb-12 sm:pb-0">
 
     <!-- BOTÓN FLOTANTE DE WHATSAPP -->
-    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20informaci%C3%B3n%20sobre%20los%20planes%20de%20entrenamiento." 
-       target="_blank" 
+    <a href="https://wa.me/5491165846235?text=Hola!%20Quiero%20informaci%C3%B3n%20sobre%20los%20planes%20de%20entrenamiento."
+       target="_blank"
        class="fixed bottom-6 right-6 z-[99] flex items-center justify-center w-14 h-14 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-2xl shadow-emerald-500/40 transition-all duration-300 hover:scale-110 active:scale-95 group"
        aria-label="Escribir por WhatsApp">
         <span class="absolute -inset-1.5 rounded-full bg-[#25D366]/40 animate-ping opacity-75 group-hover:opacity-0 transition-opacity"></span>
@@ -86,7 +84,7 @@
             <nav class="hidden md:flex items-center gap-6 lg:gap-8">
                 <a href="#asesorias" class="text-sm font-semibold text-brand-500 hover:text-white">Ver planes</a>
                 <a href="#asesorias" class="text-sm font-medium text-zinc-400 hover:text-white transition">Asesorías</a>
-                
+
                 <a href="#certificaciones" class="text-sm font-medium text-zinc-400 hover:text-white transition">Certificaciones</a>
                 <a href="#calculadora" class="text-sm font-medium text-zinc-400 hover:text-white transition">Calculadoras</a>
                 <a href="https://vitalcore.com.ar/" class="text-sm font-semibold text-brand-500 hover:text-white">Tienda de suplementos</a>
@@ -104,7 +102,7 @@
         <div id="mobile-menu" class="hidden border-t border-zinc-900 bg-zinc-950/98 backdrop-blur-lg px-4 py-6 flex flex-col gap-4 animate-fadeIn">
             <a href="#asesorias" class="text-sm font-semibold text-brand-500 hover:text-white">Ver planes</a>
             <a href="#asesorias" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2"><i data-lucide="award" class="w-4 h-4 text-zinc-500"></i> Asesorías</a>
-            
+
             <a href="#certificaciones" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-zinc-500"></i> Certificaciones</a>
             <a href="https://vitalcore.com.ar/" class="text-brand-500 font-semibold py-2">Tienda de suplementos</a>
             <a href="#calculadora" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 flex items-center gap-2"><i data-lucide="calculator" class="w-4 h-4 text-zinc-500"></i> Calculadoras</a>
