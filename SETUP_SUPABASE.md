@@ -37,7 +37,7 @@ El panel `admin.html` rechazará cualquier cuenta que no figure en esta tabla.
 En **Authentication → URL Configuration**:
 
 - configurá la URL pública del sitio como `Site URL`;
-- agregá la URL pública de `index.html` a `Redirect URLs`;
+- agregá la URL pública de `alumnos.html` a `Redirect URLs`;
 - para desarrollo local, agregá también la URL del servidor local.
 
 Los atletas reciben un enlace de un solo uso. Si el entrenador registró primero
@@ -51,3 +51,7 @@ npm test
 ```
 
 Probá con una cuenta atleta y otra administradora antes de publicar.
+
+Mantené activado **Confirm email**. El administrador ingresa con la contraseña
+de su usuario de Supabase Auth (no la contraseña de GitHub ni del panel de Supabase).
+Los alumnos ingresan mediante un enlace enviado a su correo registrado.

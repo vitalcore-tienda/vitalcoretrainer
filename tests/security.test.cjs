@@ -7,6 +7,7 @@ const vm = require("node:vm");
 const root = path.resolve(__dirname, "..");
 const htmlFiles = [
   "index.html",
+  "alumnos.html",
   "admin.html",
   "plantilla_fuerza_vitalcore.html",
   "exercises-dataset/index.html",
@@ -30,7 +31,7 @@ test("todos los scripts inline tienen sintaxis válida", () => {
 
 test("el acceso no depende de PIN ni de identidades en localStorage", () => {
   const admin = read("admin.html");
-  const athlete = read("index.html");
+  const athlete = read("alumnos.html");
 
   assert.doesNotMatch(admin, /CLAVE_ADMIN_MASTER|vitalcoreadmin|admin-pin/);
   assert.doesNotMatch(athlete, /vitalcore_logged_in_user/);
@@ -57,7 +58,7 @@ test("no quedan clases Tailwind inexistentes conocidas", () => {
 });
 
 test("las dependencias CDN críticas están fijadas a una versión", () => {
-  for (const file of ["index.html", "admin.html", "exercises-dataset/index.html"]) {
+  for (const file of ["index.html", "alumnos.html", "admin.html", "exercises-dataset/index.html"]) {
     const source = read(file);
     assert.doesNotMatch(source, /lucide@latest|supabase-js@2(?:["/])/);
     assert.doesNotMatch(source, /src="https:\/\/cdn\.tailwindcss\.com"/);
