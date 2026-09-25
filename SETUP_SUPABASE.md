@@ -55,3 +55,10 @@ Probá con una cuenta atleta y otra administradora antes de publicar.
 Mantené activado **Confirm email**. El administrador ingresa con la contraseña
 de su usuario de Supabase Auth (no la contraseña de GitHub ni del panel de Supabase).
 Los alumnos ingresan mediante un enlace enviado a su correo registrado.
+
+## Recuperar contraseña del administrador
+
+En Redirect URLs agregá exactamente:
+`https://vitalcore-tienda.github.io/vitalcoretrainer/admin.html?recuperar=1`.
+En admin.html, completá el correo y pulsá Olvidé mi contraseña. El enlace
+recibido permite elegir una nueva clave; luego se solicita iniciar sesión.

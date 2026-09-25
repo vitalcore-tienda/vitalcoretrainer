@@ -83,3 +83,40 @@ test('magic link returns to alumnos.html and handles send failure', async () => 
     assert.deepEqual(loading, [true, false]);
   }
 });
+
+test('password recovery uses the dedicated return URL', async () => {
+  let requested = false;
+  const elements = {
+    'admin-email': { value: ' ADMIN@example.com ', reportValidity: () => true },
+    'recover-password-button': {}, 'recovery-message': {},
+  };
+  const ctx = load('admin.html', ['solicitarRecuperacion'], {
+    URL, window: { location: { href: 'https://vitalcore-tienda.github.io/vitalcoretrainer/admin.html' } },
+    document: { getElementById: id => elements[id] },
+    _supabase: { auth: { resetPasswordForEmail: async (email, options) => {
+      assert.equal(email, 'admin@example.com');
+      assert.equal(options.redirectTo, 'https://vitalcore-tienda.github.io/vitalcoretrainer/admin.html?recuperar=1');
+      requested = true; return { error: null };
+    } } },
+  });
+  await ctx.solicitarRecuperacion();
+  assert.equal(requested, true);
+  assert.equal(elements['recover-password-button'].disabled, false);
+});
+
+test('password reset rejects mismatches and handles expired sessions', async () => {
+  for (const mismatch of [true, false]) {
+    let called = false;
+    const elements = { 'new-password': { value: 'example-test-password' },
+      'confirm-password': { value: mismatch ? 'different' : 'example-test-password' },
+      'recovery-message': {}, 'save-password-button': {} };
+    const ctx = load('admin.html', ['guardarNuevaClave'], {
+      document: { getElementById: id => elements[id] },
+      _supabase: { auth: { updateUser: async () => { called = true; return { error: new Error('expired') }; } } },
+    });
+    await ctx.guardarNuevaClave({ preventDefault() {} });
+    assert.equal(called, !mismatch);
+    assert.match(elements['recovery-message'].textContent, mismatch ? /coincidir/ : /vencido/);
+    if (!mismatch) assert.equal(elements['save-password-button'].disabled, false);
+  }
+});

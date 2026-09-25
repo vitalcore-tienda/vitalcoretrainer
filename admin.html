@@ -59,7 +59,16 @@
                     <span>Iniciar sesión segura</span>
                     <i data-lucide="unlock" class="w-4 h-4"></i>
                 </button>
+                <button id="recover-password-button" type="button" class="text-sm text-brand-500 underline">Olvidé mi contraseña</button>
             </form>
+            <form id="reset-password-form" class="hidden space-y-4">
+                <label for="new-password" class="block text-sm">Nueva contraseña (mínimo 12 caracteres)</label>
+                <input id="new-password" type="password" autocomplete="new-password" minlength="12" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3">
+                <label for="confirm-password" class="block text-sm">Repetí la nueva contraseña</label>
+                <input id="confirm-password" type="password" autocomplete="new-password" minlength="12" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3">
+                <button id="save-password-button" type="submit" class="w-full bg-brand-500 text-zinc-950 font-bold p-3 rounded-xl">Guardar nueva contraseña</button>
+            </form>
+            <p id="recovery-message" role="status" class="text-sm text-zinc-300"></p>
         </div>
     </div>
 
@@ -873,12 +882,78 @@
             document.getElementById('modal-cargas').classList.add('hidden');
         }
 
+        let recuperandoClave = new URLSearchParams(window.location.search).has('recuperar');
+
+        function mostrarRecuperacion() {
+            recuperandoClave = true;
+            document.getElementById('lock-screen').classList.remove('hidden');
+            document.getElementById('admin-login-form').classList.add('hidden');
+            document.getElementById('reset-password-form').classList.remove('hidden');
+        }
+
+        _supabase.auth.onAuthStateChange(event => {
+            if (event === 'PASSWORD_RECOVERY') mostrarRecuperacion();
+        });
+
+        async function solicitarRecuperacion() {
+            const input = document.getElementById('admin-email');
+            if (!input.reportValidity()) return;
+            const button = document.getElementById('recover-password-button');
+            const message = document.getElementById('recovery-message');
+            button.disabled = true;
+            try {
+                const redirect = new URL('admin.html?recuperar=1', window.location.href).href;
+                const { error } = await _supabase.auth.resetPasswordForEmail(input.value.trim().toLowerCase(), { redirectTo: redirect });
+                if (error) throw error;
+                message.textContent = 'Si el correo corresponde a una cuenta, recibirás un enlace para elegir una nueva contraseña. Revisá también spam.';
+            } catch (error) {
+                message.textContent = 'No pudimos enviar el enlace. Intentá nuevamente en unos minutos.';
+            } finally {
+                button.disabled = false;
+            }
+        }
+
+        async function guardarNuevaClave(event) {
+            event.preventDefault();
+            const password = document.getElementById('new-password').value;
+            const confirmation = document.getElementById('confirm-password').value;
+            const message = document.getElementById('recovery-message');
+            if (password.length < 12 || password !== confirmation) {
+                message.textContent = 'Las contraseñas deben coincidir y tener al menos 12 caracteres.';
+                return;
+            }
+            const button = document.getElementById('save-password-button');
+            button.disabled = true;
+            try {
+                const { error } = await _supabase.auth.updateUser({ password });
+                if (error) throw error;
+                document.getElementById('reset-password-form').reset();
+                document.getElementById('reset-password-form').classList.add('hidden');
+                await _supabase.auth.signOut();
+                recuperandoClave = false;
+                window.history.replaceState({}, '', window.location.pathname);
+                document.getElementById('admin-login-form').classList.remove('hidden');
+                message.textContent = 'Contraseña actualizada. Iniciá sesión con tu nueva contraseña.';
+            } catch (error) {
+                message.textContent = 'No se pudo actualizar. Puede que el enlace haya vencido o la contraseña no cumpla los requisitos. Abrí admin.html y solicitá otro enlace.';
+            } finally {
+                button.disabled = false;
+            }
+        }
+
         window.addEventListener("DOMContentLoaded", async () => {
             document.getElementById('admin-login-form').addEventListener('submit', verificarAccesoAdmin);
+            document.getElementById('recover-password-button').addEventListener('click', solicitarRecuperacion);
+            document.getElementById('reset-password-form').addEventListener('submit', guardarNuevaClave);
 
             try {
                 const { data: { session }, error } = await _supabase.auth.getSession();
                 if (error) throw error;
+                if (recuperandoClave) {
+                    if (session) mostrarRecuperacion();
+                    else document.getElementById('recovery-message').textContent = 'El enlace venció o no es válido. Solicitá uno nuevo con tu correo.';
+                    return;
+                }
                 if (session) await mostrarPanelSiEsAdmin();
             } catch (error) {
                 console.error('No se pudo restaurar la sesión administrativa:', error);
