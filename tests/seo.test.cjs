@@ -5,7 +5,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname,'..');
 const read = file => fs.readFileSync(path.join(root,file),'utf8');
 const base = 'https://vitalcore-tienda.github.io/vitalcoretrainer/';
-const publicPages = ['index.html','exercises-dataset/index.html'];
+const publicPages = ['index.html','exercises-dataset/index.html','entrenamiento-online.html'];
 test('sitemap y canonical incluyen solamente páginas públicas del proyecto', () => {
  const urls = [...read('sitemap.xml').matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>m[1]);
  assert.deepEqual(urls, publicPages.map(file=>base+(file==='index.html'?'':file)));
@@ -23,7 +23,7 @@ test('accesos y plantilla operativa llevan noindex, sin bloqueo de rastreo', () 
   assert.ok(!read('sitemap.xml').includes(file));
  }
 });
-test('las cuatro páginas Tailwind usan CSS local y conservan estilos dinámicos', () => {
+test('las páginas Tailwind usan CSS local y conservan estilos dinámicos', () => {
  for(const file of [...publicPages,'alumnos.html','admin.html']) {
   const html = read(file);
   assert.doesNotMatch(html,/cdn\.tailwindcss\.com|tailwind\.config/);

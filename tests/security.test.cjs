@@ -7,6 +7,7 @@ const vm = require("node:vm");
 const root = path.resolve(__dirname, "..");
 const htmlFiles = [
   "index.html",
+  "entrenamiento-online.html",
   "alumnos.html",
   "admin.html",
   "plantilla_fuerza_vitalcore.html",
@@ -20,10 +21,12 @@ function read(relativePath) {
 test("todos los scripts inline tienen sintaxis válida", () => {
   for (const file of htmlFiles) {
     const source = read(file);
-    const scripts = [...source.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)];
+    const scripts = [...source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
     scripts.forEach((match, index) => {
       assert.doesNotThrow(
-        () => new vm.Script(match[1], { filename: `${file}#script-${index + 1}` }),
+        () => /type=["']application\/ld\+json["']/i.test(match[1])
+          ? JSON.parse(match[2])
+          : new vm.Script(match[2], { filename: `${file}#script-${index + 1}` }),
       );
     });
   }
