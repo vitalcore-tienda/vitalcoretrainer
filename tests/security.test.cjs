@@ -12,6 +12,8 @@ const htmlFiles = [
   "blog/primera-consulta-personal-trainer.html",
   "blog/cada-cuanto-cambiar-rutina.html",
   "blog/como-registrar-cargas-entrenamiento.html",
+  "blog/maquinas-o-pesos-libres.html",
+  "blog/fuerza-e-hipertrofia.html",
   "alumnos.html",
   "admin.html",
   "plantilla_fuerza_vitalcore.html",
