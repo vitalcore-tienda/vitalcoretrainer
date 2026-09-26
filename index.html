@@ -83,8 +83,9 @@
             </a>
 
             <!-- Navegación de Escritorio -->
-            <nav class="hidden md:flex items-center gap-6 lg:gap-8">
+            <nav class="hidden xl:flex items-center gap-4 xl:gap-6">
                 <a href="entrenamiento-online.html" class="text-sm font-semibold text-brand-500 hover:text-white">Entrenamiento online</a>
+                <a href="blog/index.html" class="text-sm font-medium text-zinc-400 hover:text-white transition">Blog</a>
                 <a href="#asesorias" class="text-sm font-medium text-zinc-400 hover:text-white transition">Asesorías</a>
 
                 <a href="#certificaciones" class="text-sm font-medium text-zinc-400 hover:text-white transition">Certificaciones</a>
@@ -94,7 +95,7 @@
 
             <div class="flex items-center gap-3">
                 <a href="alumnos.html" class="text-xs sm:text-sm font-semibold text-zinc-200 border border-zinc-700 hover:border-brand-500 px-3 py-2.5 rounded-xl">Acceso alumnos</a>
-                <button onclick="toggleMobileMenu()" class="p-2.5 text-zinc-400 hover:text-white active:bg-zinc-900 rounded-xl transition md:hidden" aria-label="Abrir menú">
+                <button onclick="toggleMobileMenu()" class="p-2.5 text-zinc-400 hover:text-white active:bg-zinc-900 rounded-xl transition xl:hidden" aria-label="Abrir menú">
                     <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
                 </button>
             </div>
@@ -102,6 +103,8 @@
 
         <!-- Menú Móvil -->
         <div id="mobile-menu" class="hidden border-t border-zinc-900 bg-zinc-950/98 backdrop-blur-lg px-4 py-6 flex flex-col gap-4 animate-fadeIn">
+            <a href="entrenamiento-online.html" class="text-brand-500 font-semibold py-2">Entrenamiento online</a>
+            <a href="blog/index.html" class="text-zinc-300 hover:text-white text-base py-2.5 border-b border-zinc-900/40">Blog de entrenamiento</a>
             <a href="#asesorias" class="text-sm font-semibold text-brand-500 hover:text-white">Ver planes</a>
             <a href="#asesorias" onclick="toggleMobileMenu()" class="text-zinc-300 hover:text-white text-base py-2.5 border-b border-zinc-900/40 flex items-center gap-2"><i data-lucide="award" class="w-4 h-4 text-zinc-500"></i> Asesorías</a>
 
@@ -415,6 +418,12 @@
         </div>
     </section>
 
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <p class="text-brand-500 font-bold text-xs uppercase tracking-widest mb-3">Blog de entrenamiento</p>
+        <h2 class="text-3xl font-bold mb-4">Antes de elegir una rutina, conversemos.</h2>
+        <p class="text-zinc-400 leading-relaxed max-w-3xl mb-6">Qué hablar en la primera consulta con un personal trainer: tus objetivos, experiencia, horarios y comodidad. Conocé cómo empieza el acompañamiento.</p>
+        <div class="flex flex-wrap gap-4"><a href="blog/primera-consulta-personal-trainer.html" class="inline-block border border-zinc-700 hover:border-brand-500 px-6 py-3 rounded-xl font-semibold">Leer sobre la primera consulta</a><a href="blog/index.html" class="inline-block text-brand-500 underline px-3 py-3">Ver el blog</a></div>
+    </section>
     </main>
     <!-- FOOTER -->
     <section class="max-w-7xl mx-auto px-4 py-8 text-center"><h2 class="text-2xl font-bold mb-3">Conocé la tienda VitalCore</h2><p class="text-zinc-400 mb-4">Explorá proteínas, creatinas y otras categorías. Consultá presentaciones y disponibilidad directamente con VitalCore.</p><a href="https://vitalcore.com.ar/" class="inline-block bg-brand-500 text-zinc-950 font-bold px-6 py-3 rounded-xl">Visitar tienda de suplementos</a></section>

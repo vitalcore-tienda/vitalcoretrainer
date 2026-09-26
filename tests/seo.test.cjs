@@ -5,7 +5,8 @@ const path = require('node:path');
 const root = path.resolve(__dirname,'..');
 const read = file => fs.readFileSync(path.join(root,file),'utf8');
 const base = 'https://vitalcore-tienda.github.io/vitalcoretrainer/';
-const publicPages = ['index.html','exercises-dataset/index.html','entrenamiento-online.html'];
+const blogPages = ['blog/index.html','blog/primera-consulta-personal-trainer.html'];
+const publicPages = ['index.html','exercises-dataset/index.html','entrenamiento-online.html',...blogPages];
 test('sitemap y canonical incluyen solamente páginas públicas del proyecto', () => {
  const urls = [...read('sitemap.xml').matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>m[1]);
  assert.deepEqual(urls, publicPages.map(file=>base+(file==='index.html'?'':file)));
@@ -21,6 +22,22 @@ test('accesos y plantilla operativa llevan noindex, sin bloqueo de rastreo', () 
  for(const file of ['alumnos.html','admin.html','plantilla_fuerza_vitalcore.html']) {
   assert.match(read(file),/name="robots" content="noindex, follow"/);
   assert.ok(!read('sitemap.xml').includes(file));
+ }
+});
+test('los enlaces locales del blog apuntan a páginas y secciones existentes', () => {
+ for(const file of blogPages) {
+  for(const match of read(file).matchAll(/<a\b[^>]*\bhref=["']([^"']+)["']/gi)) {
+   const href = match[1].replace(/&amp;/g,'&');
+   const url = new URL(href,base+file);
+   if(!url.href.startsWith(base)) continue;
+   let destination = decodeURIComponent(url.pathname.slice(new URL(base).pathname.length));
+   if(!destination || destination.endsWith('/')) destination += 'index.html';
+   assert.ok(fs.existsSync(path.join(root,destination)),`${file}: ${href}`);
+   if(url.hash) {
+    const ids = [...read(destination).matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map(match=>match[1]);
+    assert.ok(ids.includes(decodeURIComponent(url.hash.slice(1))),`${file}: ${href}`);
+   }
+  }
  }
 });
 test('las páginas Tailwind usan CSS local y conservan estilos dinámicos', () => {
