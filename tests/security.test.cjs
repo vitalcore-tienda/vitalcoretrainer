@@ -10,6 +10,7 @@ const htmlFiles = [
   "entrenamiento-online.html",
   "blog/index.html",
   "blog/primera-consulta-personal-trainer.html",
+  "blog/cada-cuanto-cambiar-rutina.html",
   "alumnos.html",
   "admin.html",
   "plantilla_fuerza_vitalcore.html",

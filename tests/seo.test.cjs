@@ -5,7 +5,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname,'..');
 const read = file => fs.readFileSync(path.join(root,file),'utf8');
 const base = 'https://vitalcore-tienda.github.io/vitalcoretrainer/';
-const blogPages = ['blog/index.html','blog/primera-consulta-personal-trainer.html'];
+const blogPages = ['blog/index.html','blog/primera-consulta-personal-trainer.html','blog/cada-cuanto-cambiar-rutina.html'];
 const publicPages = ['index.html','exercises-dataset/index.html','entrenamiento-online.html',...blogPages];
 test('sitemap y canonical incluyen solamente páginas públicas del proyecto', () => {
  const urls = [...read('sitemap.xml').matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>m[1]);
