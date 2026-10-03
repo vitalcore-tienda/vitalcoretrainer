@@ -59,7 +59,8 @@
     <link rel="stylesheet" href="assets/trainer.css">
     <style>
         .online-hero {background: radial-gradient(ellipse at 80% 20%,rgba(16,185,129,.12),transparent 65%);}
-        .online-section {scroll-margin-top:6rem;}
+        .online-section {scroll-margin-top:10rem;}
+        @media (min-width:640px) {.online-section {scroll-margin-top:6rem;}}
         a:focus-visible,summary:focus-visible {outline:2px solid #34d399;outline-offset:5px;}
         summary {cursor:pointer;}
         summary::marker {color:#10b981;}
@@ -73,6 +74,7 @@
             <nav aria-label="Navegación principal" class="flex flex-wrap items-center gap-4 text-sm">
                 <a href="#planes" class="text-zinc-300 hover:text-brand-500">Planes</a>
                 <a href="#preguntas" class="text-zinc-300 hover:text-brand-500">Preguntas</a>
+                <a href="entrenamiento-presencial.html" class="text-zinc-300 hover:text-brand-500">Presencial</a>
                 <a href="blog/index.html" class="text-zinc-300 hover:text-brand-500">Blog</a>
                 <a href="alumnos.html" class="border border-zinc-700 hover:border-brand-500 rounded-xl px-3 py-2">Acceso alumnos</a>
             </nav>
@@ -171,7 +173,7 @@
         </section>
     </main>
     <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-sm text-zinc-400">
-        <div class="flex flex-wrap gap-5 mb-5"><a href="index.html" class="hover:text-brand-500">Inicio</a><a href="blog/index.html" class="hover:text-brand-500">Blog</a><a href="alumnos.html" class="hover:text-brand-500">Portal de alumnos</a><a href="exercises-dataset/index.html" class="hover:text-brand-500">Biblioteca de ejercicios</a><a href="https://vitalcore.com.ar/" class="hover:text-brand-500">Tienda VitalCore</a></div>
+        <div class="flex flex-wrap gap-5 mb-5"><a href="index.html" class="hover:text-brand-500">Inicio</a><a href="entrenamiento-presencial.html" class="hover:text-brand-500">Entrenamiento presencial</a><a href="blog/index.html" class="hover:text-brand-500">Blog</a><a href="alumnos.html" class="hover:text-brand-500">Portal de alumnos</a><a href="exercises-dataset/index.html" class="hover:text-brand-500">Biblioteca de ejercicios</a><a href="https://vitalcore.com.ar/" class="hover:text-brand-500">Tienda VitalCore</a></div>
         <p>Vital Core Trainer · <a href="https://wa.me/5491165846235" class="text-brand-500 hover:underline">+54 9 11 6584-6235</a></p>
     </footer>
 </body>

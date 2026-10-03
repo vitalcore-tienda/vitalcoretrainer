@@ -8,6 +8,7 @@ const root = path.resolve(__dirname, "..");
 const htmlFiles = [
   "index.html",
   "entrenamiento-online.html",
+  "entrenamiento-presencial.html",
   "blog/index.html",
   "blog/primera-consulta-personal-trainer.html",
   "blog/cada-cuanto-cambiar-rutina.html",
